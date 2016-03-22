@@ -1,0 +1,26 @@
+<div class="page-header">
+    <h1>Welcome to PKB</h1>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Connect with external services</h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item"><a href="http://127.0.0.1:8080/oauth/google/auth">Google</a></li>
+    </ul>
+</div>
+
+<form class="panel panel-default" action="http://127.0.0.1:8080/upload" method="POST" enctype="multipart/form-data">
+    <div class="panel-heading">
+        <h3 class="panel-title">File upload</h3>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label for="file">File</label>
+            <input type="file" id="file" name="file" required/>
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </div>
+</form>
+
