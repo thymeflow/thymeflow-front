@@ -35,6 +35,20 @@ export default Ember.Controller.extend({
   }),
   actions: {
     query() {
+      function jsonUnescape(str) {
+        if (typeof str === 'string') {
+          return str
+            .replace('\\"', '"')
+            .replace('\\b', '\b')
+            .replace('\\f', '\f')
+            .replace('\\n', '\n')
+            .replace('\\r', '\r')
+            .replace('\\t', '\t');
+        } else {
+          return str;
+        }
+      }
+
       function cleanResult(result) {
         if (result.head.vars) {
           return {
@@ -43,7 +57,7 @@ export default Ember.Controller.extend({
             },
             results: {
               bindings: result.results.bindings.map(binding =>
-                result.head.vars.map(varName => binding[varName] || null)
+                result.head.vars.map(varName => jsonUnescape(binding[varName]) || null)
               )
             }
           };
@@ -60,8 +74,8 @@ export default Ember.Controller.extend({
         url: 'http://127.0.0.1:8080/sparql' //TODO
       }).done(result => {
         this.set('result', cleanResult(result));
-      }).fail(function () {
-        alert('query failed');
+      }).fail(jqXHR => {
+        this.set('error', jqXHR.responseText);
       });
     },
     save() {
