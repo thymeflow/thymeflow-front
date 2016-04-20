@@ -8,6 +8,7 @@
     </div>
     <ul class="list-group">
         <li class="list-group-item"><a href="http://127.0.0.1:8080/oauth/google/auth">Google</a></li>
+        <li class="list-group-item"><a href="http://127.0.0.1:8080/oauth/microsoft/auth">Microsoft</a></li>
     </ul>
 </div>
 
@@ -18,9 +19,36 @@
     <div class="panel-body">
         <div class="form-group">
             <label for="file">File</label>
-            <input type="file" id="file" name="file" required/>
+            <input type="file" id="file" name="file" required class="form-control"/>
         </div>
         <button type="submit" class="btn btn-primary">Upload</button>
+    </div>
+</form>
+
+<form class="panel panel-default" action="http://127.0.0.1:8080/imap" method="POST" enctype="multipart/form-data">
+    <div class="panel-heading">
+        <h3 class="panel-title">IMAP server</h3>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label for="host">Host</label>
+            <input type="text" id="host" name="host" required class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="user">User (usually the email address)</label>
+            <input type="text" id="user" name="user" required class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required class="form-control"/>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" id="ssl" name="ssl" value="true" checked/> Use SSL
+            </label>
+
+        </div>
+        <button type="submit" class="btn btn-primary">Retrieve</button>
     </div>
 </form>
 
