@@ -74,7 +74,9 @@ export default Ember.Controller.extend({
         url: 'http://127.0.0.1:8080/sparql' //TODO
       }).done(result => {
         this.set('result', cleanResult(result));
+        this.set( 'error', null );
       }).fail(jqXHR => {
+        this.set( 'result', null );
         this.set('error', jqXHR.responseText);
       });
     },
