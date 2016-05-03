@@ -66,6 +66,16 @@ export default Ember.Controller.extend({
         }
       }
 
+      function resultToCSVUri( result ) {
+        if ( !result.head.vars ) {
+          return null;
+        }
+        return 'data:text/csv;charset=utf-8,' + encodeURIComponent(
+            result.head.vars.join( "," ) + "\n" +
+            result.results.bindings.map( line => line.map( cell => '"' + cell.value.replace( '"', '' ) + '"' ).join( "," ) ).join( "\n" )
+          );
+      }
+
       Ember.$.ajax({
         data: {
           query: this.get('query')
@@ -73,10 +83,13 @@ export default Ember.Controller.extend({
         dataType: 'json',
         url: 'http://127.0.0.1:8080/sparql' //TODO
       }).done(result => {
-        this.set('result', cleanResult(result));
+        let finalResult = cleanResult( result );
+        this.set( 'result', finalResult );
+        this.set( 'csvUri', resultToCSVUri( finalResult ) );
         this.set( 'error', null );
       }).fail(jqXHR => {
         this.set( 'result', null );
+        this.set( 'csvUri', null );
         this.set('error', jqXHR.responseText);
       });
     },
