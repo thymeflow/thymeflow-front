@@ -5,7 +5,12 @@
               <a class="btn btn-default" type="button" href="{{csvUri}}" download>Download as CSV</a>
           </div>
       {{/if}}
-        <h3 class="panel-title">Result</h3>
+        <h3 class="panel-title">
+            Result
+          {{#if result.results.bindings}}
+              ({{result.results.bindings.length}} rows)
+          {{/if}}
+        </h3>
     </div>
   {{#if result.head.vars}}
       <table class="table table-hover">

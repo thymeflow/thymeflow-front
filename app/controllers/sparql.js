@@ -72,7 +72,13 @@ export default Ember.Controller.extend({
         }
         return 'data:text/csv;charset=utf-8,' + encodeURIComponent(
             result.head.vars.join( "," ) + "\n" +
-            result.results.bindings.map( line => line.map( cell => '"' + cell.value.replace( '"', '' ) + '"' ).join( "," ) ).join( "\n" )
+            result.results.bindings.map( line => line.map( function ( cell ) {
+              if ( cell === null ) {
+                return '';
+              } else {
+                return '"' + cell.value.replace( '"', '' ) + '"';
+              }
+            } ).join( "," ) ).join( "\n" )
           );
       }
 
