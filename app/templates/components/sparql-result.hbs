@@ -37,7 +37,11 @@
       </table>
   {{else}}
       <div class="panel-body">
-        {{#if result.boolean}}true{{else}}false{{/if}}
+        {{#if result.graph}}
+          {{jquery-springy graph=result.graph}}
+        {{else}}
+          {{#if result.boolean}}true{{else}}false{{/if}}
+        {{/if}}
       </div>
   {{/if}}
 </div>

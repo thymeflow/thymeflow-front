@@ -29,7 +29,7 @@ class QueryStorage {
 export default Ember.Controller.extend({
 
   queryStorage: new QueryStorage(window.localStorage),
-  query: 'SELECT ?o WHERE { ?s ?p ?o } LIMIT 100',
+  query: 'CONSTRUCT{ ?s ?p ?o } WHERE { ?s ?p ?o } LIMIT 100',
   savedQueries: Ember.computed('queryStorage', function () {
     return this.queryStorage.getQueryList();
   }),
@@ -49,8 +49,41 @@ export default Ember.Controller.extend({
         }
       }
 
+      function springyFromRdfJson( rdfJson ) {
+        let graph = new Springy.Graph();
+        let nodes = new Map();
+        let getNode = function ( value ) {
+          value.label = value.value;
+          if ( !nodes.has( value ) ) {
+            nodes.set( value, graph.newNode( value ) );
+          }
+          return nodes.get( value );
+        };
+
+        for ( let subject in rdfJson ) {
+          let subjectNode = getNode( {
+            type: 'uri',
+            value: subject
+          } );
+          window.console.log( subject );
+          for ( let property in rdfJson[subject] ) {
+            let propertyData = {
+              type: 'uri',
+              value: property
+            };
+            window.console.log( property );
+            rdfJson[subject][property].forEach( val => graph.newEdge( subjectNode, getNode( val ), propertyData ) );
+          }
+        }
+        return graph;
+      }
+
       function cleanResult(result) {
-        if (result.head.vars) {
+        if ( !result ) {
+          return null;
+        }
+
+        if ( result.head && result.head.vars ) {
           return {
             head: {
               vars: result.head.vars
@@ -61,13 +94,17 @@ export default Ember.Controller.extend({
               )
             }
           };
-        } else {
+        } else if ( result.boolean ) {
           return result;
+        } else {
+          return {
+            graph: springyFromRdfJson( result )
+          };
         }
       }
 
       function resultToCSVUri( result ) {
-        if ( !result.head.vars ) {
+        if ( !result || !result.head || !result.head.vars ) {
           return null;
         }
         return 'data:text/csv;charset=utf-8,' + encodeURIComponent(
