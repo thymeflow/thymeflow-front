@@ -123,11 +123,17 @@ export default Ember.Controller.extend({
           );
       }
 
+      let query = this.get( 'query' );
+      let requestData = {};
+      if ( query.includes( 'SELECT' ) || query.includes( 'CONSTRUCT' ) || query.includes( 'DESCRIBE' ) || query.includes( 'ASK' ) ) {
+        requestData.query = query;
+      } else {
+        requestData.update = query;
+      }
       Ember.$.ajax({
-        data: {
-          query: this.get('query')
-        },
+        data: requestData,
         dataType: 'json',
+        method: 'POST',
         url: 'http://127.0.0.1:8080/sparql' //TODO
       }).done(result => {
         let finalResult = cleanResult( result );
