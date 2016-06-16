@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'pkb-ui',
+    modulePrefix: 'thymeflow-front',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
