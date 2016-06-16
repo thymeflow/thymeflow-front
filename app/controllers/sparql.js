@@ -1,4 +1,5 @@
 import Ember from "ember";
+/* global Springy */
 
 class QueryStorage {
 
@@ -52,28 +53,31 @@ export default Ember.Controller.extend({
       function springyFromRdfJson( rdfJson ) {
         let graph = new Springy.Graph();
         let nodes = new Map();
-        let getNode = function ( value ) {
+        function getNode( value ) {
           value.label = value.value;
           if ( !nodes.has( value ) ) {
             nodes.set( value, graph.newNode( value ) );
           }
           return nodes.get( value );
-        };
-
-        for ( let subject in rdfJson ) {
+        }
+        function createEdgesForSubjectPropertyValues(values, subjectNode, propertyData){
+          values.forEach( val => graph.newEdge( subjectNode, getNode( val ), propertyData ) );
+        }
+        function createEdgesForSubject(subject){
           let subjectNode = getNode( {
             type: 'uri',
             value: subject
           } );
-          window.console.log( subject );
           for ( let property in rdfJson[subject] ) {
             let propertyData = {
               type: 'uri',
               value: property
             };
-            window.console.log( property );
-            rdfJson[subject][property].forEach( val => graph.newEdge( subjectNode, getNode( val ), propertyData ) );
+            createEdgesForSubjectPropertyValues(rdfJson[subject][property], subjectNode, propertyData);
           }
+        }
+        for ( let subject in rdfJson ) {
+          createEdgesForSubject(subject);
         }
         return graph;
       }
