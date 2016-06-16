@@ -1,7 +1,7 @@
 {
-  "name": "pkb-ui",
+  "name": "thymeflow-front",
   "version": "0.0.0",
-  "description": "Small description for pkb-ui goes here",
+  "description": "Thymeflow PIMS - Frontend",
   "private": true,
   "directories": {
     "doc": "doc",
