@@ -1,4 +1,5 @@
 import Ember from "ember";
+import ENV from 'thymeflow-front/config/environment';
 /* global Springy */
 
 class QueryStorage {
@@ -134,7 +135,7 @@ export default Ember.Controller.extend({
         data: requestData,
         dataType: 'json',
         method: 'POST',
-        url: 'http://127.0.0.1:8080/sparql' //TODO
+        url: `${ENV.APP.API_ENDPOINT}/sparql`
       }).done(result => {
         let finalResult = cleanResult( result );
         this.set( 'result', finalResult );

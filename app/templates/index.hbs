@@ -7,12 +7,12 @@
         <h3 class="panel-title">Connect with external services</h3>
     </div>
     <ul class="list-group">
-        <li class="list-group-item"><a href="http://127.0.0.1:8080/oauth/google/auth">Google</a></li>
-        <li class="list-group-item"><a href="http://127.0.0.1:8080/oauth/microsoft/auth">Microsoft</a></li>
+        <li class="list-group-item"><a href="{{apiEndpoint}}/oauth/google/auth">Google</a></li>
+        <li class="list-group-item"><a href="{{apiEndpoint}}/oauth/microsoft/auth">Microsoft</a></li>
     </ul>
 </div>
 
-<form class="panel panel-default" action="http://127.0.0.1:8080/upload" method="POST" enctype="multipart/form-data">
+<form class="panel panel-default" action="{{apiEndpoint}}/upload" method="POST" enctype="multipart/form-data">
     <div class="panel-heading">
         <h3 class="panel-title">File upload</h3>
     </div>
@@ -25,7 +25,7 @@
     </div>
 </form>
 
-<form class="panel panel-default" action="http://127.0.0.1:8080/imap" method="POST" enctype="multipart/form-data">
+<form class="panel panel-default" action="{{apiEndpoint}}/imap" method="POST" enctype="multipart/form-data">
     <div class="panel-heading">
         <h3 class="panel-title">IMAP server</h3>
     </div>
@@ -46,7 +46,6 @@
             <label>
                 <input type="checkbox" id="ssl" name="ssl" value="true" checked/> Use SSL
             </label>
-
         </div>
         <button type="submit" class="btn btn-primary">Retrieve</button>
     </div>
