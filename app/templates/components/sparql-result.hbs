@@ -37,8 +37,10 @@
             </table>
         {{else if isAsk}}
           {{#if result.boolean}}true{{else}}false{{/if}}
-        {{else}}
+        {{else if isConstruct}}
             {{rdf-json-springy rdfJson=result}}
+        {{else if isUpdate}}
+            UPDATE OK
         {{/if}}
     </div>
 </div>

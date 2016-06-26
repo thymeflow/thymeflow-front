@@ -2,17 +2,17 @@ import Ember from "ember";
 
 export default Ember.Component.extend({
   isSelect: function () {
-    const result = this.get('result');
-    return result != null && result.head && result.head.vars;
-  }.property('result'),
+    return this.get('queryType') === "SELECT";
+  }.property('queryType'),
   isAsk: function () {
-    const result = this.get('result');
-    return result != null && (typeof (this.get('result').boolean) === "boolean");
-  }.property('result'),
+    return this.get('queryType') === "ASK";
+  }.property('queryType'),
   isConstruct: function () {
-    const result = this.get('result');
-    return result != null && !this('isSelect') && !this.get('isAsk');
-  }.property('isSelect', 'isAsk'),
+    return this.get('queryType') === "CONSTRUCT";
+  }.property('queryType'),
+  isUpdate: function () {
+    return this.get('queryType') === "UPDATE";
+  }.property('queryType'),
   // header represents the binding variables of a SELECT query
   header: function () {
     const result = this.get('result');

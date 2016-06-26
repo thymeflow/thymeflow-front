@@ -17,5 +17,5 @@
   {{/bs-form}}
 </div>
 {{#if result}}
-    {{sparql-result result=result.content error=result.error}}
+    {{sparql-result queryType=result.queryType result=result.content error=result.error}}
 {{/if}}
