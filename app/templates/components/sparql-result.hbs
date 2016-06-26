@@ -1,47 +1,44 @@
-<div class="panel panel-success">
-    <div class="panel-heading">
-      {{#if csvUri}}
-          <div style="float: right; margin-right: 1em;">
-              <a class="btn btn-default" type="button" href="{{csvUri}}" download>Download as CSV</a>
-          </div>
-      {{/if}}
-        <h3 class="panel-title">
+<div class="panel {{if error "panel-danger" "panel-success"}}">
+    <div class="panel-heading{{if isSelect " panel-heading-nav"}}">
+        <h3 class="panel-title{{if isSelect " pull-left"}}">
             Result
-          {{#if result.results.bindings}}
-              ({{result.results.bindings.length}} rows)
-          {{/if}}
+            {{#if isSelect}}({{rows.length}} rows){{/if}}
         </h3>
+        {{#if isSelect}}
+            <a class="btn btn-default pull-right" type="button" href="{{csvUri}}" download>Download as CSV</a>
+            <div class="clearfix"></div>
+        {{/if}}
     </div>
-  {{#if result.head.vars}}
-      <table class="table table-hover">
-          <thead>
-          <tr>
-            {{#each result.head.vars as |var|}}
-                <th>{{var}}</th>
-            {{/each}}
-          </tr>
-          </thead>
-          <tbody>
-          {{#each result.results.bindings as |binding|}}
+    <div class="{{if isSelect "table-responsive" "panel-body"}}">
+        {{#if error}}
+            {{error}}
+        {{else if isSelect}}
+            <table class="table table-hover">
+                <thead>
               <tr>
-                {{#each binding as |term|}}
-                    <td>
-                      {{#if term}}
-                        {{component (concat 'sparql-result-' term.type) term=term}}
-                      {{/if}}
-                    </td>
+                  {{#each header as |var|}}
+                      <th>{{var}}</th>
                 {{/each}}
               </tr>
-          {{/each}}
-          </tbody>
-      </table>
-  {{else}}
-      <div class="panel-body">
-        {{#if result.graph}}
-          {{jquery-springy graph=result.graph}}
-        {{else}}
+                </thead>
+                <tbody>
+                {{#each rows as |row|}}
+                    <tr>
+                        {{#each row as |term|}}
+                            <td>
+                                {{#if term}}
+                                    {{component (concat 'sparql-result-' term.type) term=term}}
+                                {{/if}}
+                            </td>
+                        {{/each}}
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        {{else if isAsk}}
           {{#if result.boolean}}true{{else}}false{{/if}}
+        {{else}}
+            {{rdf-json-springy rdfJson=result}}
         {{/if}}
-      </div>
-  {{/if}}
+    </div>
 </div>

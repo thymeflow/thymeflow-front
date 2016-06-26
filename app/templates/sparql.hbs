@@ -1,27 +1,21 @@
 <div class="jumbotron">
-    <h2>Input SPARQL query</h2>
+    <h2>SPARQL query</h2>
   {{#bs-form}}
     {{bs-textarea name="query" required=true autofocus=true value=query}}
     {{#bs-button type="primary" icon="glyphicon glyphicon-search" action="query"}}execute{{/bs-button}}
     {{#bs-button icon="glyphicon glyphicon-save" action="save"}}save{{/bs-button}}
-    {{#bs-dropdown}}
-      {{#bs-dropdown-button}}Saved queries <span class="caret"></span>{{/bs-dropdown-button}}
-      {{#bs-dropdown-menu}}
-        {{#each savedQueries as |queryName|}}
-            <li><a {{action "selectOldQuery" queryName}}>{{queryName}}</a></li>
-        {{/each}}
-      {{/bs-dropdown-menu}}
-    {{/bs-dropdown}}
+      {{#if savedQueries.length}}
+          {{#bs-dropdown}}
+              {{#bs-dropdown-button}}Saved queries <span class="caret"></span>{{/bs-dropdown-button}}
+              {{#bs-dropdown-menu}}
+                  {{#each savedQueries as |savedQuery|}}
+                      <li><a {{action "selectQuery" savedQuery.content}}>{{savedQuery.id}}</a></li>
+                  {{/each}}
+              {{/bs-dropdown-menu}}
+          {{/bs-dropdown}}
+      {{/if}}
   {{/bs-form}}
 </div>
 {{#if result}}
-  {{sparql-result result=result csvUri=csvUri}}
-{{/if}}
-{{#if error}}
-    <div class="panel panel-danger">
-        <div class="panel-heading">
-            <h3 class="panel-title">Result</h3>
-        </div>
-        <div class="panel-body">{{error}}</div>
-    </div>
+    {{sparql-result result=result.content error=result.error}}
 {{/if}}
