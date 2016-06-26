@@ -1,7 +1,7 @@
 <div class="jumbotron">
     <h2>SPARQL query</h2>
   {{#bs-form}}
-    {{bs-textarea name="query" required=true autofocus=true value=query}}
+    {{bs-textarea name="query" required=true autofocus=true value=query rows=10}}
     {{#bs-button type="primary" icon="glyphicon glyphicon-search" action="query"}}execute{{/bs-button}}
     {{#bs-button icon="glyphicon glyphicon-save" action="save"}}save{{/bs-button}}
       {{#if savedQueries.length}}
