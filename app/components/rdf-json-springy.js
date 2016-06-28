@@ -8,10 +8,10 @@ export default Ember.Component.extend({
 
     function getNode(value) {
       value.label = value.value;
-      if (!nodes.has(value)) {
-        nodes.set(value, graph.newNode(value));
+      if (!nodes.has(value.value)) {
+        nodes.set(value.value, graph.newNode(value));
       }
-      return nodes.get(value);
+      return nodes.get(value.value);
     }
 
     function createEdgesForSubjectPropertyValues(values, subjectNode, propertyData) {
