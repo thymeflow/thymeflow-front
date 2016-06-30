@@ -36,9 +36,9 @@
                 </tbody>
             </table>
         {{else if isAsk}}
-          {{#if result.boolean}}true{{else}}false{{/if}}
+            {{#if result.boolean}}true{{else}}false{{/if}}
         {{else if isConstruct}}
-            {{rdf-json-springy rdfJson=result}}
+            {{rdf-json-d3 rdfJson=result removePrefix=removePrefix}}
         {{else if isUpdate}}
             UPDATE OK
         {{/if}}

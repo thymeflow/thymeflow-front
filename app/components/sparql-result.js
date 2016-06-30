@@ -24,25 +24,15 @@ export default Ember.Component.extend({
   }.property('result'),
   // rows represent the results of a SELECT query
   rows: function () {
-    function jsonUnescape(str) {
-      if (typeof str === 'string') {
-        return str
-          .replace('\\"', '"')
-          .replace('\\b', '\b')
-          .replace('\\f', '\f')
-          .replace('\\n', '\n')
-          .replace('\\r', '\r')
-          .replace('\\t', '\t');
-      } else {
-        return str;
-      }
-    }
-
+    const removePrefix = this.get('removePrefix');
     const result = this.get('result');
     const vars = result.head.vars;
     if (this.get('isSelect')) {
       return result.results.bindings.map(binding =>
-        vars.map(varName => jsonUnescape(binding[varName]) || null)
+        vars.map(varName => {
+          const valueForVar = binding[varName];
+          return {type: valueForVar.type, value: removePrefix(valueForVar.value)};
+        })
       );
     } else {
       return null;
