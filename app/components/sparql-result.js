@@ -31,7 +31,11 @@ export default Ember.Component.extend({
       return result.results.bindings.map(binding =>
         vars.map(varName => {
           const valueForVar = binding[varName];
-          return {type: valueForVar.type, value: removePrefix(valueForVar.value)};
+          if (valueForVar != null) {
+            return {type: valueForVar.type, value: removePrefix(valueForVar.value)};
+          } else {
+            return null;
+          }
         })
       );
     } else {
