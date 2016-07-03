@@ -1,40 +1,18 @@
 <div class="panel {{if error "panel-danger" "panel-success"}}">
-    <div class="panel-heading{{if isSelect " panel-heading-nav"}}">
-        <h3 class="panel-title{{if isSelect " pull-left"}}">
-            Result
-            {{#if isSelect}}({{rows.length}} rows){{/if}}
+    <div class="panel-heading{{if csvUri " panel-heading-nav"}}">
+        <h3 class="panel-title{{if csvUri " pull-left"}}">
+            Result {{#if resultCount}}({{resultCount}}){{/if}}
         </h3>
-        {{#if isSelect}}
+        {{#if csvUri}}
             <a class="btn btn-default pull-right" type="button" href="{{csvUri}}" download>Download as CSV</a>
             <div class="clearfix"></div>
         {{/if}}
     </div>
-    <div class="{{if isSelect "table-responsive" "panel-body"}}">
+    <div class="{{if isSelect "" "panel-body"}}">
         {{#if error}}
             {{error}}
         {{else if isSelect}}
-            <table class="table table-hover">
-                <thead>
-              <tr>
-                  {{#each header as |var|}}
-                      <th>{{var}}</th>
-                {{/each}}
-              </tr>
-                </thead>
-                <tbody>
-                {{#each rows as |row|}}
-                    <tr>
-                        {{#each row as |term|}}
-                            <td>
-                                {{#if term}}
-                                    {{component (concat 'sparql-result-' term.type) term=term}}
-                                {{/if}}
-                            </td>
-                        {{/each}}
-                    </tr>
-                {{/each}}
-                </tbody>
-            </table>
+            {{sparql-result-table result=result removePrefix=removePrefix}}
         {{else if isAsk}}
             {{#if result.boolean}}true{{else}}false{{/if}}
         {{else if isConstruct}}

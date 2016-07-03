@@ -13,50 +13,43 @@ export default Ember.Component.extend({
   isUpdate: function () {
     return this.get('queryType') === "UPDATE";
   }.property('queryType'),
-  // header represents the binding variables of a SELECT query
-  header: function () {
+  resultCount: function () {
     const result = this.get('result');
     if (this.get('isSelect')) {
-      return result.head.vars;
+      return `${result.results.bindings.length} rows`;
+    } else if (this.get('isConstruct')) {
+      var count = 0;
+      for (const subject in result) {
+        for (const property in result[subject]) {
+          count += result[subject][property].length;
+        }
+      }
+      return `${count} triples`;
     } else {
       return null;
     }
   }.property('result'),
-  // rows represent the results of a SELECT query
-  rows: function () {
-    const removePrefix = this.get('removePrefix');
-    const result = this.get('result');
-    const vars = result.head.vars;
-    if (this.get('isSelect')) {
-      return result.results.bindings.map(binding =>
-        vars.map(varName => {
-          const valueForVar = binding[varName];
-          if (valueForVar != null) {
-            return {type: valueForVar.type, value: removePrefix(valueForVar.value)};
-          } else {
-            return null;
-          }
-        })
-      );
-    } else {
-      return null;
-    }
-  }.property('result'),
-  // csvUri builds a Uri of the results of a SELECT query
   csvUri: function () {
-    if (!this.get('isSelect')) {
-      return null;
-    } else {
+    const result = this.get('result');
+    if (this.get('isSelect')) {
+      // uri of the results of a SELECT query
+      const header = result.head.vars;
       return 'data:text/csv;charset=utf-8,' + encodeURIComponent(
-          this.get('header').join(",") + "\n" +
-          this.get('rows').map(line => line.map(function (cell) {
+          header.join(",") + "\n" +
+          result.results.bindings.map(row => header.map(function (varName) {
+            const cell = row[varName];
             if (cell === null) {
               return '';
             } else {
-              return '"' + cell.value.replace('"', '') + '"';
+              return '"' + cell.value.replace('"', '""') + '"';
             }
           }).join(",")).join("\n")
         );
+    } else if (this.get('isConstruct')) {
+      // TODO: csvUri for CONSTRUCT query.
+      return null;
+    } else {
+      return null;
     }
-  }.property('header', 'rows')
+  }.property('result')
 });

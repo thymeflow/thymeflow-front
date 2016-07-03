@@ -1,0 +1,22 @@
+{{#sparql-result-table-header scrollLeft=scrollLeft}}
+    <div style={{headerStyle}}>
+        {{~#each columns as |column|~}}
+            <div class="sparql-result-table-cell" style={{column.style}}>{{column.name}}</div>
+        {{~/each~}}
+    </div>
+{{/sparql-result-table-header}}
+{{#sparql-result-table-body scrollLeft=scrollLeft}}
+    {{#ember-collection
+    items=rows
+    cell-layout=(fixed-grid-layout tableWidth 37) as |row index|}}
+        <div class="sparql-result-table-row">
+            {{~#each row as |term|~}}
+                <div class="sparql-result-table-cell" style={{term.column.style}}>
+                    {{#if term.value}}
+                        {{component (concat 'sparql-result-' term.type) term=term}}
+                    {{/if}}
+                </div>
+            {{~/each~}}
+        </div>
+    {{/ember-collection}}
+{{/sparql-result-table-body}}

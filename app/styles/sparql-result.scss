@@ -1,0 +1,33 @@
+.sparql-result-table-body {
+  position: relative;
+  height: 555px;
+}
+
+.sparql-result-table-cell {
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.sparql-result-table-header {
+  overflow-y: hidden;
+  overflow-x: auto;
+  font-family: monospace;
+  border-bottom: 4px solid #ddd;
+  .sparql-result-table-cell {
+    vertical-align: bottom;
+    text-align: left;
+    padding: 8px;
+    font-weight: bold;
+  }
+}
+
+.sparql-result-table-row {
+  font-family: monospace;
+  border-bottom: 1px solid #ddd;
+  & > .sparql-result-table-cell {
+    padding: 8px;
+    vertical-align: top;
+  }
+}
