@@ -2,7 +2,7 @@
     <h2>SPARQL query</h2>
   {{#bs-form}}
     {{bs-textarea name="query" required=true autofocus=true value=query rows=10}}
-    {{#bs-button type="primary" icon="glyphicon glyphicon-search" action="query"}}execute{{/bs-button}}
+    {{#bs-button type="primary" icon="glyphicon glyphicon-search" action="query" disabled=result.isPending}}execute{{/bs-button}}
     {{#bs-button icon="glyphicon glyphicon-save" action="save"}}save{{/bs-button}}
       {{#if savedQueries.length}}
           {{#bs-dropdown}}
@@ -16,6 +16,6 @@
       {{/if}}
   {{/bs-form}}
 </div>
-{{#if result}}
-    {{sparql-result queryType=result.queryType result=result.content error=result.error removePrefix=result.removePrefix}}
+{{#if result.isSettled}}
+    {{sparql-result queryType=result.queryType result=result.content.content error=result.reason removePrefix=result.removePrefix}}
 {{/if}}

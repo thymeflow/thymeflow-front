@@ -11,7 +11,8 @@ export default Ember.Controller.extend({
     query() {
       let query = this.get('query');
       let sparql = this.get('sparql');
-      sparql.query(query).then((result) => this.set('result', result));
+      const result = sparql.query(query);
+      this.set('result', result);
     },
     save() {
       const id = prompt("Query name?");

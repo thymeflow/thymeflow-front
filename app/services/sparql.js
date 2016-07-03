@@ -1,7 +1,6 @@
 import Ember from "ember";
 import ENV from "thymeflow-front/config/environment";
 import {ajax} from "thymeflow-front/utilities/jquery";
-
 /* global sparqljs */
 
 export default Ember.Service.extend({
@@ -28,7 +27,6 @@ export default Ember.Service.extend({
       return null;
     }
   },
-
   query: function (sparqlQuery) {
     const parsedQuery = this.parseQuery(sparqlQuery);
     let requestData = {};
@@ -37,7 +35,7 @@ export default Ember.Service.extend({
     } else {
       requestData.update = sparqlQuery;
     }
-    return ajax(`${ENV.APP.API_ENDPOINT}/sparql`, {
+    const resultPromise = ajax(`${ENV.APP.API_ENDPOINT}/sparql`, {
       data: requestData,
       method: 'POST'
     }).then(result => {
@@ -61,6 +59,12 @@ export default Ember.Service.extend({
       } else {
         return {};
       }
-    }, jqXHR => ({error: jqXHR.responseText}));
+    }, function(jqXHR){
+      throw new Error(jqXHR.responseText);
+    });
+    return Ember.ObjectProxy.extend(Ember.PromiseProxyMixin, {
+    }).create({
+      promise: resultPromise
+    });
   }
 });
