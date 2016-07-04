@@ -6,7 +6,9 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('sparql');
+  this.route('sparql', function () {
+    this.route('item', {path: ':query_name'});
+  });
 });
 
 export default Router;

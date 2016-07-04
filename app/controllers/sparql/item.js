@@ -3,9 +3,10 @@ import Ember from "ember";
 export default Ember.Controller.extend({
   store: Ember.inject.service(),
   sparql: Ember.inject.service(),
+  query: Ember.computed.alias('model'),
   _queryContent: 'CONSTRUCT{ ?s ?p ?o } WHERE { ?s ?p ?o } LIMIT 100',
   queryContent: Ember.computed('query.content', '_queryContent', {
-    get(key) {
+    get() {
       const queryContent = this.get('query.content');
       if (queryContent != null) {
         this.set('_queryContent', queryContent);
@@ -14,7 +15,7 @@ export default Ember.Controller.extend({
         return this.get('_queryContent');
       }
     },
-    set(key, value) {
+    set(_, value) {
       const query = this.get('query');
       if (query != null) {
         query.set('content', value);
@@ -46,18 +47,19 @@ export default Ember.Controller.extend({
         if (queryName != null && queryName.length > 0) {
           const id = queryName;
           const queryContent = this.get('queryContent');
-          this.store.find('sparql-query', id)
+          this.store.findRecord('sparql-query', id)
             .catch(() => {
               // In case a query with the same name does not exist,
               // we must unload the record created by the find method
-              // Ember Data does not currently provide a simple findOrCreate ...
+              // This is due to a problem with Ember-Data https://github.com/emberjs/data/issues/4424
+              // and ember-local-storage's behaviour
               const queryModel = this.store.recordForId('sparql-query', id);
               queryModel.unloadRecord();
               return this.store.createRecord('sparql-query', {id: id});
             }).then((queryModel) => {
             queryModel.set('content', queryContent);
             return queryModel.save();
-          }).then(queryModel => this.set('query', queryModel));
+          }).then(queryModel => this.transitionToRoute('sparql.item', queryModel));
         }
       }
     },
@@ -70,11 +72,10 @@ export default Ember.Controller.extend({
     delete(){
       const query = this.get('query');
       query.destroyRecord();
-      this.set('query', null);
-
+      this.transitionToRoute('sparql.index');
     },
     selectQuery(query) {
-      this.set('query', query);
+      this.transitionToRoute('sparql.item', query);
     }
   }
 });
