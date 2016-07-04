@@ -1,6 +1,8 @@
 @import "rdf-json-d3";
 @import "responsive-svg";
 @import "sparql-result";
+@import 'ember-power-select/themes/bootstrap';
+@import 'ember-power-select';
 
 body {
   padding-top: 70px;

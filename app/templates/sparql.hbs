@@ -1,21 +1,21 @@
 <div class="jumbotron">
-    <h2>SPARQL query</h2>
+  <h2>SPARQL query</h2>
   {{#bs-form}}
-    {{bs-textarea name="query" required=true autofocus=true value=query rows=10}}
+    {{#if savedQueries.length}}
+      {{#power-select options=savedQueries placeholder="Saved queries" selected=query allowClear=true noMatchesMessage="Hit enter to create new query." onchange=(action "selectQuery")
+      onkeydown=(action "createOnEnter") as |savedQuery|}}
+        {{savedQuery.id}}
+      {{/power-select}}
+    {{/if}}
+    {{bs-textarea name="query" required=true autofocus=true value=queryContent rows=10}}
     {{#bs-button type="primary" icon="glyphicon glyphicon-search" action="query" disabled=result.isPending}}execute{{/bs-button}}
-    {{#bs-button icon="glyphicon glyphicon-save" action="save"}}save{{/bs-button}}
-      {{#if savedQueries.length}}
-          {{#bs-dropdown}}
-              {{#bs-dropdown-button}}Saved queries <span class="caret"></span>{{/bs-dropdown-button}}
-              {{#bs-dropdown-menu}}
-                  {{#each savedQueries as |savedQuery|}}
-                      <li><a {{action "selectQuery" savedQuery.content}}>{{savedQuery.id}}</a></li>
-                  {{/each}}
-              {{/bs-dropdown-menu}}
-          {{/bs-dropdown}}
-      {{/if}}
+    {{#bs-button icon="glyphicon glyphicon-save" action="save" disabled=(and query (not query.hasDirtyAttributes))}}
+      save{{/bs-button}}
+    {{#if (and query (not query.isNew))}}
+      {{#bs-button icon="glyphicon glyphicon-remove" action="delete"}}delete{{/bs-button}}
+    {{/if}}
   {{/bs-form}}
 </div>
 {{#if result.isSettled}}
-    {{sparql-result queryType=result.queryType result=result.content.content error=result.reason removePrefix=result.removePrefix}}
+  {{sparql-result queryType=result.queryType result=result.content.content error=result.reason removePrefix=result.removePrefix}}
 {{/if}}
