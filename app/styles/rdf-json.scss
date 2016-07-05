@@ -10,9 +10,9 @@
 
 .graph-tooltip {
   line-height: 1;
-  font-weight: bold;
   padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
+  background: grey;
+  border: 1px solid black;
   color: #fff;
   border-radius: 2px;
   pointer-events: none;
@@ -33,6 +33,9 @@
   -webkit-hyphens: auto;
   hyphens: auto;
 
+  dl {
+    margin-bottom: 0;
+  }
 }
 
 /* Creates a small triangle extender for the tooltip */
@@ -43,7 +46,7 @@
     font-size: 10px;
     width: 100%;
     line-height: 1;
-    color: rgba(0, 0, 0, 0.8);
+    color: grey;
     position: absolute;
     pointer-events: none;
   }
@@ -55,4 +58,8 @@
     left: 0;
     text-align: center;
   }
+}
+
+.graph-container {
+  position: relative;
 }

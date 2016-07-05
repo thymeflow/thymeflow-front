@@ -1,0 +1,11 @@
+{{title}}
+{{#unless isLink}}
+  <dl>
+    {{#each properties as |property|}}
+      <dt>{{property.name}}</dt>
+      {{#each property.literals as |literal|}}
+        <dd>"{{literal.value}}" ({{literal.type}})</dd>
+      {{/each}}
+    {{/each}}
+  </dl>
+{{/unless}}

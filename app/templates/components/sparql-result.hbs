@@ -16,7 +16,7 @@
         {{else if isAsk}}
             {{#if result.boolean}}true{{else}}false{{/if}}
         {{else if isConstruct}}
-            {{rdf-json-d3 rdfJson=result removePrefix=removePrefix}}
+          {{graph/rdf-json rdfJson=result removePrefix=removePrefix}}
         {{else if isUpdate}}
             UPDATE OK
         {{/if}}
