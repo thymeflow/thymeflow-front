@@ -3,8 +3,6 @@ import d3 from "d3";
 
 const typeProperty = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 const imageProperty = "http://schema.org/image";
-const nodeTypeColor = d3.scale.category20();
-const linkPropertyColor = d3.scale.category20();
 const tooltipOffset = {x: 0, y: -10};
 
 function getScreenCoordinates(targetElement, svg) {
@@ -172,6 +170,8 @@ export default Ember.Component.extend({
     this.cleanVisualization();
     const removePrefix = this.get('removePrefix');
     const graph = this.rdfToGraph(this.get('rdfJson'));
+    const nodeTypeColor = d3.scale.category20();
+    const linkPropertyColor = d3.scale.category20();
 
     const force = d3.layout.force()
       .charge(-200)
