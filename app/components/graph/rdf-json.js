@@ -190,7 +190,7 @@ export default Ember.Component.extend({
       .call(d3.behavior.zoom().on("zoom", () => {
         svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
         Ember.run(this, this.updateTooltip);
-      })).on('click', deselectNode)
+      })).on('click', deselectElement)
       .append("g");
 
     force
@@ -206,6 +206,7 @@ export default Ember.Component.extend({
       .style("stroke", function (d) {
         return linkPropertyColor(d.value);
       })
+      .on('click', clickElement)
       .on('mouseover', function () {
         self.showTooltip(...arguments);
       })
@@ -217,7 +218,7 @@ export default Ember.Component.extend({
       .data(graph.nodes)
       .enter().append("g")
       .call(force.drag)
-      .on('click', connectedNodes)
+      .on('click', clickElement)
       .on('mouseover', function () {
         self.showTooltip(...arguments);
       })
@@ -271,42 +272,58 @@ export default Ember.Component.extend({
       Ember.run(self, self.updateTooltip);
     });
 
-    //Toggle stores whether the highlighting is on
-    var toggle = 0;
+    // build a neighbor map.
     var neighbors = new Map();
-    graph.nodes.forEach(node => neighbors.set(node.value, new Set([node.value])));
+    graph.nodes.forEach(node => neighbors.set(node, new Set([node])));
     graph.links.forEach(function (d) {
-      neighbors.get(d.source.value).add(d.target.value);
-      neighbors.get(d.target.value).add(d.source.value);
+      neighbors.get(d.source).add(d.target);
+      neighbors.get(d.target).add(d.source);
     });
-    var selectedNode = null;
 
-    function deselectNode() {
-      if (selectedNode != null) {
+    var selectedElement = null;
+
+    function deselectElement() {
+      if (selectedElement != null) {
         node.style("opacity", 1);
         link.style("opacity", 1);
-        selectedNode = null;
+        selectedElement = null;
       }
-      console.log(toggle);
     }
-    function connectedNodes() {
+
+    function clickElement() {
       const d = d3.select(this).node().__data__;
-      if (selectedNode === d) {
+      if (selectedElement === d) {
         // we have clicked on the previous selected node, unselect it
         node.style("opacity", 1);
         link.style("opacity", 1);
-        selectedNode = null;
+        selectedElement = null;
       } else {
         // Reduce the opacity of all but the neighbouring nodes
-        selectedNode = d;
-        node.style("opacity", function (o) {
-          return neighbors.get(d.value).has(o.value) ? 1 : 0.1;
-        });
-        link.style("opacity", function (o) {
-          return d.value === o.source.value || d.value === o.target.value ? 1 : 0.1;
-        });
-        d3.event.stopPropagation();
+        selectedElement = d;
+        if (d.isLink) {
+          const highlightedNodes = new Set();
+          graph.links.forEach(link => {
+            if (link.value === selectedElement.value) {
+              highlightedNodes.add(link.source);
+              highlightedNodes.add(link.target);
+            }
+          });
+          node.style("opacity", function (node) {
+            return highlightedNodes.has(node) ? 1 : 0.1;
+          });
+          link.style("opacity", function (link) {
+            return (link.value === selectedElement.value) ? 1 : 0.1;
+          });
+        } else {
+          node.style("opacity", function (o) {
+            return neighbors.get(d).has(o) ? 1 : 0.1;
+          });
+          link.style("opacity", function (o) {
+            return d === o.source || d === o.target ? 1 : 0.1;
+          });
+        }
       }
+      d3.event.stopPropagation();
     }
 
     this.set('node', node);
