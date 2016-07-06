@@ -61,7 +61,7 @@ export default Ember.Component.extend({
     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop,
       scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
     const svgOffset = $svg.offset();
-    // tooltip coordinates with relative to the parent's position
+    // tooltip coordinates relative to the parent element's position
     this.set('tooltipY', tooltipOffset.y + coords.top + scrollTop - svgOffset.top);
     this.set('tooltipX', tooltipOffset.x + coords.left + scrollLeft - svgOffset.left);
     this.set('tooltipData', d);
