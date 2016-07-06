@@ -68,7 +68,7 @@ export default Component.extend(ChildMixin, InvokeActionMixin, {
         openlayersProperty = property;
       }
       if (this.get(property) !== undefined) {
-        options[openlayersProperty] = this.get(optionName);
+        options[openlayersProperty] = this.get(property);
       }
     };
     openlayersOptions.forEach(setOption);
