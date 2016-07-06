@@ -25,5 +25,13 @@ module.exports = function(defaults) {
   
   app.import('bower_components/sparqljs/sparqljs-browser.js');
 
+  // Openlayers 3
+  app.import({
+    development: 'vendor/ol/ol-debug.js',
+    production: 'vendor/ol/ol.js'
+  });
+  app.import('vendor/ol/ol.css');
+  app.import('vendor/shims/ol.js');
+  
   return app.toTree();
 };

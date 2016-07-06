@@ -14,8 +14,9 @@
     {{#if (and query (not query.isNew))}}
       {{#bs-button icon="glyphicon glyphicon-remove" action="delete"}}delete{{/bs-button}}
     {{/if}}
+    {{bs-form-element controlType="checkbox" label="Map" value=isMap}}
   {{/bs-form}}
 </div>
 {{#if result.isSettled}}
-  {{sparql-result queryType=result.queryType result=result.content.content error=result.reason removePrefix=result.removePrefix}}
+  {{sparql-result queryType=result.queryType result=result.content.content error=result.reason removePrefix=result.removePrefix isMap=isMap}}
 {{/if}}

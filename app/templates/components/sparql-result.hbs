@@ -12,7 +12,11 @@
         {{#if error}}
             {{error}}
         {{else if isSelect}}
+          {{#if isMap}}
+            {{sparql-result-map result=result removePrefix=removePrefix}}
+          {{else}}
             {{sparql-result-table result=result removePrefix=removePrefix}}
+          {{/if}}
         {{else if isAsk}}
             {{#if result.boolean}}true{{else}}false{{/if}}
         {{else if isConstruct}}
