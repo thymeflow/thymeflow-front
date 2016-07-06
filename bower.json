@@ -7,7 +7,6 @@
     "ember-qunit-notifications": "0.1.0",
     "bootstrap": "~3.3.5",
     "blob-polyfill": "^1.0.20150320",
-    "d3-tip": "~0.6.7",
     "sparqljs": "https://github.com/RubenVerborgh/SPARQL.js.git#dist"
   }
 }
