@@ -19,8 +19,8 @@ export default Ember.Component.extend({
       return `${result.results.bindings.length} rows`;
     } else if (this.get('isConstruct')) {
       var count = 0;
-      for (const subject in result) {
-        for (const property in result[subject]) {
+      for (const subject of Object.keys(result)) {
+        for (const property of Object.keys(result[subject])) {
           count += result[subject][property].length;
         }
       }

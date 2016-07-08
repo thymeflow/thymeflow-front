@@ -137,12 +137,12 @@ export default Ember.Mixin.create({
 
     function createEdgesForSubject(subject) {
       let subjectNode = getNode(subject);
-      for (let property in rdfJson[subject]) {
+      for (const property of Object.keys(rdfJson[subject])) {
         createEdgesForSubjectPropertyValues(subjectNode, property, rdfJson[subject][property]);
       }
     }
 
-    for (let subject in rdfJson) {
+    for (const subject of Object.keys(rdfJson)) {
       createEdgesForSubject(subject);
     }
 
