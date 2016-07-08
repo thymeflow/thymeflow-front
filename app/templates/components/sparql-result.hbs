@@ -20,7 +20,11 @@
         {{else if isAsk}}
             {{#if result.boolean}}true{{else}}false{{/if}}
         {{else if isConstruct}}
-          {{graph/rdf-json rdfJson=result removePrefix=removePrefix}}
+          {{#if isMap}}
+            {{sparql-result-graph-map result=result removePrefix=removePrefix}}
+          {{else}}
+            {{graph/rdf-json rdfJson=result removePrefix=removePrefix}}
+          {{/if}}
         {{else if isUpdate}}
             UPDATE OK
         {{/if}}

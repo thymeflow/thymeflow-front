@@ -3,22 +3,14 @@ import Ember from "ember";
 export default Ember.Component.extend({
   attributeBindings: ["style"],
   classNames: "graph-tooltip n",
-  visible: false,
   renderedData: null,
   style: function () {
     const renderedData = this.get('renderedData');
-    const data = this.get('data');
-    const show = (renderedData === data) ? this.get('visible') : false;
-    const top = this.get('top');
-    const left = this.get('left');
+    const show = renderedData != null;
+    const top = show ? this.get('top') : 0;
+    const left = show ? this.get('left') : 0;
     return Ember.String.htmlSafe(`position: absolute; opacity: ${(show) ? 1 : 0}; pointer-events: ${(show) ? "all" : "none"}; box-sizing: border-box; top: ${top}px; left: ${left}px`);
-  }.property('visible', 'top', 'left'),
-  actions: {
-    updateDimensions: function (width, height) {
-      this.set('width', width);
-      this.set('height', height);
-    }
-  },
+  }.property('renderedData', 'top', 'left'),
   width: 0,
   height: 0,
   left: function () {
@@ -28,16 +20,27 @@ export default Ember.Component.extend({
     return this.get('y') - this.get('height');
   }.property('y', 'height'),
   onDidRender: function () {
-    const element = this.$().get(0);
+    const element = this.get("element");
     const height = element.offsetHeight;
     const width = element.offsetWidth;
     const renderedData = this.get('renderedData');
     const data = this.get('data');
     if (data !== renderedData) {
-      this.set('renderedData', data);
-      Ember.run.schedule('actions', () => this.send("updateDimensions", width, height));
+      Ember.run.schedule('actions', () => {
+        this.setProperties({
+          renderedData: data,
+          width: width,
+          height: height
+        });
+      });
     }
   }.on('didRender'),
+  observesData: function () {
+    const data = this.get('data');
+    if (data == null) {
+      this.set('renderedData', null);
+    }
+  }.observes('data'),
   properties: function () {
     const propertyMap = this.get('data.properties');
     if (propertyMap != null) {

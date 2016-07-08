@@ -1,0 +1,6 @@
+{{#map/openlayers-map zoom=zoom center=center controls=mapControls as |layers|}}
+  {{layers.cartodbTile}}
+  {{#layers.d3 rdfJson=result removePrefix=removePrefix as |d3layer|}}
+    {{graph/rdf-tooltip data=d3layer.tooltipData x=d3layer.tooltipX y=d3layer.tooltipY}}
+  {{/layers.d3}}
+{{/map/openlayers-map}}

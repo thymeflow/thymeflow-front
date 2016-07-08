@@ -7,6 +7,7 @@ const {assert} = Ember;
 
 export default BaseLayer.extend(ContainerMixin, {
   tagName: 'div',
+  classNames: 'map',
 
   openlayersOptions: [
     'controls', 'interactions', 'keyboard', 'logo', 'mapRenderer:renderer', 'view',
@@ -55,7 +56,7 @@ export default BaseLayer.extend(ContainerMixin, {
   createLayer() {
     let options = this.get('options');
     // set the target
-    options.target = this.get('element');
+    options.target = this.$('.map-container').get(0);
 
     return new ol.Map(options);
   },
