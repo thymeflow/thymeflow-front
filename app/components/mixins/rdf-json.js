@@ -271,41 +271,41 @@ export default Ember.Mixin.create({
       });
 
     let coordinateTransformationMatrix = null;
-
+    let hasTick = false;
     function positionElements() {
-      link.attr("x1", function (d) {
-          return coordinateTransformationMatrix[0] * d.source.x + coordinateTransformationMatrix[2] * d.source.y + coordinateTransformationMatrix[4];
-        })
-        .attr("y1", function (d) {
-          return coordinateTransformationMatrix[1] * d.source.x + coordinateTransformationMatrix[3] * d.source.y + coordinateTransformationMatrix[5];
-        })
-        .attr("x2", function (d) {
-          return coordinateTransformationMatrix[0] * d.target.x + coordinateTransformationMatrix[2] * d.target.y + coordinateTransformationMatrix[4];
-        })
-        .attr("y2", function (d) {
-          return coordinateTransformationMatrix[1] * d.target.x + coordinateTransformationMatrix[3] * d.target.y + coordinateTransformationMatrix[5];
-        });
+      // ensure force has already started before positioning elements
+      if (hasTick) {
+        if (coordinateTransformationMatrix != null) {
+          link.attr("x1", function (d) {
+              return coordinateTransformationMatrix[0] * d.source.x + coordinateTransformationMatrix[2] * d.source.y + coordinateTransformationMatrix[4];
+            })
+            .attr("y1", function (d) {
+              return coordinateTransformationMatrix[1] * d.source.x + coordinateTransformationMatrix[3] * d.source.y + coordinateTransformationMatrix[5];
+            })
+            .attr("x2", function (d) {
+              return coordinateTransformationMatrix[0] * d.target.x + coordinateTransformationMatrix[2] * d.target.y + coordinateTransformationMatrix[4];
+            })
+            .attr("y2", function (d) {
+              return coordinateTransformationMatrix[1] * d.target.x + coordinateTransformationMatrix[3] * d.target.y + coordinateTransformationMatrix[5];
+            });
 
-      node.attr("transform", onNodeTransform);
+          node.attr("transform", (d) => {
+            return `translate(${coordinateTransformationMatrix[0] * d.x + coordinateTransformationMatrix[2] * d.y + coordinateTransformationMatrix[4]},${coordinateTransformationMatrix[1] * d.x + coordinateTransformationMatrix[3] * d.y + coordinateTransformationMatrix[5]})`;
+          });
+        }
+      }
+
     }
 
     force.on("tick", function () {
+      hasTick = true;
       positionElements();
       Ember.run(self, self.updateTooltip);
     });
 
     let scale = null;
-
-    function onNodeTransform(d) {
-      if (d != null) {
-        return `translate(${coordinateTransformationMatrix[0] * d.x + coordinateTransformationMatrix[2] * d.y + coordinateTransformationMatrix[4]},${coordinateTransformationMatrix[1] * d.x + coordinateTransformationMatrix[3] * d.y + coordinateTransformationMatrix[5]})`;
-      } else {
-        return "";
-      }
-    }
-
     function resizeToScale(newCoordinateTransformationMatrix, elementScale) {
-      if ((newCoordinateTransformationMatrix == null && coordinateTransformationMatrix != null) || (newCoordinateTransformationMatrix != null && coordinateTransformationMatrix == null) || (newCoordinateTransformationMatrix != null && coordinateTransformationMatrix != null && newCoordinateTransformationMatrix.some((v, index) => coordinateTransformationMatrix[index] !== v))) {
+      if (newCoordinateTransformationMatrix != null && (coordinateTransformationMatrix == null || newCoordinateTransformationMatrix.some((v, index) => coordinateTransformationMatrix[index] !== v))) {
         coordinateTransformationMatrix = newCoordinateTransformationMatrix;
         positionElements();
       }
