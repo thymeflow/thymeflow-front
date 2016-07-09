@@ -163,6 +163,13 @@ export default Ember.Mixin.create({
   },
   viewSize: defaultViewSize,
   linkDistance: 300,
+  observesLinkDistance: function () {
+    const force = this.get('force');
+    if (force != null) {
+      force.stop();
+      force.start();
+    }
+  }.observes('linkDistance'),
   charge: -200,
   gravity: 0.1,
   cleanSVG(){
