@@ -8,25 +8,27 @@
             <div class="clearfix"></div>
         {{/if}}
     </div>
-    <div class="{{if isSelect "" "panel-body"}}">
-        {{#if error}}
-            {{error}}
-        {{else if isSelect}}
-          {{#if isMap}}
-            {{sparql-result-map result=result removePrefix=removePrefix}}
-          {{else}}
-            {{sparql-result-table result=result removePrefix=removePrefix}}
-          {{/if}}
-        {{else if isAsk}}
-            {{#if result.boolean}}true{{else}}false{{/if}}
-        {{else if isConstruct}}
-          {{#if isMap}}
-            {{sparql-result-graph-map result=result removePrefix=removePrefix}}
-          {{else}}
-            {{graph/rdf-json rdfJson=result removePrefix=removePrefix}}
-          {{/if}}
-        {{else if isUpdate}}
-            UPDATE OK
+  {{#if error}}
+    <div class="panel-body">{{error}}</div>
+  {{else if isSelect}}
+    <div>
+      {{#if isMap}}
+        {{sparql-result-map result=result removePrefix=removePrefix}}
+      {{else}}
+        {{sparql-result-table result=result removePrefix=removePrefix}}
+      {{/if}}
+    </div>
+  {{else if isAsk}}
+    <div class="panel-body">{{#if result.boolean}}true{{else}}false{{/if}}</div>
+  {{else if isConstruct}}
+    <div>
+      {{#if isMap}}
+        {{sparql-result-graph-map result=result removePrefix=removePrefix}}
+      {{else}}
+        {{graph/rdf-json rdfJson=result removePrefix=removePrefix}}
         {{/if}}
     </div>
+  {{else if isUpdate}}
+    <div class="panel-body">UPDATE OK</div>
+  {{/if}}
 </div>
