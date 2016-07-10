@@ -36,9 +36,7 @@ function getScreenCoordinates(targetElement, svg) {
 }
 
 export default Ember.Mixin.create({
-  tooltipElement: null,
-  tooltipX: 0,
-  tooltipY: 0,
+  tooltip: null,
   showTooltip: function (d) {
     var args = Array.prototype.slice.call(arguments);
     var targetElement = null;
@@ -69,25 +67,24 @@ export default Ember.Mixin.create({
     if (coords != null) {
       const svgOffset = Ember.$(svgElement).offset();
       // tooltip coordinates relative to the parent element's position
-      this.setProperties({
-        tooltipX: tooltipOffset.x + coords.left - svgOffset.left,
-        tooltipY: tooltipOffset.y + coords.top - svgOffset.top,
-        tooltipData: d,
-        tooltipElement: targetElement
-      });
+      this.set('tooltip', new Ember.Object({
+        data: d,
+        x: tooltipOffset.x + coords.left,
+        y: tooltipOffset.y + coords.top,
+        parentX: svgOffset.left,
+        parentY: svgOffset.top,
+        element: targetElement
+      }));
     }
   },
   updateTooltip: function () {
-    const tooltipData = this.get('tooltipData');
+    const tooltipData = this.get('tooltip.data');
     if (tooltipData != null) {
-      this.showTooltip(tooltipData, this.get('tooltipElement'));
+      this.showTooltip(tooltipData, this.get('tooltip.element'));
     }
   },
   hideTooltip: function () {
-    this.setProperties({
-      tooltipData: null,
-      tooltipElement: null
-    });
+    this.set('tooltip', null);
   },
   geographic: false,
   targetCrs: null,
