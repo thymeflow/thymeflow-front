@@ -52,10 +52,13 @@ export default Ember.Component.extend({
     this.set('rows', result.results.bindings.map(binding => {
       return columns.map(column => {
         // copy the column value
-        var valueForColumn = Object.assign({}, binding[column.get('name')]);
-        column.extendLength(this.estimatedLength(valueForColumn));
-        valueForColumn.value = removePrefix(valueForColumn.value);
-        valueForColumn.column = column;
+        let valueForColumn = binding[column.name];
+        if (valueForColumn != null) {
+          valueForColumn = Object.assign({}, valueForColumn);
+          column.extendLength(this.estimatedLength(valueForColumn));
+          valueForColumn.value = removePrefix(valueForColumn.value);
+          valueForColumn.column = column;
+        }
         return valueForColumn;
       });
     }));

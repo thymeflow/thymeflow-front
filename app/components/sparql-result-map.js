@@ -23,17 +23,20 @@ export default Ember.Component.extend({
       const result = {};
       result.attributes = columns.map(columnName => {
         // copy the column value
-        var valueForColumn = Object.assign({}, binding[columnName]);
-        valueForColumn.value = removePrefix(valueForColumn.value);
-        switch (columnName) {
-          case 'longitude':
-            longitude = Number(valueForColumn.value);
-            break;
-          case 'latitude':
-            latitude = Number(valueForColumn.value);
-            break;
-          default:
-            break;
+        let valueForColumn = binding[columnName];
+        if (valueForColumn != null) {
+          valueForColumn = Object.assign({}, valueForColumn);
+          valueForColumn.value = removePrefix(valueForColumn.value);
+          switch (columnName) {
+            case 'longitude':
+              longitude = Number(valueForColumn.value);
+              break;
+            case 'latitude':
+              latitude = Number(valueForColumn.value);
+              break;
+            default:
+              break;
+          }
         }
         return valueForColumn;
       });
