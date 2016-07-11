@@ -44,7 +44,7 @@ export default Ember.Component.extend({
         result.geometry = new ol.geom.Point([longitude, latitude]);
       }
       return result;
-    });
+    }).filter((result) => result.geometry != null);
   }.property('result'),
   imageFillColor: '#37abc8',
   imageStrokeColor: '#164450',
