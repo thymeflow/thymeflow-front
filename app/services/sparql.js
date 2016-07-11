@@ -7,10 +7,12 @@ export default Ember.Service.extend({
   removePrefix: function (parsedQuery) {
     if (parsedQuery != null) {
       return function (url) {
-        for (var prefix in parsedQuery.prefixes) {
-          const prefixUrl = parsedQuery.prefixes[prefix];
-          if (url.startsWith(prefixUrl)) {
-            return `${prefix}:${url.slice(prefixUrl.length)}`;
+        if (url != null) {
+          for (var prefix in parsedQuery.prefixes) {
+            const prefixUrl = parsedQuery.prefixes[prefix];
+            if (url.startsWith(prefixUrl)) {
+              return `${prefix}:${url.slice(prefixUrl.length)}`;
+            }
           }
         }
         return url;
