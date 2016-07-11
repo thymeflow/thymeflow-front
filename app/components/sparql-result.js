@@ -38,7 +38,7 @@ export default Ember.Component.extend({
           header.join(",") + "\n" +
           result.results.bindings.map(row => header.map(function (varName) {
             const cell = row[varName];
-            if (cell === null) {
+            if (cell == null) {
               return '';
             } else {
               return '"' + cell.value.replace('"', '""') + '"';
