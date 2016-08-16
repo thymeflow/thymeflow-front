@@ -24,6 +24,7 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
   
   app.import('bower_components/sparqljs/sparqljs-browser.js');
+  app.import('bower_components/downloadjs/download.js');
 
   // Openlayers 3
   app.import({

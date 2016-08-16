@@ -1,10 +1,10 @@
 <div class="panel {{if error "panel-danger" "panel-success"}}">
-    <div class="panel-heading{{if csvUri " panel-heading-nav"}}">
-        <h3 class="panel-title{{if csvUri " pull-left"}}">
+    <div class="panel-heading{{if hasCsv " panel-heading-nav"}}">
+        <h3 class="panel-title{{if hasCsv " pull-left"}}">
             Result {{#if resultCount}}({{resultCount}}){{/if}}
         </h3>
-        {{#if csvUri}}
-            <a class="btn btn-default pull-right" type="button" href="{{csvUri}}" download>Download as CSV</a>
+        {{#if hasCsv}}
+            <button class="btn btn-default pull-right" {{action "downloadAsCsv"}}>Download as CSV</button>
             <div class="clearfix"></div>
         {{/if}}
     </div>

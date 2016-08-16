@@ -1,4 +1,5 @@
 import Ember from "ember";
+/* global download */
 
 export default Ember.Component.extend({
   isSelect: function () {
@@ -29,13 +30,22 @@ export default Ember.Component.extend({
       return null;
     }
   }.property('result'),
-  csvUri: function () {
-    const result = this.get('result');
+  hasCsv: function () {
     if (this.get('isSelect')) {
-      // uri of the results of a SELECT query
-      const header = result.head.vars;
-      return 'data:text/csv;charset=utf-8,' + encodeURIComponent(
-          header.join(",") + "\n" +
+      return true;
+    } else if (this.get('isConstruct')) {
+      // TODO: csvUri for CONSTRUCT query.
+      return false;
+    } else {
+      return false;
+    }
+  }.property('isSelect', 'isConstruct'),
+  actions:{
+    downloadAsCsv(){
+      if (this.get('isSelect')) {
+        const result = this.get('result');
+        const header = result.head.vars;
+        const data = header.join(",") + "\n" +
           result.results.bindings.map(row => header.map(function (varName) {
             const cell = row[varName];
             if (cell == null) {
@@ -43,13 +53,11 @@ export default Ember.Component.extend({
             } else {
               return '"' + cell.value.replace('"', '""') + '"';
             }
-          }).join(",")).join("\n")
-        );
-    } else if (this.get('isConstruct')) {
-      // TODO: csvUri for CONSTRUCT query.
-      return null;
-    } else {
-      return null;
+          }).join(",")).join("\n");
+        download(data, "sparql-result.csv", "text/csv");
+      } else if (this.get('isConstruct')) {
+        // TODO: csvDownload for CONSTRUCT query ?
+      }
     }
-  }.property('result')
+  }
 });
