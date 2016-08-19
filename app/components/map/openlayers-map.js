@@ -5,6 +5,11 @@ import ol from "ol";
 
 const {assert} = Ember;
 
+function isExtentInfinite(extent) {
+  return !(isFinite(extent[0]) && isFinite(extent[1]) &&
+  isFinite(extent[2]) && isFinite(extent[3]));
+}
+
 export default BaseLayer.extend(ContainerMixin, {
   tagName: 'div',
   classNames: 'map',
@@ -71,14 +76,33 @@ export default BaseLayer.extend(ContainerMixin, {
       (this.get('extent') && (!this.get('center') && this.get('zoom') === undefined)) ||
       (!this.get('extent') && (this.get('center') && this.get('zoom') !== undefined))
     );
-    let view = new ol.View();
-    const extent = this.get('extent');
-    if (extent != null) {
-      view.fit(extent, this._layer.getSize());
-    } else {
+    if (!this.fitViewToExtent(this.get('extent'))) {
+      let view = new ol.View();
       view.setCenter(this.get('center'));
       view.setZoom(this.get('zoom'));
+      this._layer.setView(view);
     }
-    this._layer.setView(view);
+  },
+  fitViewToExtent: function(extent, duration){
+    if(extent && !isExtentInfinite(extent) && !ol.extent.isEmpty(extent) && this._layer)
+    {
+      var view = new ol.View();
+      view.fit(extent, this._layer.getSize());
+      if(duration != null && duration > 0){
+        var zoom = ol.animation.zoom({
+          resolution: this._layer.getView().getResolution(),
+          duration: duration
+        });
+        var pan = ol.animation.pan({
+          source: this._layer.getView().getCenter(),
+          duration: duration
+        });
+
+        this._layer.beforeRender(pan, zoom);
+      }
+      this._layer.setView(view);
+      return true;
+    }
+    return false;
   }
 });

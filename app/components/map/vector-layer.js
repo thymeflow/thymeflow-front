@@ -70,11 +70,28 @@ export default BaseLayer.extend({
     let options = this.get('options');
     return new ol.layer.Vector(options);
   },
+  getExtent() {
+    const clusterSource = this.get('clusterSource');
+    if (clusterSource != null) {
+      return clusterSource.getExtent();
+    } else {
+      return null;
+    }
+  },
   _updateSourceOnContentChange: function () {
     const clusterSource = this.get('clusterSource');
     if (clusterSource != null) {
       clusterSource.clear();
       clusterSource.addFeatures(this.get('features'));
     }
-  }.observes('content')
+    this.sendOnSourcePopulated();
+  }.observes('content'),
+  sendOnSourcePopulated: function() {
+    if (this.get('content') != null) {
+      this.sendAction('onSourcePopulated', this.get('containerLayer'), this);
+    }
+  },
+  didCreateLayer: function(){
+    this.sendOnSourcePopulated();
+  }
 });

@@ -10,12 +10,6 @@ export default Ember.Component.extend({
   extent: [-20037508.34,-15037508.34,20037508.34,15037508.34],
   zoom: 1,
   center: [0, 0],
-  // actions: {
-  //   featureSourcePopulated: function(){
-  //     this.fitViewToVectorExtent();
-  //   }
-  // },
-  // size: 0,
   // observeDetails: function(){
   //   this.set('size', this.get('size') + 1);
   // }.on('didUpdate'),
@@ -40,6 +34,9 @@ export default Ember.Component.extend({
     });
   }.property(),
   actions: {
+    onSourcePopulated: function(map, layer){
+      map.fitViewToExtent(layer.getExtent());
+    },
     click: function (evt) {
       const stayMove = evt.map.forEachFeatureAtPixel(evt.pixel,
         function (feature /*, layer */) {
