@@ -1,49 +1,51 @@
-<h1>Welcome to Thymeflow</h1>
-<hr>
-<div class="card">
-  <div class="card-header">Connect with external services</div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item"><a href="{{apiEndpoint}}/oauth/google/auth">Google</a></li>
-    <li class="list-group-item"><a href="{{apiEndpoint}}/oauth/microsoft/auth">Microsoft</a></li>
-    <li class="list-group-item"><a href="{{apiEndpoint}}/oauth/facebook/auth">Facebook</a></li>
-  </ul>
+<div class="container">
+  <h1>Welcome to Thymeflow</h1>
+  <hr>
+  <div class="card">
+    <div class="card-header">Connect with external services</div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><a href="{{apiEndpoint}}/oauth/google/auth">Google</a></li>
+      <li class="list-group-item"><a href="{{apiEndpoint}}/oauth/microsoft/auth">Microsoft</a></li>
+      <li class="list-group-item"><a href="{{apiEndpoint}}/oauth/facebook/auth">Facebook</a></li>
+    </ul>
+  </div>
+
+  <form class="card" action="{{apiEndpoint}}/upload" method="POST" enctype="multipart/form-data">
+    <div class="card-header">File upload</div>
+    <div class="card-block">
+      <div class="form-group">
+        <label class="custom-file" for="file">
+          <input type="file" id="file" name="file" class="custom-file-input" required>
+          <span class="custom-file-control">Choose file...</span>
+        </label>
+      </div>
+      <button type="submit" class="btn btn-primary">Upload</button>
+    </div>
+  </form>
+
+  <form class="card" action="{{apiEndpoint}}/imap" method="POST" enctype="multipart/form-data">
+    <div class="card-header">IMAP server</div>
+    <div class="card-block">
+      <div class="form-group">
+        <label for="host">Host</label>
+        <input type="text" id="host" name="host" required class="form-control"/>
+      </div>
+      <div class="form-group">
+        <label for="user">User (usually the email address)</label>
+        <input type="text" id="user" name="user" required class="form-control"/>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required class="form-control"/>
+      </div>
+      <div class="form-group">
+        <label class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" id="ssl" name="ssl" value="true" checked/>
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Use SSL</span>
+        </label>
+      </div>
+      <button type="submit" class="btn btn-primary">Retrieve</button>
+    </div>
+  </form>
 </div>
-
-<form class="card" action="{{apiEndpoint}}/upload" method="POST" enctype="multipart/form-data">
-  <div class="card-header">File upload</div>
-  <div class="card-block">
-    <div class="form-group">
-      <label class="custom-file" for="file">
-        <input type="file" id="file" name="file" class="custom-file-input" required>
-        <span class="custom-file-control">Choose file...</span>
-      </label>
-    </div>
-    <button type="submit" class="btn btn-primary">Upload</button>
-  </div>
-</form>
-
-<form class="card" action="{{apiEndpoint}}/imap" method="POST" enctype="multipart/form-data">
-  <div class="card-header">IMAP server</div>
-  <div class="card-block">
-    <div class="form-group">
-      <label for="host">Host</label>
-      <input type="text" id="host" name="host" required class="form-control"/>
-    </div>
-    <div class="form-group">
-      <label for="user">User (usually the email address)</label>
-      <input type="text" id="user" name="user" required class="form-control"/>
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required class="form-control"/>
-    </div>
-    <div class="form-group">
-      <label class="custom-control custom-checkbox">
-        <input class="custom-control-input" type="checkbox" id="ssl" name="ssl" value="true" checked/>
-        <span class="custom-control-indicator"></span>
-        <span class="custom-control-description">Use SSL</span>
-      </label>
-    </div>
-    <button type="submit" class="btn btn-primary">Retrieve</button>
-  </div>
-</form>

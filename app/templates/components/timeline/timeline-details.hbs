@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="timeline-details-header">
+        <h2 class="timeline-details-header-date">{{moment-format date "dddd, LL"}}</h2>
+        <div class="timeline-details-header-buttons btn-group">
+            <button class="btn btn-secondary btn-sm" {{action 'previousDate'}}>{{fa-icon "angle-left"}}</button>
+            <button class="btn btn-secondary btn-sm" {{action 'nextDate'}}>{{fa-icon "angle-right"}}</button>
+        </div>
+    </div>
+    {{#if noLocations}}
+        <div class="alert alert-info" role="alert">There are no locations to display for this date.</div>
+    {{else}}
+        <label>{{input type="checkbox" checked=showLocationAccuracy}} Show accuracies.</label>
+        {{#if noStays}}
+            <div class="alert alert-info" role="alert">There are no stays to display.</div>
+        {{else}}
+            <div>Displaying stays longer than {{minimumStayDurationMinutes}} minutes.</div>
+            {{range-slider class="timeline-details-range" min=0 max=30 step=1 start=(unbound minimumStayDurationMinutes) on-update=(action (mut minimumStayDurationMinutes))}}
+            {{#if isEmpty}}
+                <div class="alert alert-info" role="alert">There are no stays to display for the current filter.</div>
+            {{else}}
+                <table class="table timeline table-hover">
+                    <tbody>
+                    {{#each items as |item|}}
+                        {{timeline/timeline-details-item item=item date=date toggleSelected=(action 'toggleSelected') selectedItem=selectedItem}}
+                    {{/each}}
+                    </tbody>
+                </table>
+            {{/if}}
+        {{/if}}
+    {{/if}}
+</div>

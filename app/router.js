@@ -9,6 +9,9 @@ Router.map(function() {
   this.route('sparql', function () {
     this.route('item', {path: ':query_name'});
   });
+
+  this.route('timeline', function(){
+  });
 });
 
 export default Router;

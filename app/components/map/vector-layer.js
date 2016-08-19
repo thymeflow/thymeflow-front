@@ -53,7 +53,7 @@ export default BaseLayer.extend({
   ],
 
   openlayersOptions: [
-    'extent', 'minResolution', 'maxResolution', 'opacity', 'source', 'style', 'visible', 'zIndex',
+    'extent', 'minResolution', 'maxResolution', 'opacity', 'source', 'style', 'visible', 'zIndex', 'name',
     // experimental
     'renderBuffer', 'updateWhileAnimating', 'updateWhileInteracting'
   ],

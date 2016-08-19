@@ -61,6 +61,10 @@ export default BaseLayer.extend(ContainerMixin, {
     return new ol.Map(options);
   },
 
+  observesSize: function(){
+    this._layer.updateSize();
+  }.observes('size'),
+
   didCreateLayer() {
     //after base layer bound the events, we can now set the map's view
     assert('You must provide either valid `extent` or a `center` and a `zoom` value.',

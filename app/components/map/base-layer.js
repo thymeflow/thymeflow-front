@@ -7,8 +7,8 @@ const {assert, computed, Component, run} = Ember;
 
 export default Component.extend(ChildMixin, InvokeActionMixin, {
   crs: 'EPSG:3857',
-
-  tagName: '',
+  /* TODO: Set an empty tagname once we hit Ember >= 2.8 https://github.com/emberjs/ember.js/pull/13895 */
+  tagName: 'div',
 
   concatenatedProperties: ['openlayersOptions', 'openlayersRequiredOptions', 'openlayersEvents', 'openlayersProperties'],
 
@@ -95,7 +95,7 @@ export default Component.extend(ChildMixin, InvokeActionMixin, {
       let actionName = 'on' + Ember.String.classify(eventName);
       let methodName = '_' + eventName;
       // create an event handler that runs the function inside an event loop.
-      this._eventHandlers[eventName] = function (e) {
+      this._eventHandlers[eventName] = (e) => {
         run.schedule('actions', this, function () {
           //try to invoke/send an action for this event
           this.invokeAction(actionName, e);

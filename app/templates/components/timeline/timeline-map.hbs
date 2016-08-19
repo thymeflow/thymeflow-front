@@ -1,0 +1,6 @@
+{{#map/openlayers-map zoom=zoom center=center controls=mapControls size=size onClick=(action "click") as |layers|}}
+  {{layers.cartodbTile}}
+  {{layers.vector name="locations" content=locations crs="EPSG:4326" style=locationsStyle.style geometryPath="point"}}
+  {{layers.vector name="moves" content=moves crs="EPSG:4326" style=movesStyle.style}}
+  {{layers.vector name="stays" content=stays crs="EPSG:4326" style=staysStyle.style clusterDistance=staysClusterDistance}}
+{{/map/openlayers-map}}

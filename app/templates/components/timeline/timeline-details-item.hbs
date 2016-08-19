@@ -1,0 +1,13 @@
+{{#if isStay}}
+    <tr class="timeline-row {{if highlighted "table-info" ""}}" {{action "toggleSelected" on="click"}}>
+        <td class="timeline-stay-column"><span>{{item.index}}</span></td>
+        <td class="timeline-line-column"><i class="fa fa-circle timeline-stay-icon"></i></td>
+        <td>{{timeline/timeline-item-time item=item relativeTo=date}}</td>
+    </tr>
+{{else}}
+    <tr class="timeline-row {{if highlighted "table-info" ""}}" {{action "toggleSelected" on="click"}}>
+        <td></td>
+        <td class="timeline-line-column"></td>
+        <td>{{duration}}</td>
+    </tr>
+{{/if}}

@@ -10,6 +10,7 @@
     "nouislider": "^8.0.1",
     "downloadjs": "1.4.6",
     "bootstrap": "4.0.0-alpha.3",
-    "font-awesome": "~4.5.0"
+    "font-awesome": "~4.5.0",
+    "pickadate": "^3.5.6"
   }
 }
