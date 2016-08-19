@@ -46,6 +46,9 @@ body{
   -ms-flex: none;
   flex: none;
   z-index: 10;
+  .navbar{
+    border-radius: 0;
+  }
 }
 
 .app-body {
