@@ -1,3 +1,13 @@
+$custom-file-text: (
+  placeholder: (
+    en: ""
+  ),
+  button-label: (
+    en: "Browse"
+  )
+);
+
+@import 'bower_components/bootstrap/scss/bootstrap-flex';
 @import "rdf-json";
 @import "responsive-svg";
 @import "sparql-result";

@@ -6,6 +6,10 @@ module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     babel: {
       includePolyfill: true
+    },
+    // Add options here
+    emberCliFontAwesome: {
+      useScss: true
     }
   });
 
@@ -22,7 +26,11 @@ module.exports = function(defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
-  
+
+  // Bootstrap
+  app.import(app.bowerDirectory + '/tether/dist/js/tether.js');
+  app.import(app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js');
+
   app.import('bower_components/sparqljs/sparqljs-browser.js');
   app.import('bower_components/downloadjs/download.js');
 

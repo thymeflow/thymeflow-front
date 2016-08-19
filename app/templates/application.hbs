@@ -1,16 +1,9 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            {{#link-to "index" class="navbar-brand"}}Thymeflow{{/link-to}}
-        </div>
-        <div id="navbar"><!--TODO class="navbar-collapse collapse" -->
-            <ul class="nav navbar-nav">
-                <li>{{#link-to "sparql"}}SPARQL{{/link-to}}</li>
-            </ul>
-        </div>
-    </div>
+<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+  {{#link-to "index" class="navbar-brand"}}Thymeflow{{/link-to}}
+  <ul class="nav navbar-nav">
+    <li class="nav-item">{{#link-to "sparql" class="nav-link"}}SPARQL{{/link-to}}</li>
+  </ul>
 </nav>
-
 <div class="container">
 {{outlet}}
 </div>

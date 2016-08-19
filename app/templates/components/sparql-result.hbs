@@ -1,6 +1,6 @@
-<div class="panel {{if error "panel-danger" "panel-success"}}">
-    <div class="panel-heading{{if hasCsv " panel-heading-nav"}}">
-        <h3 class="panel-title{{if hasCsv " pull-left"}}">
+<div class="card {{if error "card-danger card-inverse"}}">
+    <div class="card-header">
+        <h3 class="{{if hasCsv "pull-left"}}">
             Result {{#if resultCount}}({{resultCount}}){{/if}}
         </h3>
         {{#if hasCsv}}
@@ -9,7 +9,7 @@
         {{/if}}
     </div>
   {{#if error}}
-    <div class="panel-body">{{error}}</div>
+    <div class="card-block"><p class="card-text">{{error}}</p></div>
   {{else if isSelect}}
     <div>
       {{#if isMap}}
@@ -19,7 +19,7 @@
       {{/if}}
     </div>
   {{else if isAsk}}
-    <div class="panel-body">{{#if result.boolean}}true{{else}}false{{/if}}</div>
+    <div class="card-block"><p class="card-text">{{#if result.boolean}}true{{else}}false{{/if}}</p></div>
   {{else if isConstruct}}
     <div>
       {{#if isMap}}
@@ -29,6 +29,6 @@
         {{/if}}
     </div>
   {{else if isUpdate}}
-    <div class="panel-body">UPDATE OK</div>
+    <div class="card-block"><p class="card-text">UPDATE OK</p></div>
   {{/if}}
 </div>
