@@ -8,11 +8,13 @@ export default Ember.Component.extend({
   classNameBindings: ['details:details'],
   classNames: 'timeline-map',
   extent: [-20037508.34,-15037508.34,20037508.34,15037508.34],
-  zoom: 1,
-  center: [0, 0],
-  // observeDetails: function(){
-  //   this.set('size', this.get('size') + 1);
-  // }.on('didUpdate'),
+  observeDetails: function(){
+    const map = this.get('map');
+    if(map != null){
+      map.updateSize();
+    }
+  }.on('didUpdate'),
+  map: null,
   staysClusterDistance: 20,
   locationsStyle: function(){
     return new LocationsStyle({
@@ -34,6 +36,9 @@ export default Ember.Component.extend({
     });
   }.property(),
   actions: {
+    onMapCreated: function(map){
+      this.set('map', map);
+    },
     onSourcePopulated: function(map, layer){
       map.fitViewToExtent(layer.getExtent());
     },

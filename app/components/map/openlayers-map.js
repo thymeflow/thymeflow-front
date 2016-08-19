@@ -82,6 +82,7 @@ export default BaseLayer.extend(ContainerMixin, {
       view.setZoom(this.get('zoom'));
       this._layer.setView(view);
     }
+    this.sendAction('onLayerCreated', this);
   },
   fitViewToExtent: function(extent, duration){
     if(extent && !isExtentInfinite(extent) && !ol.extent.isEmpty(extent) && this._layer)
@@ -104,5 +105,8 @@ export default BaseLayer.extend(ContainerMixin, {
       return true;
     }
     return false;
+  },
+  updateSize: function(){
+    this._layer.updateSize();
   }
 });
