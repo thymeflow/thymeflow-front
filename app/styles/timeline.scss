@@ -4,6 +4,8 @@ $timeline-panel-switch-width: 600px;
 .timeline-container {
   display: flex;
   flex-direction: row;
+  height: 100%;
+  position: relative;
 }
 
 .timeline-map{
@@ -18,6 +20,13 @@ $timeline-panel-switch-width: 600px;
       width: calc(100% - #{$timeline-panel-width});
       order: 2;
     }
+  }
+}
+
+.timeline-map-container{
+  height: 100%;
+  .map-container{
+    height: 100%;
   }
 }
 

@@ -1,8 +1,10 @@
-<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
-  {{#link-to "index" class="navbar-brand"}}Thymeflow{{/link-to}}
-  <ul class="nav navbar-nav">
-    <li class="nav-item">{{#link-to "sparql" class="nav-link"}}SPARQL{{/link-to}}</li>
-    <li class="nav-item">{{#link-to "timeline" class="nav-link"}}Timeline{{/link-to}}</li>
-  </ul>
-</nav>
-{{outlet}}
+<div class="app-header">
+  <nav class="navbar navbar-dark bg-inverse">
+    {{#link-to "index" class="navbar-brand"}}Thymeflow{{/link-to}}
+    <ul class="nav navbar-nav">
+      <li class="nav-item">{{#link-to "sparql" class="nav-link"}}SPARQL{{/link-to}}</li>
+      <li class="nav-item">{{#link-to "timeline" class="nav-link"}}Timeline{{/link-to}}</li>
+    </ul>
+  </nav>
+</div>
+<div class="app-body">{{outlet}}</div>

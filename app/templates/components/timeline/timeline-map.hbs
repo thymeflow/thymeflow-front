@@ -1,4 +1,4 @@
-{{#map/openlayers-map extent=extent controls=mapControls size=size onClick=(action "click") onLayerCreated=(action "onMapCreated") as |layers|}}
+{{#map/openlayers-map class="timeline-map-container" extent=extent controls=mapControls size=size onClick=(action "click") onLayerCreated=(action "onMapCreated") as |layers|}}
   {{layers.cartodbTile}}
   {{layers.vector name="locations" content=locations crs="EPSG:4326" style=locationsStyle.style geometryPath="point" onSourcePopulated=(action "onSourcePopulated")}}
   {{layers.vector name="moves" content=moves crs="EPSG:4326" style=movesStyle.style}}

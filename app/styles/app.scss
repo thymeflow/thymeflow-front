@@ -17,10 +17,38 @@ $custom-file-text: (
 @import "timeline";
 @import "loading";
 
-body {
-  padding-top: 70px;
+body, html{
+  height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
-.panel-heading-nav .panel-title {
-  padding-top: 8px;
+body{
+  box-sizing: border-box;
+}
+
+.app{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-header{
+  -webkit-box-flex: 0;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+  z-index: 10;
+}
+
+.app-body {
+  overflow: auto;
+  flex: 1;
 }
