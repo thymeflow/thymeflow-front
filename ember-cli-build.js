@@ -27,11 +27,14 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
-  // Bootstrap
+  // Bootstrap and tether requirement
   app.import(app.bowerDirectory + '/tether/dist/js/tether.js');
   app.import(app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js');
 
+  // SPARQL parser for javascript
   app.import('bower_components/sparqljs/sparqljs-browser.js');
+  
+  // Download.js is used for downloading files from javascript
   app.import('bower_components/downloadjs/download.js');
 
   // Openlayers 3
