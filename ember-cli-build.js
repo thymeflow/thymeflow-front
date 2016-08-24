@@ -31,6 +31,23 @@ module.exports = function(defaults) {
   app.import(app.bowerDirectory + '/tether/dist/js/tether.js');
   app.import(app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js');
 
+  // Bootbox
+  app.import(`${app.bowerDirectory}/bootbox/bootbox.js`);
+  app.import('vendor/shims/bootbox.js');
+
+  // adds iframe transport support to jQuery.ajax()
+  app.import(`${app.bowerDirectory}/blueimp-file-upload/js/jquery.iframe-transport.js`);
+  /* The basic fileupload plugin - it enhances the file upload process,
+   but doesn't make any assumptions about the user interface or the
+   content-type of the response. */
+  app.import(`${app.bowerDirectory}/blueimp-file-upload/css/jquery.fileupload.css`);
+  app.import(`${app.bowerDirectory}/blueimp-file-upload/js/vendor/jquery.ui.widget.js`);
+  app.import(`${app.bowerDirectory}/blueimp-file-upload/js/jquery.fileupload.js`);
+  // extends the basic version of the fileupload plugin and adds file processing functionality.
+  app.import(`${app.bowerDirectory}/blueimp-file-upload/js/jquery.fileupload-process.js`);
+  // extends the file processing plugin and adds file validation functionality.
+  app.import(`${app.bowerDirectory}/blueimp-file-upload/js/jquery.fileupload-validate.js`);
+  
   // SPARQL parser for javascript
   app.import('bower_components/sparqljs/sparqljs-browser.js');
   
