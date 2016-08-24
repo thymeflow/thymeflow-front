@@ -13,11 +13,8 @@
   <form class="card">
     <div class="card-header">File upload</div>
     <div class="card-block">
-      <div class="form-group{{if fileUploadError " has-danger"}}{{if fileUploadSuccess " has-success"}}">
-        {{file-upload uploadUrl=(concat apiEndpoint "/upload") uploadStarted=(action 'fileUploadStarted') uploadSuccess=(action 'fileUploadSuccess') uploadError=(action 'fileUploadError')  uploadParam='file' limitMultiFileUploads=1}}
-        {{#if fileUploadError}}
-          <div class="form-control-feedback">{{fileUploadError}}</div>
-        {{/if}}
+      <div class="form-group">
+        {{file-upload uploadUrl=(concat apiEndpoint "/upload") uploadParam='file'}}
       </div>
     </div>
   </form>

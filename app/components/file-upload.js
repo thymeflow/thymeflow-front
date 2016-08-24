@@ -1,23 +1,33 @@
 import Ember from 'ember';
 
+const FileUpload = Ember.Object.extend({
+  file: null,
+  uploading: false,
+  progress: 0,
+  error: null,
+  success: null,
+  filename: function(){
+    const file = this.get('file');
+    if(file != null){
+      return file.name;
+    }else{
+      return null;
+    }
+  }.property('file')
+});
+
 export default Ember.Component.extend({
   uploadUrl: '/',
   uploadParam: 'upload',
-  limitMultiFileUploads: void 0,
   tagName: 'div',
-  filename: null,
-  acceptFileTypes: /(\.|\/)(zip|vcf|ics|eml|json)$/i,
-  uploading: false,
+  fileUploads: null,
+  initFileUploads: function(){
+    this.set('fileUploads', Ember.A());
+  }.on('init'),
   method: 'POST',
   dataType: 'json',
-  uploadProgress: 0,
-  error: null,
-  success: null,
   fileIsTooLargeMessage: "File is too large.",
-  uploadErrorMessage: "Error uploading file.",
-  progressBarStyle: (function() {
-    return Ember.String.htmlSafe('width: ' + this.get('uploadProgress') + '%');
-  }).property('uploadProgress'),
+  uploadErrorMessage: "Unknown error.",
   _initializeUploader: (function() {
     const $upload = this.$();
     $upload.fileupload({
@@ -26,54 +36,73 @@ export default Ember.Component.extend({
       dataType: this.get("dataType"),
       paramName: this.get('uploadParam'),
       singleFileUploads: true,
-      acceptFileTypes: this.acceptFileTypes,
-      limitConcurrentUploads: 1
+      sequentialUploads: true,
+      autoUpload: false
     });
-    $upload.on("fileuploadsubmit", (_, data) => {
-      const files = data.files;
-      let filename = null;
-      if(files != null && files.length > 0){
-        filename = files[0].name;
-      }
-      this.setProperties({
-        uploadProgress: 0,
-        uploading: true,
-        filename: filename,
-        error: null,
-        success: null
-      });
-      this.sendAction('uploadStarted', {filename: filename});
-    });
-    $upload.on("fileuploadprogressall", (e, data) => {
-      const progress = parseInt(data.loaded / data.total * 100, 10);
-      this.set("uploadProgress", progress);
-    });
-    $upload.on("fileuploaddone", (e, data) => {
-      this.setProperties({
-        success: true
-      });
-      this.sendAction('uploadSuccess', {result: data.result});
-    });
-    $upload.on("fileuploadfail", (e, data) => {
-      let error = this.get('uploadErrorMessage');
-      if (data.jqXHR) {
-        switch (data.jqXHR.status) {
-          case 413:
-            error = this.get('fileIsTooLargeMessage');
-            break;
-          default:
+    $upload.on("fileuploadprogress", (e, progressData) => {
+      Ember.run(() =>{
+        const fileUpload = this.get('fileUploads').find((fileUpload) => fileUpload.get('file') === progressData.files[0]);
+        if(fileUpload != null){
+          const progress = parseInt(progressData.loaded / progressData.total * 100, 10);
+          fileUpload.setProperties({
+            'progress': progress
+          });
         }
-      }
-      this.setProperties({
-        error: error
       });
-      this.sendAction('uploadError', {error: error});
     });
-    $upload.on("fileuploadalways", () => {
-      this.setProperties({
-        uploading: false,
-        uploadProgress: 0
-      });
+    $upload.on("fileuploadadd", (_, data) =>{
+      const files = data.files;
+      if(files != null && files.length > 0){
+        data.process().done(() => {
+          Ember.run(() => {
+            const file = files[0];
+            const fileUpload = FileUpload.create({
+              uploading: true,
+              file: file
+            });
+            const fileUploads = this.get('fileUploads');
+            fileUploads.addObject(fileUpload);
+            data.submit()
+              .fail((e, failData) =>{
+                Ember.run(() => {
+                  let error = this.get('uploadErrorMessage');
+                  if (failData.jqXHR) {
+                    switch (failData.jqXHR.status) {
+                      case 413:
+                        error = this.get('fileIsTooLargeMessage');
+                        break;
+                      default:
+                    }
+                  }
+                  fileUpload.setProperties({
+                    error: error
+                  });
+                  this.sendAction('uploadError', fileUpload);
+                });
+              })
+              .done((e, doneData) => {
+                Ember.run(() => {
+                  fileUpload.setProperties({
+                    'progress': 100,
+                    'success': true,
+                    'result': doneData.result
+                  });
+                  this.sendAction('uploadSuccess', fileUpload);
+                  Ember.run.later(this, () => {
+                    fileUploads.removeObject(fileUpload);
+                  }, 30000);
+                });
+              })
+              .always(() => {
+                Ember.run(() => {
+                  fileUpload.setProperties({
+                    uploading: false
+                  });
+                });
+              });
+          });
+        });
+      }
     });
   }).on("didInsertElement"),
   _destroyUploader: (function() {

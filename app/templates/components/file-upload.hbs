@@ -1,17 +1,8 @@
-<div class="input-group">
-  <span class="input-group-btn">
-    <span class="btn btn-success fileinput-button">
-      <i class="fa fa-plus"></i>
-      <span>Drop files<input multiple="" name="upload" type="file" /></span>
-    </span>
-  </span>
-  <input type="text" class="form-control{{if error " form-control-danger"}}{{if success " form-control-success"}}" placeholder={{filename}} readonly>
-</div>
-{{#if uploading}}
-  <div class="text-xs-center">Uploading {{filename}}&hellip; {{uploadProgress}}%</div>
-  <progress class="progress progress-striped" value={{uploadProgress}} max="100">
-    <div class="progress progress-striped">
-      <span class="progress-bar" style={{progressBarStyle}}>{{uploadProgress}}%</span>
-    </div>
-  </progress>
-{{/if}}
+<span class="btn btn-primary fileinput-button form-control">
+  <i class="fa fa-plus"></i>
+  <span>Drop files<input multiple="" name="upload" type="file"/></span>
+</span>
+{{#each fileUploads as |file|}}
+  <div class="text-xs-center{{if file.error " form-control-danger"}}{{if file.success " form-control-success"}}">{{#if file.uploading}}Uploading <strong>{{file.filename}}</strong>&hellip; {{file.progress}}%{{else}}{{#if file.success}}<strong>{{file.filename}}</strong> uploaded successfully!{{else}}{{#if file.error}}Error uploading <strong>{{file.filename}}</strong>: {{file.error}}{{/if}}{{/if}}{{/if}}</div>
+  <progress class="progress progress-striped{{if file.error " progress-danger"}}{{if file.success " progress-success"}}" value={{file.progress}} max="100"></progress>
+{{/each}}
