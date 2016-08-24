@@ -1,0 +1,17 @@
+<div class="input-group">
+  <span class="input-group-btn">
+    <span class="btn btn-success fileinput-button">
+      <i class="fa fa-plus"></i>
+      <span>Drop files<input multiple="" name="upload" type="file" /></span>
+    </span>
+  </span>
+  <input type="text" class="form-control{{if error " form-control-danger"}}{{if success " form-control-success"}}" placeholder={{filename}} readonly>
+</div>
+{{#if uploading}}
+  <div class="text-xs-center">Uploading {{filename}}&hellip; {{uploadProgress}}%</div>
+  <progress class="progress progress-striped" value={{uploadProgress}} max="100">
+    <div class="progress progress-striped">
+      <span class="progress-bar" style={{progressBarStyle}}>{{uploadProgress}}%</span>
+    </div>
+  </progress>
+{{/if}}

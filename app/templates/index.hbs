@@ -10,16 +10,15 @@
     </ul>
   </div>
 
-  <form class="card" action="{{apiEndpoint}}/upload" method="POST" enctype="multipart/form-data">
+  <form class="card">
     <div class="card-header">File upload</div>
     <div class="card-block">
-      <div class="form-group">
-        <label class="custom-file" for="file">
-          <input type="file" id="file" name="file" class="custom-file-input" required>
-          <span class="custom-file-control">Choose file...</span>
-        </label>
+      <div class="form-group{{if fileUploadError " has-danger"}}{{if fileUploadSuccess " has-success"}}">
+        {{file-upload uploadUrl=(concat apiEndpoint "/upload") uploadStarted=(action 'fileUploadStarted') uploadSuccess=(action 'fileUploadSuccess') uploadError=(action 'fileUploadError')  uploadParam='file' limitMultiFileUploads=1}}
+        {{#if fileUploadError}}
+          <div class="form-control-feedback">{{fileUploadError}}</div>
+        {{/if}}
       </div>
-      <button type="submit" class="btn btn-primary">Upload</button>
     </div>
   </form>
 

@@ -3,10 +3,25 @@ import ENV from 'thymeflow-front/config/environment';
 
 export default Ember.Controller.extend({
    apiEndpoint: ENV.APP.API_ENDPOINT,
-   fileUploadName: null,
+   fileUploadSuccess: null,
+   fileUploadError: null,
    actions:{
-      fileUploadChanged(fileUploadName){
-         this.set('fileUploadName', fileUploadName);
+      fileUploadStarted(data){
+         this.setProperties({
+            fileUploadFilename: data.filename,
+            fileUploadError: null,
+            fileUploadSuccess: null
+         });
+      },
+      fileUploadSuccess(){
+         this.setProperties({
+            fileUploadSuccess: true
+         });
+      },
+      fileUploadError(data){
+         this.setProperties({
+            fileUploadError: data.error
+         });
       }
    }
 });
