@@ -1,28 +1,9 @@
 <div class="container">
   <h1>Welcome to Thymeflow</h1>
   <hr>
-  <div class="card external-connection-card">
-    <div class="card-header">Connect with external services</div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">
-        <a class="external-connect-link" href="{{apiEndpoint}}/oauth/google/auth">
-          <i class="fa fa-google"></i>
-          Google
-        </a>
-      </li>
-      <li class="list-group-item">
-        <a class="external-connect-link" href="{{apiEndpoint}}/oauth/microsoft/auth">
-          <i class="fa fa-windows"></i>
-          Microsoft
-        </a>
-      </li>
-      <li class="list-group-item">
-        <a class="external-connect-link" href="{{apiEndpoint}}/oauth/facebook/auth">
-          <i class="fa fa-facebook"></i>
-          Facebook
-        </a>
-      </li>
-    </ul>
+  <div class="card">
+  <div class="card-header">Connect with external services</div>
+    {{external-services-listing}}
   </div>
 
   <form class="card">

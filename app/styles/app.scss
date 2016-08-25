@@ -16,6 +16,7 @@ $custom-file-text: (
 @import 'ember-power-select';
 @import "timeline";
 @import "loading";
+@import "components/external-services-listing";
 
 body, html{
   height: 100%;
@@ -54,24 +55,4 @@ body{
 .app-body {
   overflow: auto;
   flex: 1;
-  .external-connection-card ul {
-    display: flex;
-    text-align: center;
-    .list-group-item {
-      margin-bottom: 0px;
-      border: 0;
-      padding: 0px;
-      margin: 0.75rem 1.25rem;
-    }
-    a,
-    a:hover {
-        text-decoration: none;
-    }
-    li {
-      width: 100%;
-      i {
-          margin-right: 5px;
-      }
-    }
-  }
 }
