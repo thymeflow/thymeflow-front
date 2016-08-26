@@ -17,6 +17,7 @@ const ColumnDefinition = Ember.Object.extend({
 
 export default Ember.Component.extend({
   scrollLeft: 0,
+  classNames: 'sparql-result-table',
   columnsPercent: [100],
   headerStyle: function () {
     return Ember.String.htmlSafe(`width: ${this.get('tableWidth')}px`);

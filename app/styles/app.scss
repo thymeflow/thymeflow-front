@@ -8,6 +8,8 @@ $custom-file-text: (
 );
 
 @import 'bower_components/bootstrap/scss/bootstrap-flex';
+@import "mixins/scrollbar";
+
 @import "rdf-json";
 @import "responsive-svg";
 @import "sparql-result";

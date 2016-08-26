@@ -1,3 +1,7 @@
+.sparql-result-table{
+  @include scrollbar();
+}
+
 .sparql-result-table-body {
   position: relative;
   height: 555px;
@@ -14,7 +18,9 @@
   overflow-y: hidden;
   overflow-x: auto;
   font-family: monospace;
-  border-bottom: 4px solid #ddd;
+  color: $gray;
+  background-color: $gray-lighter;
+  border-bottom: 2px solid #ddd;
   .sparql-result-table-cell {
     vertical-align: bottom;
     text-align: left;
@@ -25,7 +31,7 @@
 
 .sparql-result-table-row {
   font-family: monospace;
-  border-bottom: 1px solid #ddd;
+  border-bottom: $table-border-width solid $table-border-color;
   & > .sparql-result-table-cell {
     padding: 8px;
     vertical-align: top;
