@@ -42,6 +42,9 @@ export default Ember.Component.extend({
       return 0;
     }
   },
+  estimatedColumnNameLength: function(name){
+    return name.length;
+  },
   observesResult: function () {
     const removePrefix = this.get('removePrefix');
     const result = this.get('result');
@@ -53,6 +56,7 @@ export default Ember.Component.extend({
       return columns.map(column => {
         // copy the column value
         let valueForColumn = binding[column.name];
+        column.extendLength(this.estimatedColumnNameLength(column.name));
         if (valueForColumn != null) {
           valueForColumn = Object.assign({}, valueForColumn);
           column.extendLength(this.estimatedLength(valueForColumn));
