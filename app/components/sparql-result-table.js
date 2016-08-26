@@ -1,6 +1,6 @@
 import Ember from "ember";
 
-const pixelsPerCharacter = 7.7;
+const pixelsPerCharacter = 8.8;
 
 const ColumnDefinition = Ember.Object.extend({
   width: function () {
