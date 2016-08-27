@@ -2,7 +2,7 @@ import Ember from 'ember';
 import moment from 'moment';
 import ol from 'ol';
 
-const geoRegex = /^geo:([0-9.]*),([0-9.]*)[^;]*(?:;(?:u=([0-9.]*))?)?/;
+const geoRegex = /^geo:(-?\d*\.?\d*),(-?\d*\.?\d*)[^;]*(?:;(?:u=([0-9.]*))?)?/;
 
 function parseGeoUri(geoUri){
   const m = geoUri.match(geoRegex);
