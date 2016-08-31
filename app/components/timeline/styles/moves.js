@@ -26,15 +26,45 @@ export default Ember.Object.extend({
       width: 6
     })
   }),
+  eventStrokeInnerStyle: new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: '#c84137',
+      width: 4
+    })
+  }),
+  eventStrokeOuterStyle: new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: '#501a16',
+      width: 6
+    })
+  }),
+  selectedEventStrokeInnerStyle: new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: '#501a16',
+      width: 4
+    })
+  }),
+  selectedEventStrokeOuterStyle: new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: '#501a16',
+      width: 6
+    })
+  }),
   style: (function() {
     const normalStyles = [this.get("strokeOuterStyle"), this.get("strokeInnerStyle")];
     const selectedStyles = [this.get("selectedStrokeOuterStyle"), this.get("selectedStrokeInnerStyle")];
+    const eventNormalStyles = [this.get("eventStrokeOuterStyle"), this.get("eventStrokeInnerStyle")];
+    const selectedEventStyles = [this.get("selectedEventStrokeOuterStyle"), this.get("selectedEventStrokeInnerStyle")];
     const selectedStayMove = this.get('selectedStayMove');
+    const showEvents = this.get('showEvents');
     return function(feature, resolution){
       const geometry = feature.getGeometry();
-      const isSelected = feature.get("data") === selectedStayMove;
+      const data = feature.get("data");
+      const hasEvents = showEvents && data.get('events.length') > 0;
+      const isSelected = data === selectedStayMove;
       // clone the styles
-      const styles = isSelected ? selectedStyles.slice() : normalStyles.slice();
+      const styles = isSelected ? (hasEvents ? selectedEventStyles.slice() : selectedStyles.slice()): (hasEvents ? eventNormalStyles.slice() : normalStyles.slice());
+      const arrowIcon = isSelected ? (hasEvents ? "selected-event-arrow.svg" : "selected-arrow.svg") : (hasEvents ? "event-arrow.svg" : "arrow.svg");
       if(resolution < 10.0){
         const coordinates = geometry.getCoordinates();
         if(coordinates.length >= 2){
@@ -47,7 +77,7 @@ export default Ember.Object.extend({
           styles.push(new ol.style.Style({
             geometry: new ol.geom.Point([start[0] + dx/2.0,start[1] + dy/2.0]),
             image: new ol.style.Icon({
-              src: "assets/images/arrow.svg",
+              src: `assets/images/${arrowIcon}`,
               anchor: [0.5, 0.5],
               rotateWithView: false,
               rotation: - rotation,
@@ -58,5 +88,5 @@ export default Ember.Object.extend({
       }
       return styles;
     };
-  }).property('selectedStayMove')
+  }).property('selectedStayMove', 'showEvents')
 });

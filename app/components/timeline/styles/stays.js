@@ -6,60 +6,108 @@ export default Ember.Object.extend({
   imageStrokeColor: '#164450',
   imageStrokeWidth: 1,
   imageRadius: 15,
-  clusterDistance: 20,
   selectedImageFillColor: '#164450',
   selectedImageStrokeColor: '#164450',
   selectedImageStrokeWidth: 1,
   selectedImageRadius: 15,
+  eventImageFillColor: '#c84137',
+  eventImageStrokeColor: '#501a16',
+  eventImageStrokeWidth: 1,
+  eventImageRadius: 15,
+  selectedEventImageFillColor: '#501a16',
+  selectedEventImageStrokeColor: '#501a16',
+  selectedEventImageStrokeWidth: 1,
+  selectedEventImageRadius: 15,
+  clusterDistance: 20,
   textFillColor: '#FFFFFF',
+  imageFillStyle: function() {
+    return new ol.style.Fill({
+      color: this.get('imageFillColor')
+    });
+  }.property(),
   imageStrokeStyle: function() {
     return new ol.style.Stroke({
       color: this.get('imageStrokeColor'),
       width: this.get('imageStrokeWidth')
     });
   }.property(),
-  imageFill: function() {
-    return new ol.style.Fill({
-      color: this.get('imageFillColor')
-    });
-  }.property(),
-  selectedImageFill: function() {
+  selectedImageFillStyle: function() {
     return new ol.style.Fill({
       color: this.get('selectedImageFillColor')
     });
   }.property(),
-  selectedImageStroke: function() {
+  selectedImageStrokeStyle: function() {
     return new ol.style.Stroke({
       color: this.get('selectedImageStrokeColor'),
       width: this.get('selectedImageStrokeWidth')
     });
   }.property(),
-  textFill: function() {
+  textFillStyle: function() {
     return new ol.style.Fill({
       color: this.get('textFillColor')
     });
   }.property(),
+  eventImageFillStyle: function() {
+    return new ol.style.Fill({
+    color: this.get('eventImageFillColor')
+  });
+  }.property(),
+  eventImageStrokeStyle: function() {
+    return new ol.style.Stroke({
+      color: this.get('eventImageStrokeColor'),
+      width: this.get('eventImageStrokeWidth')
+    });
+  }.property(),
+  selectedEventImageFillStyle: function() {
+    return new ol.style.Fill({
+      color: this.get('selectedEventImageFillColor')
+    });
+  }.property(),
+  selectedEventImageStrokeStyle: function() {
+    return new ol.style.Stroke({
+      color: this.get('selectedEventImageStrokeColor'),
+      width: this.get('selectedEventImageStrokeWidth')
+    });
+  }.property(),
   style: (function() {
-    const imageFill = this.get('imageFill');
-    const imageStroke = this.get('imageStrokeStyle');
+    const imageFillStyle = this.get('imageFillStyle');
+    const imageStrokeStyle = this.get('imageStrokeStyle');
     const imageRadius = this.get('imageRadius');
-    const selectedImageFill = this.get('selectedImageFill');
-    const selectedImageStroke = this.get('selectedImageStroke');
+    const selectedImageFillStyle = this.get('selectedImageFillStyle');
+    const selectedImageStrokeStyle = this.get('selectedImageStrokeStyle');
     const selectedImageRadius = this.get('selectedImageRadius');
-    const textFill = this.get('textFill');
+    const eventImageFillStyle = this.get('eventImageFillStyle');
+    const eventImageStrokeStyle = this.get('eventImageStrokeStyle');
+    const eventImageRadius = this.get('eventImageRadius');
+    const selectedEventImageFillStyle = this.get('selectedEventImageFillStyle');
+    const selectedEventImageStrokeStyle = this.get('selectedEventImageStrokeStyle');
+    const selectedEventImageRadius = this.get('selectedEventImageRadius');
+    const textFillStyle = this.get('textFillStyle');
     const selectedStayMove = this.get('selectedStayMove');
-    var styleCache = {};
+    const styleCache = {};
+    const showEvents = this.get('showEvents');
+    function getImageStyle(text, imageRadius, imageFillStyle, imageStrokeStyle){
+      return new ol.style.Circle({
+        radius: imageRadius + (text.length - 1) * imageRadius * 0.15,
+        fill: imageFillStyle,
+        stroke: imageStrokeStyle
+      });
+    }
     return function(featuresFeature){
-      var features = featuresFeature.get('features');
+      let features = featuresFeature.get('features');
+      let hasEvents = false;
       if(!features){
         features = [featuresFeature];
       }
-      var isSelected = false;
-      var text = "";
-      var featureArray = features.map((feature) => {
+      let isSelected = false;
+      let text = "";
+      const featureArray = features.map((feature) => {
         const data = feature.get("data");
         if(data === selectedStayMove){
           isSelected = true;
+        }
+        if(showEvents && data.get('events.length') > 0){
+          hasEvents = true;
         }
         return data.get('index');
       });
@@ -68,31 +116,32 @@ export default Ember.Object.extend({
       }else{
         text = featureArray.join(",");
       }
-      var imageStyle = styleCache[text.length + "," + isSelected];
+      const cacheKey = text.length + "," + isSelected + "," + hasEvents;
+      var imageStyle = styleCache[cacheKey];
       if(!imageStyle){
         if(isSelected) {
-          imageStyle = new ol.style.Circle({
-            radius: selectedImageRadius + (text.length - 1) * selectedImageRadius * 0.15,
-            fill: selectedImageFill,
-            stroke: selectedImageStroke
-          });
+          if(hasEvents){
+            imageStyle = getImageStyle(text, selectedEventImageRadius, selectedEventImageFillStyle, selectedEventImageStrokeStyle);
+          }else{
+            imageStyle = getImageStyle(text, selectedImageRadius, selectedImageFillStyle, selectedImageStrokeStyle);
+          }
         }else{
-          imageStyle = new ol.style.Circle({
-            radius: imageRadius + (text.length - 1) * imageRadius * 0.15,
-            fill: imageFill,
-            stroke: imageStroke
-          });
+          if(hasEvents){
+            imageStyle = getImageStyle(text, eventImageRadius, eventImageFillStyle, eventImageStrokeStyle);
+          }else{
+            imageStyle = getImageStyle(text, imageRadius, imageFillStyle, imageStrokeStyle);
+          }
         }
-        styleCache[text.length + "," + isSelected] = imageStyle;
+        styleCache[cacheKey] = imageStyle;
       }
       return [new ol.style.Style({
         image: imageStyle,
         text: new ol.style.Text({
           font: '20px Calibri,sans-serif',
           text: String(text),
-          fill: textFill
+          fill: textFillStyle
         })
       })];
     };
-  }).property('selectedStayMove')
+  }).property('selectedStayMove', 'showEvents')
 });

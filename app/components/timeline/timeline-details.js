@@ -12,6 +12,19 @@ export default Ember.Component.extend({
     }
   }.property('items.[]'),
   actions: {
+    scrollTo(element){
+      const $ = this.$();
+      if($ != null){
+        const $element = this.$(element);
+        const top = $.scrollTop();
+        const bottom = top + $.height();
+        const elemTop = $.position().top + $element.position().top;
+        const elemBottom = elemTop + $element.height();
+        if((elemBottom > bottom) || (elemTop < top)){
+          $.animate({ scrollTop: elemTop });
+        }
+      }
+    },
     nextDate(){
       const date = this.get('date');
       if(date != null){

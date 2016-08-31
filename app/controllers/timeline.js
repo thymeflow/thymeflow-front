@@ -3,27 +3,38 @@ import ol from 'ol';
 
 
 export default Ember.Controller.extend({
-  queryParams: ["date", "minimumStayDurationMinutes", "details", "showLocationAccuracy"],
+  queryParams: ["date", "minimumStayDurationMinutes","showLocations","details","showEvents", "showLocationAccuracy"],
   date: null,
   details: false,
+  showLocations: true,
   showLocationAccuracy: false,
+  showEvents: false,
+  locations: function(){
+    if(this.get('showLocations')){
+      return this.get('model.locations');
+    }else{
+      return Ember.A();
+    }
+  }.property('model.locations', 'showLocations'),
+  events: null,
   minimumStayDurationMinutes: 15,
   filteredStays: null,
   filteredMoves: null,
   filteredStayMoves: null,
   selectedStayMove: null,
   noLocations: function() {
-    const items = this.get('model.locations');
-    if(items != null){
-      return items.get('length') === 0;
+    const locations = this.get('model.locations');
+    const noStays = this.get('noStays');
+    if(locations != null){
+      return locations.get('length') === 0 && noStays;
     }else{
-      return true;
+      return noStays;
     }
-  }.property('model.locations.[]'),
+  }.property('model.locations.[]', 'noStays'),
   noStays: function() {
-    const items = this.get('model.stays');
-    if(items != null){
-      return items.get('length') === 0;
+    const stays = this.get('model.stays');
+    if(stays != null){
+      return stays.get('length') === 0;
     }else{
       return true;
     }
@@ -81,7 +92,8 @@ export default Ember.Controller.extend({
             type: 'stay',
             from: from,
             to: to,
-            geometry: stay.point
+            geometry: stay.point,
+            events: stay.events
           });
           stayIndex += 1;
           filteredStayMoves.push(stayO);

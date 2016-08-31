@@ -14,7 +14,9 @@
       {{#if noLocations}}
           <div class="alert alert-info" role="alert">There are no locations to display for this date.</div>
       {{else}}
-          <label>{{input type="checkbox" checked=showLocationAccuracy}} Show accuracies.</label>
+          <label>{{input type="checkbox" checked=showLocationAccuracy}} Accuracy</label>
+          <label>{{input type="checkbox" checked=showEvents}} Events</label>
+          <label>{{input type="checkbox" checked=showLocations}} Locations</label>
           {{#if noStays}}
               <div class="alert alert-info" role="alert">There are no stays to display.</div>
           {{else}}
@@ -26,7 +28,7 @@
                   <table class="table timeline table-hover">
                       <tbody>
                       {{#each items as |item|}}
-                          {{timeline/timeline-details-item item=item date=date toggleSelected=(action 'toggleSelected') selectedItem=selectedItem}}
+                          {{timeline/timeline-details-item scrollTo=(action 'scrollTo') item=item date=date showEvents=showEvents toggleSelected=(action 'toggleSelected') selectedItem=selectedItem}}
                       {{/each}}
                       </tbody>
                   </table>

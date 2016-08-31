@@ -83,13 +83,25 @@ $timeline-panel-switch-width: 600px;
   position:relative;
 }
 .timeline-stay-column{
-  text-align: right;
-  & > span{
+  & > span.timeline-stay-index{
+    float: right;
     color: #fff;
     padding: 0.2em 0.45em 0.2em 0.45em;
     background-color: #37abc8;
     border-radius: 1em;
     border: 1px solid #164450;
+    line-height: normal;
+  }
+  & > span.timeline-event-count{
+    float: left;
+    line-height: normal;
+    color: #fff;
+    padding: 0.2em 0.45em 0.2em 0.45em;
+    background-color: #c84137;
+    border: 1px solid #501a16;
+  }
+  i {
+    margin-right: 1em;
   }
 }
 

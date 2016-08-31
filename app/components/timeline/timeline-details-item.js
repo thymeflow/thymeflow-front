@@ -4,6 +4,9 @@ import moment from 'moment';
 export default Ember.Component.extend({
   tagName: '',
   item: null,
+  showEventsNotEmpty: function(){
+    return this.get('showEvents') && this.get('item.events.length') > 0;
+  }.property('showEvents', 'item.events.length'),
   highlighted: function(){
     return this.get('item') === this.get('selectedItem');
   }.property('selectedItem'),

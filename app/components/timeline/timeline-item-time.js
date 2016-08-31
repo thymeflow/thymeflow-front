@@ -6,15 +6,13 @@ export default Ember.Component.extend({
   format: 'HH:mm',
   item: null,
   relativeTo: null,
-
   formatted: (function() {
     const relativeTo = this.get('relativeTo');
-    const item = this.get('item');
-    if(item != null && relativeTo != null){
+    const from = this.get('from');
+    const to = this.get('to');
+    if(from != null && to != null && relativeTo != null){
       const format = this.get('format');
       const unit = this.get('unit');
-      const from = item.get("from");
-      const to = item.get("to");
       const relativeToStartOfDay = relativeTo.clone().startOf(unit);
       const fromDiff = from.clone().startOf(unit).diff(relativeToStartOfDay,unit);
       if(fromDiff > 0){
@@ -30,6 +28,5 @@ export default Ember.Component.extend({
     }else{
       return "";
     }
-  }).property('item', 'unit', 'format', 'relativeTo')
+  }).property('from', 'to', 'unit', 'format', 'relativeTo')
 });
-
