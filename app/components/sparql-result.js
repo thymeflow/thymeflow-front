@@ -48,10 +48,11 @@ export default Ember.Component.extend({
         const data = header.join(",") + "\n" +
           result.results.bindings.map(row => header.map(function (varName) {
             const cell = row[varName];
-            if (cell == null) {
+            if (cell == null || cell === '') {
               return '';
             } else {
-              return '"' + cell.value.replace('"', '""') + '"';
+              const escapedQuotesCellValue = cell.value.replace(/"/g, '""');
+              return `"${escapedQuotesCellValue}"`;
             }
           }).join(",")).join("\n");
         download(data, "sparql-result.csv", "text/csv");
