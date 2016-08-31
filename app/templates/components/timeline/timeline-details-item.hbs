@@ -8,6 +8,6 @@
     <tr class="timeline-row {{if highlighted "table-info" ""}}" {{action "toggleSelected" on="click"}}>
         <td></td>
         <td class="timeline-line-column"></td>
-        <td>{{duration}}</td>
+        <td>{{durationFormatted}} - {{distanceFormatted}} ({{speedFormatted}})</td>
     </tr>
 {{/if}}

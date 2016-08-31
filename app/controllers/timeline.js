@@ -41,6 +41,13 @@ export default Ember.Controller.extend({
       const startOfDay = date.clone().startOf('day');
       const endOfDay = date.clone().endOf('day');
       let moveCoordinates = [];
+      let moveDistance = 0;
+      const addMoveCoordinates = (newCoordinates) => {
+        if(moveCoordinates.length > 0){
+          moveDistance += ol.sphere.WGS84.haversineDistance(moveCoordinates[moveCoordinates.length - 1], newCoordinates);
+        }
+        moveCoordinates.push(newCoordinates);
+      };
       let stayIndex = 1;
       stays.forEach((stay, index) => {
         const {from: from, to: to, longitude: longitude, latitude: latitude} = stay;
@@ -54,11 +61,14 @@ export default Ember.Controller.extend({
             }));
           }
           if(lastTo != null){
-            moveCoordinates.push(currentCoordinates);
+            addMoveCoordinates(currentCoordinates);
+            const moveDuration = from.diff(lastTo,'seconds');
             const move = new Ember.Object({
               type: 'move',
               from: lastTo,
               to: from,
+              distance: moveDistance,
+              speed: moveDistance / moveDuration,
               geometry: new ol.geom.LineString(moveCoordinates)
             });
             filteredStayMoves.push(move);
@@ -77,7 +87,7 @@ export default Ember.Controller.extend({
           filteredStayMoves.push(stayO);
           filteredStays.push(stayO);
         }else{
-          moveCoordinates.push(currentCoordinates);
+          addMoveCoordinates(currentCoordinates);
         }
       });
       if(lastTo != null && lastTo.isBefore(endOfDay)) {
