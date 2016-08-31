@@ -50,14 +50,16 @@ export default Ember.Component.extend({
     const removePrefix = this.get('removePrefix');
     const result = this.get('result');
     const vars = result.head.vars;
-    const columns = vars.map(varName => ColumnDefinition.create({name: varName}));
+    const columns = vars.map(varName => ColumnDefinition.create({
+      name: varName,
+      length: this.estimatedColumnNameLength(varName)
+    }));
     const columnByName = new Map();
     columns.forEach(column => columnByName.set(column.get('name'), column));
     this.set('rows', result.results.bindings.map(binding => {
       return columns.map(column => {
         // copy the column value
         let valueForColumn = binding[column.name];
-        column.extendLength(this.estimatedColumnNameLength(column.name));
         if (valueForColumn != null) {
           valueForColumn = Object.assign({}, valueForColumn);
           column.extendLength(this.estimatedLength(valueForColumn));
