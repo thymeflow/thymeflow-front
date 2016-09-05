@@ -64,8 +64,10 @@ export default Ember.Component.extend({
           valueForColumn = Object.assign({}, valueForColumn);
           column.extendLength(this.estimatedLength(valueForColumn));
           valueForColumn.value = removePrefix(valueForColumn.value);
-          valueForColumn.column = column;
+        }else {
+          valueForColumn = {};
         }
+        valueForColumn.column = column;
         return valueForColumn;
       });
     }));
