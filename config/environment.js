@@ -41,7 +41,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.APP.API_ENDPOINT = "";
+    ENV.APP.API_ENDPOINT = process.env.API_ENDPOINT;
   }
 
   return ENV;
