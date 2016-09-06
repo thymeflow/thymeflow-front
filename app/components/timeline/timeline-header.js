@@ -9,7 +9,8 @@ export default Ember.Component.extend({
   dateJs: function(){
     const date = this.get('date');
     if(date != null){
-      return date.toDate();
+      // parse the raw date in the browser's timezone
+      return moment(date, "YYYY-MM-DD").toDate();
     }else{
       return date;
     }
@@ -26,11 +27,14 @@ export default Ember.Component.extend({
     },
     showDate(date){
       if(date != null){
+        // provide the date in the browser's timezone
         this.get('onDate')(moment(date));
       }
     },
     showToday() {
-      this.get('onDate')(moment());
+      // Today in the current time zone !
+      const timeZone = this.get('timeZone');
+      this.get('onDate')(moment().tz(timeZone));
     }
   }
 });

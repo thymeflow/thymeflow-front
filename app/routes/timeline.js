@@ -76,12 +76,11 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
     }
   },
   model(params){
-    var date = params.date;
     const timeZone = params.timeZone;
-    date = moment(date, "YYYY-MM-DD").tz(timeZone);
-    if(date.isValid()){
-      const end = date.endOf('day').toISOString();
-      const start = date.startOf('day').toISOString();
+    const parsedDateAtTimeZone = moment.tz(params.date, "YYYY-MM-DD", timeZone);
+    if(parsedDateAtTimeZone.isValid()){
+      const end = parsedDateAtTimeZone.endOf('day').toISOString();
+      const start = parsedDateAtTimeZone.startOf('day').toISOString();
       const query = this.locationsQuery(start, end);
       const rawLocationsPromise = this.get('sparql').query(query).then(function(queryResult){
         return queryResult.content.results.bindings;
@@ -173,7 +172,7 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
         }).filter(x => x != null);
       });
       return Ember.RSVP.hash({
-        date: date,
+        date: parsedDateAtTimeZone,
         locations: locationsPromise,
         stays: staysPromise
       });

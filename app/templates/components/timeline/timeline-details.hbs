@@ -1,7 +1,7 @@
 <div class="container">
   <div class="timeline-details-header">
     {{#if date}}
-      <h2 class="timeline-details-header-date">{{moment-format date "dddd, LL"}}</h2>
+      <h2 class="timeline-details-header-date">{{moment-format date "dddd, LL (Z)"}}</h2>
       <div class="timeline-details-header-buttons btn-group">
           <button class="btn btn-secondary btn-sm" {{action 'previousDate'}}>{{fa-icon "angle-left"}}</button>
           <button class="btn btn-secondary btn-sm" {{action 'nextDate'}}>{{fa-icon "angle-right"}}</button>
