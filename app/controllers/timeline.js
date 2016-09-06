@@ -49,9 +49,8 @@ export default Ember.Controller.extend({
       const filteredStayMoves = [];
       const filteredStays = [];
       const filteredMoves = [];
-      let lastTo = null;
-      const startOfDay = date.clone().startOf('day');
-      const endOfDay = date.clone().endOf('day');
+      let firstMoveStepFrom = null;
+      let previousMoveStepTo = null;
       let moveCoordinates = [];
       let moveDistance = 0;
       const addMoveCoordinates = (newCoordinates) => {
@@ -61,23 +60,16 @@ export default Ember.Controller.extend({
         moveCoordinates.push(newCoordinates);
       };
       let stayIndex = 1;
-      stays.forEach((stay, index) => {
+      stays.forEach((stay/*, index*/) => {
         const {from: from, to: to, longitude: longitude, latitude: latitude} = stay;
         const currentCoordinates = [longitude, latitude];
         if(to.diff(from,'minutes') >= minimumStayDuration){
-          if(index === 0 && from.isAfter(startOfDay)){
-            filteredStayMoves.push(new Ember.Object({
-              type: 'move',
-              from: startOfDay,
-              to: from
-            }));
-          }
-          if(lastTo != null){
+          if(firstMoveStepFrom != null){
             addMoveCoordinates(currentCoordinates);
-            const moveDuration = from.diff(lastTo,'seconds');
+            const moveDuration = from.diff(firstMoveStepFrom,'seconds');
             const move = new Ember.Object({
               type: 'move',
-              from: lastTo,
+              from: firstMoveStepFrom,
               to: from,
               distance: moveDistance,
               speed: moveDistance / moveDuration,
@@ -86,7 +78,8 @@ export default Ember.Controller.extend({
             filteredStayMoves.push(move);
             filteredMoves.push(move);
           }
-          lastTo = to;
+          firstMoveStepFrom = to;
+          previousMoveStepTo = null;
           moveCoordinates = [currentCoordinates];
           const stayO = new Ember.Object({
             index: stayIndex,
@@ -100,15 +93,25 @@ export default Ember.Controller.extend({
           filteredStayMoves.push(stayO);
           filteredStays.push(stayO);
         }else{
+          if(firstMoveStepFrom == null){
+            firstMoveStepFrom = from;
+          }
+          previousMoveStepTo = to;
           addMoveCoordinates(currentCoordinates);
         }
       });
-      if(lastTo != null && lastTo.isBefore(endOfDay)) {
-        filteredStayMoves.push(new Ember.Object({
+      if(previousMoveStepTo != null && moveCoordinates.length >= 2) {
+        const moveDuration = previousMoveStepTo.diff(firstMoveStepFrom,'seconds');
+        const move = new Ember.Object({
           type: 'move',
-          from: lastTo,
-          to: endOfDay
-        }));
+          from: firstMoveStepFrom,
+          to: previousMoveStepTo,
+          distance: moveDistance,
+          speed: moveDistance / moveDuration,
+          geometry: new ol.geom.LineString(moveCoordinates)
+        });
+        filteredStayMoves.push(move);
+        filteredMoves.push(move);
       }
       this.set('filteredStayMoves', filteredStayMoves);
       this.set('filteredStays', filteredStays);
