@@ -18,16 +18,16 @@ export default Ember.Component.extend({
   }.property('item.from', 'item.to'),
   speedFormatted: function(){
     const speed = this.get('item.speed');
-    return `${Math.round(speed * 10) / 10}m/s`;
+    return `${Math.round(speed * 10) / 10} m/s`;
   }.property(),
   distanceFormatted: function(){
     const distance = this.get('item.distance');
     if(distance >= 1000){
       const distanceKilometers = Math.round(distance / 100) / 10;
-      return `${distanceKilometers}km`;
+      return `${distanceKilometers} km`;
     }else{
       const distanceMeters = Math.round(distance);
-      return `${distanceMeters}m`;
+      return `${distanceMeters} m`;
     }
   }.property(),
   actions: {
