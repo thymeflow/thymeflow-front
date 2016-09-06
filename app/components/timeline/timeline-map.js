@@ -27,14 +27,14 @@ export default Ember.Component.extend({
     return new MovesStyle({
       component: this,
       selectedStayMoveBinding: "component.selectedStayMove",
-      showEvents: "component.showEvents"
+      showEventsBinding: "component.showEvents"
     });
   }.property(),
   staysStyle: function(){
     return new StaysStyle({
       component: this,
       selectedStayMoveBinding: "component.selectedStayMove",
-      showEvents: "component.showEvents"
+      showEventsBinding: "component.showEvents"
     });
   }.property(),
   actions: {
