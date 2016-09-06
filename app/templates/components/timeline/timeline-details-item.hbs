@@ -10,7 +10,16 @@
                 <tr class="timeline-row table-info" {{action "toggleSelected" on="click"}}>
                     <td></td>
                     <td class="timeline-line-column"><i class="fa fa-calendar timeline-stay-icon"></i></td>
-                    <td><div>{{timeline/timeline-item-time from=event.from to=event.to relativeTo=date}}</div><div><strong>{{event.name}}</strong>{{#if event.location}} ({{event.location}}){{/if}}</div></td>
+                    <td><div>{{timeline/timeline-item-time from=event.from to=event.to relativeTo=date}}</div>
+                      <div><strong>{{event.name}}</strong>
+                        <dl>
+                          {{#each event.placeComponents as |placeComponent|}}
+                            <dt>{{placeComponent.name}}</dt>
+                            <dd>{{placeComponent.value}}</dd>
+                          {{/each}}
+                        </dl>
+                      </div>
+                    </td>
                 </tr>
             {{/each}}
         {{/if}}
@@ -27,7 +36,17 @@
                 <tr class="timeline-row table-info" {{action "toggleSelected" on="click"}}>
                    <td></td>
                     <td class="timeline-line-column"><i class="fa fa-calendar timeline-stay-icon"></i></td>
-                    <td><div>{{timeline/timeline-item-time from=event.from to=event.to relativeTo=date}}</div><div><strong>{{event.name}}</strong>{{#if event.location}} ({{event.location}}){{/if}}</div></td>
+                    <td><div>{{timeline/timeline-item-time from=event.from to=event.to relativeTo=date}}</div>
+                      <div><strong>{{event.name}}</strong>
+                        {{#if event.interestingPlace}}Interesting !{{/if}}
+                        <dl>
+                          {{#each event.placeComponents as |placeComponent|}}
+                            <dt>{{placeComponent.name}}</dt>
+                            <dd>{{placeComponent.value}}</dd>
+                          {{/each}}
+                        </dl>
+                      </div>
+                    </td>
                 </tr>
             {{/each}}
         {{/if}}

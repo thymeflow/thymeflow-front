@@ -25,22 +25,59 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX schema: <http://schema.org/>
 PREFIX personal: <http://thymeflow.com/personal#>
 
-SELECT (?event AS ?id) ?name ?description ?startDate ?endDate ?location WHERE {
+SELECT (?event AS ?id) ?name ?description ?startDate ?endDate ?location ?stay ?fromStay ?fromStayAndLocation ?fromStay2 ?fromLocation ?fromLocationType WHERE {
   VALUES ?event { ${eventIds.map(x => `<${x}>`).join(" ")} }
-  OPTIONAL {
-    ?event schema:location/schema:name ?location .
+  
+    GRAPH ?eventSource{ 
+    ?event a schema:Event .
+    OPTIONAL {
+      ?event schema:startDate ?startDate .
+    }
+    OPTIONAL {
+      ?event schema:endDate ?endDate .
+    }
+    OPTIONAL {
+      ?event schema:name ?name .
+    }
+    OPTIONAL {
+      ?event schema:description ?description .
+    }
+    OPTIONAL{
+      ?event schema:location ?locationId .
+      ?locationId a schema:Place .
+      ?locationId schema:name ?location .
+    }
   }
+  ?event schema:location ?stay .
+  ?stay a personal:Stay .
+  
   OPTIONAL {
-    ?event schema:startDate ?startDate .
+    GRAPH ?stay {
+      ?event schema:location ?fromStayId .
+    }
+    ?fromStayId schema:name ?fromStay .
   }
+  
   OPTIONAL {
-    ?event schema:endDate ?endDate .
+    GRAPH ?stay {
+      ?locationId personal:sameAs ?fromStayAndLocationId .
+    }
+    ?fromStayAndLocationId schema:name ?fromStayAndLocation .
   }
+  
   OPTIONAL {
-    ?event schema:name ?name .
+    GRAPH ?stay{
+      ?locationId personal:sameAsTemp ?fromStayId2 .
+    }
+    ?fromStayId2 schema:name ?fromStay2 .
   }
+
   OPTIONAL {
-    ?event schema:description ?description .
+    GRAPH ?stay{
+      ?locationId ?fromLocationType ?fromLocationId .
+    }
+    ?fromLocationId schema:name ?fromLocation .
+    FILTER (?fromLocationType  = personal:sameAsTempSingle || ?fromLocationType  = personal:sameAsTempAmbiguous)
   }
 }`;
   },
@@ -104,7 +141,7 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
               const latitude = geo.latitude;
               const point = new ol.geom.Point([longitude, latitude]);
               orderedStays.push({
-                id: stay,
+                id: stay.value,
                 from: moment(location.stayStartDate.value).tz(timeZone),
                 to: moment(location.stayEndDate.value).tz(timeZone),
                 longitude: longitude,
@@ -116,38 +153,62 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
           }
         });
         return this.get('sparql').query(this.eventsQuery(Array.from(eventSet))).then((events) => {
-          const eventMap = new Map();
+          const eventStayMap = new Map();
           events.content.results.bindings.forEach((event) => {
-            let from = event.startDate;
-            let to = event.endDate;
-            let description = event.description;
-            if(description != null){
-              description = event.description.value;
-            }
-            let name = event.name;
-            if(name != null){
-              name = event.name.value;
-            }
-            let location = event.location;
+            const getAttribute = (attributeName, transform) => {
+              const result = event[attributeName];
+              if( result != null){
+                if(transform != null){
+                  return transform(result.value);
+                }else{
+                  return result.value;
+                }
+              }else{
+                return result;
+              }
+            };
+            const eventId = getAttribute("id");
+            const from = getAttribute("startDate", (x) => moment(x).tz(timeZone));
+            const to = getAttribute("endDate", (x) => moment(x).tz(timeZone));
+            const description = getAttribute("description");
+            const name = getAttribute("name");
+            const location = getAttribute("location");
+            const stay = getAttribute("stay");
+            const fromStayBase = getAttribute("fromStay");
+            const fromStayAndLocation = getAttribute("fromStayAndLocation");
+            const fromStay = (fromStayBase == null) ? getAttribute("fromStay2") : fromStayBase;
+            const fromLocation = getAttribute("fromLocation");
+            const fromLocationType = getAttribute("fromLocationType");
+            const interesting = (location != null);
+            const components = [];
             if(location != null){
-              location = event.location.value;
+              components.push({name: "calLocation", value: location});
             }
-            if(from != null){
-              from = moment(from.value).tz(timeZone);
+            if(fromStayAndLocation != null){
+              components.push({name: "fromStayAndCalLocation", value: fromStayAndLocation});
             }
-            if(to != null){
-              to = moment(to.value).tz(timeZone);
+            if(fromStay != null){
+              components.push({name: "fromStay", value: fromStay});
             }
-            eventMap.set(event.id.value, {
+            if(fromLocation != null){
+              const type = (fromLocationType === "http://thymeflow.com/personal#sameAsTempSingle")? "" : "AMBIGUOUS";
+              components.push({name: `fromCalLocation${type}`, value: fromLocation});
+            }
+
+            eventStayMap.set(JSON.stringify([eventId, stay]),{
               from: from,
               to: to,
               description: description,
               name: name,
-              location: location
+              interestingPlace: interesting,
+              placeComponents: components
             });
           });
           orderedStays.forEach((stay) =>{
-            stay.events = stay.events.map((stayEvent) => eventMap.get(stayEvent));
+            stay.events = stay.events.map((stayEvent) => {
+              const stayEventKey = JSON.stringify([stayEvent, stay.id]);
+              return eventStayMap.get(stayEventKey);
+            }).filter(x => x != null);
           });
           return orderedStays;
         });
