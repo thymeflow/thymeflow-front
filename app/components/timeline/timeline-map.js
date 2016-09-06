@@ -41,8 +41,15 @@ export default Ember.Component.extend({
     onMapCreated: function(map){
       this.set('map', map);
     },
-    onSourcePopulated: function(map, layer){
-      map.fitViewToExtent(layer.getExtent());
+    onLocationsPopulated: function(map, layer){
+      if(this.get('stays.length') === 0) {
+        map.fitViewToExtent(layer.getExtent());
+      }
+    },
+    onStaysPopulated: function(map, layer){
+      if(this.get('stays.length') > 0){
+        map.fitViewToExtent(layer.getExtent());
+      }
     },
     click: function (evt) {
       const stayMove = evt.map.forEachFeatureAtPixel(evt.pixel,

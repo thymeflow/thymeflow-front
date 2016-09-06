@@ -1,6 +1,6 @@
 {{#map/openlayers-map class="timeline-map-container" extent=extent controls=mapControls size=size onClick=(action "click") onLayerCreated=(action "onMapCreated") as |layers|}}
   {{layers.cartodbTile}}
-  {{layers.vector name="locations" content=locations crs="EPSG:4326" style=locationsStyle.style geometryPath="point" onSourcePopulated=(action "onSourcePopulated")}}
+  {{layers.vector name="locations" content=locations crs="EPSG:4326" style=locationsStyle.style geometryPath="point" onSourcePopulated=(action "onLocationsPopulated")}}
   {{layers.vector name="moves" content=moves crs="EPSG:4326" style=movesStyle.style}}
-  {{layers.vector name="stays" content=stays crs="EPSG:4326" style=staysStyle.style clusterDistance=staysClusterDistance}}
+  {{layers.vector name="stays" content=stays crs="EPSG:4326" style=staysStyle.style clusterDistance=staysClusterDistance onSourcePopulated=(action "onStaysPopulated")}}
 {{/map/openlayers-map}}
