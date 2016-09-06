@@ -77,7 +77,8 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
   },
   model(params){
     var date = params.date;
-    date = moment(date, "YYYY-MM-DD").tz(params.timeZone);
+    const timeZone = params.timeZone;
+    date = moment(date, "YYYY-MM-DD").tz(timeZone);
     if(date.isValid()){
       const end = date.endOf('day').toISOString();
       const start = date.startOf('day').toISOString();
@@ -105,8 +106,8 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
               const point = new ol.geom.Point([longitude, latitude]);
               orderedStays.push({
                 id: stay,
-                from: moment(location.stayStartDate.value),
-                to: moment(location.stayEndDate.value),
+                from: moment(location.stayStartDate.value).tz(timeZone),
+                to: moment(location.stayEndDate.value).tz(timeZone),
                 longitude: longitude,
                 latitude: latitude,
                 events: events,
@@ -133,10 +134,10 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
               location = event.location.value;
             }
             if(from != null){
-              from = moment(from.value);
+              from = moment(from.value).tz(timeZone);
             }
             if(to != null){
-              to = moment(to.value);
+              to = moment(to.value).tz(timeZone);
             }
             eventMap.set(event.id.value, {
               from: from,
@@ -154,18 +155,22 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
       });
       const locationsPromise = rawLocationsPromise.then(function(rawLocations){
         return rawLocations.map((location) => {
-          const geo = parseGeoUri(location.geo.value);
-          const longitude = geo.longitude;
-          const latitude = geo.latitude;
-          const point = new ol.geom.Point([longitude, latitude]);
-          return {
-            longitude: longitude,
-            latitude: latitude,
-            point: point,
-            time: moment(location.time.value),
-            accuracy: geo.uncertainty
-          };
-        });
+          if(location.time != null){
+            const geo = parseGeoUri(location.geo.value);
+            const longitude = geo.longitude;
+            const latitude = geo.latitude;
+            const point = new ol.geom.Point([longitude, latitude]);
+            return {
+              longitude: longitude,
+              latitude: latitude,
+              point: point,
+              time: moment(location.time.value).tz(timeZone),
+              accuracy: geo.uncertainty
+            };
+          }else{
+            return null;
+          }
+        }).filter(x => x != null);
       });
       return Ember.RSVP.hash({
         date: date,
