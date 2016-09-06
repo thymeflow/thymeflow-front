@@ -2,6 +2,8 @@ import Ember from 'ember';
 import ol from 'ol';
 import moment from 'moment';
 
+const wgs84Sphere = new ol.Sphere(6378137);
+
 export default Ember.Controller.extend({
   queryParams: ["date", "minimumStayDurationMinutes","showLocations","details","showEvents", "showLocationAccuracy", "timeZone"],
   date: null,
@@ -55,7 +57,7 @@ export default Ember.Controller.extend({
       let moveDistance = 0;
       const addMoveCoordinates = (newCoordinates) => {
         if(moveCoordinates.length > 0){
-          moveDistance += ol.sphere.WGS84.haversineDistance(moveCoordinates[moveCoordinates.length - 1], newCoordinates);
+          moveDistance += wgs84Sphere.haversineDistance(moveCoordinates[moveCoordinates.length - 1], newCoordinates);
         }
         moveCoordinates.push(newCoordinates);
       };
