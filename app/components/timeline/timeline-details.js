@@ -39,6 +39,9 @@ export default Ember.Component.extend({
     },
     toggleSelected(item){
       this.get('toggleSelected')(item);
+    },
+    onUpdateMinimumStayDurationMinutes(newValue){
+      this.set('minimumStayDurationMinutes', Math.round(newValue));
     }
   }
 });

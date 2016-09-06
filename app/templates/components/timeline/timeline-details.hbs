@@ -21,7 +21,7 @@
               <div class="alert alert-info" role="alert">There are no stays to display.</div>
           {{else}}
               <div>Displaying stays longer than {{minimumStayDurationMinutes}} minutes.</div>
-              {{range-slider class="timeline-details-range" min=0 max=30 step=1 start=(unbound minimumStayDurationMinutes) on-update=(action (mut minimumStayDurationMinutes))}}
+              {{range-slider class="timeline-details-range" min=0 max=30 step=1 start=(unbound minimumStayDurationMinutes) on-update=(action "onUpdateMinimumStayDurationMinutes")}}
               {{#if isEmpty}}
                   <div class="alert alert-info" role="alert">There are no stays to display for the current filter.</div>
               {{else}}
