@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
   details: false,
   showLocations: true,
   showLocationAccuracy: false,
-  showEvents: false,
+  showEvents: true,
   locations: function(){
     if(this.get('showLocations')){
       return this.get('model.locations');
