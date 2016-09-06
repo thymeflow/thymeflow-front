@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   classNames: ['timeline-header'],
   searchValue: null,
   classNameBindings: ['details:details'],
+  timeZones: moment.tz.names(),
   dateJs: function(){
     const date = this.get('date');
     if(date != null){
@@ -14,6 +15,9 @@ export default Ember.Component.extend({
     }
   }.property('date'),
   actions: {
+    selectTimeZone(value){
+      this.set('timeZone', value);
+    },
     showDetails() {
       this.get('onDetails')(true);
     },

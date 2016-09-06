@@ -70,11 +70,14 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
   queryParams: {
     date: {
       refreshModel: true
+    },
+    timeZone: {
+      refreshModel: true
     }
   },
   model(params){
     var date = params.date;
-    date = moment(date, "YYYY-MM-DD");
+    date = moment(date, "YYYY-MM-DD").tz(params.timeZone);
     if(date.isValid()){
       const end = date.endOf('day').toISOString();
       const start = date.startOf('day').toISOString();

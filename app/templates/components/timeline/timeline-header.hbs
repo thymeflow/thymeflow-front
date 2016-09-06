@@ -14,6 +14,9 @@
 </nav>
 <div class="timeline-header-date-bar">
     {{pick-a-date class="form-control timeline-header-input-date" date=(readonly dateJs) on-selected=(action 'showDate') options=(hash format="yyyy-mm-dd") placeholder="Pick a date"}}
+    {{#power-select triggerClass="form-control timeline-header-input-time-zone" options=timeZones placeholder="Time zone" selected=timeZone onchange=(action "selectTimeZone") as |zone|}}
+      {{zone}}
+    {{/power-select}}
 </div>
 
 

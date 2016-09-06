@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import ol from 'ol';
-
+import moment from 'moment';
 
 export default Ember.Controller.extend({
-  queryParams: ["date", "minimumStayDurationMinutes","showLocations","details","showEvents", "showLocationAccuracy"],
+  queryParams: ["date", "minimumStayDurationMinutes","showLocations","details","showEvents", "showLocationAccuracy", "timeZone"],
   date: null,
+  timeZone: moment.tz.guess(),
   details: false,
   showLocations: true,
   showLocationAccuracy: false,

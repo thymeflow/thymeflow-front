@@ -1,7 +1,7 @@
 <div class="timeline-container">
   {{timeline/timeline-map details=details locations=locations showLocations=showLocations showEvents=showEvents showLocationAccuracy=showLocationAccuracy filterLocationInterval=filterLocationInterval toggleSelected=(action 'toggleSelectedStayMove') selectedStayMove=selectedStayMove stays=filteredStays moves=filteredMoves}}
   <div class="timeline-panel {{if details "details"}}">
-    {{timeline/timeline-header details=details onDetails=(action 'onDetails') date=(readonly model.date) onDate=(action 'changeDate')}}
+    {{timeline/timeline-header details=details timeZone=timeZone onDetails=(action 'onDetails') date=(readonly model.date) onDate=(action 'changeDate')}}
     {{timeline/timeline-details details=details date=(readonly model.date) showLocationAccuracy=showLocationAccuracy showEvents=showEvents showLocations=showLocations noLocations=noLocations noStays=noStays toggleSelected=(action 'toggleSelectedStayMove') selectedItem=selectedStayMove items=filteredStayMoves minimumStayDurationMinutes=minimumStayDurationMinutes onDate=(action 'changeDate')}}
   </div>
   <div class="loading-panel {{unless currentlyLoading "hidden"}}"></div>
