@@ -1,6 +1,6 @@
 {{#if isStay}}
     {{#timeline/timeline-details-item-row selected=highlighted scrollTo=scrollTo click=(action "toggleSelected")}}
-        <td class="timeline-stay-column">{{#if showEventsNotEmpty}}<span class="timeline-event-count"><i class="fa fa-calendar"></i>{{item.events.length}}</span>{{/if}}<span class="timeline-stay-index">{{item.index}}</span></td>
+        <td class="timeline-stay-column"><span class="timeline-stay-index">{{item.index}}</span>{{#if showEventsNotEmpty}}<span class="timeline-event-count"><i class="fa fa-calendar"></i>{{item.events.length}}</span>{{/if}}</td>
         <td class="timeline-line-column"><i class="fa fa-circle timeline-stay-icon"></i></td>
         <td>{{timeline/timeline-item-time from=item.from to=item.to relativeTo=date}}</td>
     {{/timeline/timeline-details-item-row}}
