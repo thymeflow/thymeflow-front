@@ -4,7 +4,16 @@ export default Ember.Controller.extend({
   store: Ember.inject.service(),
   sparql: Ember.inject.service(),
   query: Ember.computed.alias('model'),
-  _queryContent: 'CONSTRUCT{ ?s ?p ?o } WHERE { ?s ?p ?o } LIMIT 100',
+  _queryContent:
+`PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <http://schema.org/>
+PREFIX personal: <http://thymeflow.com/personal#>
+
+SELECT ?s ?p ?o
+WHERE {
+ ?s ?p ?o 
+} LIMIT 100`,
   queryContent: Ember.computed('query.content', '_queryContent', {
     get() {
       const queryContent = this.get('query.content');
