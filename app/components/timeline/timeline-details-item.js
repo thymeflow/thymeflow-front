@@ -20,7 +20,8 @@ export default Ember.Component.extend({
     return this.get('duration').humanize();
   }.property('duration'),
   durationAsMinutes: function(){
-    return this.get('duration').asMinutes();
+    const asMinutes = this.get('duration').asMinutes();
+    return Math.floor(asMinutes * 100)/100;
   }.property('duration'),
   speedFormatted: function(){
     const speed = this.get('item.speed');
