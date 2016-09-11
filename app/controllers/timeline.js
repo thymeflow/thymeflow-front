@@ -125,6 +125,18 @@ export default Ember.Controller.extend({
       this.set('filteredMoves', null);
     }
   }.observes('model.stays'),
+  filteredStaysDurationAsMinutes: function(){
+    const filteredStays = this.get('filteredStays');
+    if(filteredStays != null){
+      const durationSeconds = filteredStays.reduce(function(cumulative, stay){
+        return cumulative + stay.get('to').diff(stay.get('from'),'seconds');
+      }, 0);
+      const durationAsMinutes = moment.duration(durationSeconds, 'seconds').asMinutes();
+      return Math.floor(durationAsMinutes * 100)/100;
+    }else{
+      return null;
+    }
+  }.property('filteredStays'),
   observeMinimumStayDurationMinutes: Ember.observer('minimumStayDurationMinutes', function(){
     Ember.run.debounce(this, this.updateFilteredStayMoves, 500);
   }),
