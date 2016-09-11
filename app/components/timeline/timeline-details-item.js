@@ -13,9 +13,15 @@ export default Ember.Component.extend({
   isStay: function(){
     return this.get('item.type') === "stay";
   }.property('item.type'),
-  durationFormatted: function(){
-    return moment.duration(this.get('item.to').diff(this.get('item.from'),'seconds'),"seconds").humanize();
+  duration: function(){
+    return moment.duration(this.get('item.to').diff(this.get('item.from'),'seconds'),"seconds");
   }.property('item.from', 'item.to'),
+  durationFormatted: function(){
+    return this.get('duration').humanize();
+  }.property('duration'),
+  durationAsMinutes: function(){
+    return this.get('duration').asMinutes();
+  }.property('duration'),
   speedFormatted: function(){
     const speed = this.get('item.speed');
     return `${Math.round(speed * 10) / 10} m/s`;
