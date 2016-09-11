@@ -91,6 +91,7 @@ export default Ember.Controller.extend({
             geometry: stay.point,
             events: stay.events
           });
+          moveDistance = 0;
           stayIndex += 1;
           filteredStayMoves.push(stayO);
           filteredStays.push(stayO);
