@@ -5,7 +5,7 @@ import StaysStyle from './styles/stays';
 
 
 export default Ember.Component.extend({
-  classNameBindings: ['details:details'],
+  classNameBindings: ['details:details:simple'],
   classNames: 'timeline-map',
   extent: [-20037508.34,-15037508.34,20037508.34,15037508.34],
   observeDetails: function(){

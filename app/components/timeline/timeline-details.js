@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['timeline-details'],
-  classNameBindings: ['details:details'],
+  classNameBindings: ['details:details:simple'],
   isEmpty: function() {
     const items = this.get('items');
     if(items != null){

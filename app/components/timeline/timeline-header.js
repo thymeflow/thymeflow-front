@@ -4,7 +4,7 @@ import moment from 'moment';
 export default Ember.Component.extend({
   classNames: ['timeline-header'],
   searchValue: null,
-  classNameBindings: ['details:details'],
+  classNameBindings: ['details:details:simple'],
   timeZones: moment.tz.names(),
   dateJs: function(){
     const date = this.get('date');
