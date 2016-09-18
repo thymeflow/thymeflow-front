@@ -66,10 +66,6 @@ export default BaseLayer.extend(ContainerMixin, {
     return new ol.Map(options);
   },
 
-  observesSize: function(){
-    this._layer.updateSize();
-  }.observes('size'),
-
   didCreateLayer() {
     //after base layer bound the events, we can now set the map's view
     assert('You must provide either valid `extent` or a `center` and a `zoom` value.',
@@ -82,7 +78,25 @@ export default BaseLayer.extend(ContainerMixin, {
       view.setZoom(this.get('zoom'));
       this._layer.setView(view);
     }
+    // periodically check if the container's height has changed
+    // map's updateSize is run if this is case
+    let currentHeight = this.$().height();
+    function updateHeight(){
+      let newHeight = this.$().height();
+      if(newHeight !== currentHeight){
+        this.updateSize();
+      }
+      currentHeight = newHeight;
+      this.set('periodicUpdateHeight', Ember.run.later(this, updateHeight, 10));
+    }
+    this.set('periodicUpdateHeight', Ember.run.later(this, updateHeight, 10));
     this.sendAction('onLayerCreated', this);
+  },
+  willDestroyLayer: function(){
+    const periodicUpdateHeight = this.get('periodicUpdateHeight');
+    if(periodicUpdateHeight != null){
+      Ember.run.cancel(periodicUpdateHeight);
+    }
   },
   fitViewToExtent: function(extent, duration){
     if(extent && !isExtentInfinite(extent) && !ol.extent.isEmpty(extent) && this._layer)
