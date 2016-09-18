@@ -58,3 +58,10 @@ body{
   overflow: auto;
   flex: 1;
 }
+
+// Bootstrap v4 fix while we wait for alpha.5 https://github.com/twbs/bootstrap/pull/19890
+.navbar-dark {
+  .navbar-toggler {
+    color: $navbar-dark-active-color;
+  }
+}
