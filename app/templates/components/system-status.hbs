@@ -5,9 +5,18 @@
     {{/panel.toggle}}
 
     {{#panel.body}}
-      <div>
-        <p>System status place holder. Under construction...</p>
-      </div>
+      <table>
+        {{#each tasks as |task|}}
+          <tr>
+            <td><i class="fa fa-plug">{{task.type}}</i></td>
+            <td>{{task.name}}</td>
+            <td>{{task.startDate}}</td>
+            <td><progress value="{{task.progress}}" max="100"></progress></td>
+            <td>{{task.progress}}%</td>
+            <td>{{task.status}}</td>
+          </tr>
+        {{/each}}
+      </table>
     {{/panel.body}}
   {{/cp-panel}}
 </div>
