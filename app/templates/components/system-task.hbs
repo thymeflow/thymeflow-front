@@ -1,6 +1,6 @@
 <td><i class="fa fa-plug">{{task.type}}</i></td>
 <td>{{task.name}}</td>
-<td>{{task.startDate}}</td>
+<td>{{system-task-date task.startDate}}</td>
 <td>
   {{#if task.progress}}
     <progress value="{{task.progress}}" max="100"></progress>
