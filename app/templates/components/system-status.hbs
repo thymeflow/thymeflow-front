@@ -5,11 +5,15 @@
     {{/panel.toggle}}
 
     {{#panel.body}}
-      <table>
-        {{#each tasks as |task|}}
-          {{system-task task=task}}
-        {{/each}}
-      </table>
+      {{#if tasks}}
+        <table class="tasks-table">
+            {{#each tasks as |task|}}
+              {{system-task task=task}}
+            {{/each}}
+        </table>
+      {{else}}
+        <div class="no-tasks-message">There are currently no tasks running.</div>
+      {{/if}}
     {{/panel.body}}
   {{/cp-panel}}
 </div>
