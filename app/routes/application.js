@@ -1,6 +1,5 @@
 import Ember from 'ember';
-
-const pollingInterval = 30000;
+import ENV from 'thymeflow-front/config/environment';
 
 export default Ember.Route.extend({
   afterModel() {
@@ -10,7 +9,7 @@ export default Ember.Route.extend({
     Ember.run.later(function() {
 
       self.refresh();
-    }, pollingInterval);
+    }, ENV.APP.systemTasksPollingInterval);
   },
   model() {
 
