@@ -13,6 +13,8 @@ export default Ember.Route.extend({
   },
   model() {
 
-    return this.get('store').findAll('system-task');
+    return this.get('store').findAll('system-task').catch(function(error) {
+      console.log(error);
+    });
   }
 });
