@@ -3,7 +3,11 @@
     {{#panel.toggle}}
       <div class="panel-header" title="System status">
         <i class="fa fa-tasks tasks-icon"></i>
-        <i class="fa fa-cog fa-spin fa-fw activity-icon"></i>
+        {{#if hasRunningTasks}}
+          <i class="fa fa-cog fa-spin fa-fw activity-icon"></i>
+        {{else}}
+          <i class="fa fa-check no-activity-icon"></i>
+        {{/if}}
       </div>
     {{/panel.toggle}}
 
