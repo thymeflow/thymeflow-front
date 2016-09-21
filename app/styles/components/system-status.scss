@@ -13,6 +13,9 @@
   }
   .tasks-table {
     width: 100%;
+    .task-progress-cell progress {
+      display: block;
+    }
   }
   .no-tasks-message {
     text-align: center;
