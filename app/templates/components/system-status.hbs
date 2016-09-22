@@ -1,26 +1,22 @@
 <div class="system-status">
-  {{#cp-panel as |panel|}}
-    {{#panel.toggle}}
-      <div class="panel-header" title="System status">
-        <i class="fa fa-tasks tasks-icon"></i>
-        {{#if hasRunningTasks}}
-          <i class="fa fa-cog fa-spin fa-fw activity-icon"></i>
-        {{else}}
-          <i class="fa fa-check no-activity-icon"></i>
-        {{/if}}
-      </div>
-    {{/panel.toggle}}
+  <div class="panel-header" title="System status">
+    <i class="fa fa-tasks tasks-icon" {{action "toggleSystemTasksBody"}}></i>
+    {{#if hasRunningTasks}}
+      <i class="fa fa-cog fa-spin fa-fw activity-icon" {{action "toggleSystemTasksBody"}}></i>
+    {{else}}
+      <i class="fa fa-check no-activity-icon" {{action "toggleSystemTasksBody"}}></i>
+    {{/if}}
+  </div>
 
-    {{#panel.body}}
-      {{#if tasks}}
-        <table class="tasks-table">
-            {{#each tasks as |task|}}
-              {{system-task task=task}}
-            {{/each}}
-        </table>
-      {{else}}
-        <div class="no-tasks-message">There are currently no tasks running.</div>
-      {{/if}}
-    {{/panel.body}}
-  {{/cp-panel}}
+  {{#liquid-if isShowingSystemTasksBody class='system-status-body'}}
+    {{#if tasks}}
+      <table class="tasks-table">
+          {{#each tasks as |task|}}
+            {{system-task task=task}}
+          {{/each}}
+      </table>
+    {{else}}
+      <div class="no-tasks-message">There are currently no tasks running.</div>
+    {{/if}}
+  {{/liquid-if}}
 </div>

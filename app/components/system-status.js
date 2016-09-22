@@ -1,9 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  
-  hasRunningTasks: Ember.computed('tasks.@each.progress', function() {
 
+  hasRunningTasks: Ember.computed('tasks.@each.progress', function() {
     let tasks = this.get('tasks');
 
     if (!tasks || tasks.get('length') === 0) {
@@ -16,5 +15,11 @@ export default Ember.Component.extend({
 
       return !progress || (progress && progress !== 100);
     });
-  })
+  }),
+
+  actions: {
+    toggleSystemTasksBody() {
+      this.toggleProperty('isShowingSystemTasksBody');
+    }
+  }
 });
