@@ -6,7 +6,7 @@ $custom-file-text: (
     en: "Browse"
   )
 );
-
+@import "navbar";
 @import 'bower_components/bootstrap/scss/bootstrap-flex';
 @import "mixins/scrollbar";
 

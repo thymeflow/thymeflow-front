@@ -1,0 +1,50 @@
+// Navbar
+
+// Navbar :: override variables
+$navbar-padding-y:                  0;
+$navbar-padding-x:                  0;
+
+$navbar-dark-hover-color:           #434343;
+$navbar-dark-active-color:          white;
+
+// Navbar :: new variables
+$navbar-brand-padding-x:            1rem !default;
+$navbar-brand-background-color:     rgba(255,255,255,1) !default;
+$navbar-brand-color:                #37abc8 !default;
+
+$navbar-dark-background-color:      #37abc8 !default;
+
+
+
+.app-header {
+    & .navbar {
+        &.navbar-dark {
+            background-color: $navbar-dark-background-color;
+        }
+        
+        & a {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            text-transform: uppercase;
+        }
+             
+        & a, & i {
+            font-weight: 500;   
+            font-size: 1.25rem;
+        }  
+        
+        & .navbar-brand {
+            padding-left: $navbar-brand-padding-x;
+            padding-right: $navbar-brand-padding-x;
+            background-color: $navbar-brand-background-color;
+            color: $navbar-brand-color !important;
+
+            & img {
+                height: 1.5em;
+                display: inline-block;
+                vertical-align: top;
+            }
+        }
+    }
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
