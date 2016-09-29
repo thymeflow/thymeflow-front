@@ -1,22 +1,28 @@
 // Navbar
 
+// Navbar :: new variables
+$app-color1:                        #8AD6E8 !default;
+$app-color2:                        #5ABFD7 !default;
+$app-color3:                        #37ACC8 !default;
+$app-color4:                        #179AB9 !default;
+$app-color5:                        #047994 !default;
+
+$navbar-brand-padding-x:            1rem !default;
+$navbar-brand-background-color:     rgba(255,255,255,1) !default;
+$navbar-brand-color:                $app-color5;
+
+$navbar-dark-background-color:      $app-color2;
+
 // Navbar :: override variables
 $navbar-padding-y:                  0;
 $navbar-padding-x:                  0;
 
-$navbar-dark-hover-color:           #434343;
+$navbar-dark-hover-color:           $app-color5;
 $navbar-dark-active-color:          white;
 
-// Navbar :: new variables
-$navbar-brand-padding-x:            1rem !default;
-$navbar-brand-background-color:     rgba(255,255,255,1) !default;
-$navbar-brand-color:                #37abc8 !default;
-
-$navbar-dark-background-color:      #37abc8 !default;
-
-
-
 .app-header {
+    border-bottom: 1px solid $app-color5;
+    
     & .navbar {
         &.navbar-dark {
             background-color: $navbar-dark-background-color;
@@ -46,5 +52,4 @@ $navbar-dark-background-color:      #37abc8 !default;
             }
         }
     }
-    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
