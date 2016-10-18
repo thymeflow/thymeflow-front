@@ -83,7 +83,7 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
       const start = parsedDateAtTimeZone.startOf('day').toISOString();
       const query = this.locationsQuery(start, end);
       const rawLocationsPromise = this.get('sparql').query(query).then(function(queryResult){
-        return queryResult.content.results.bindings;
+        return queryResult.result.results.bindings;
       });
       const staysPromise = rawLocationsPromise.then((locations) => {
         const stays = new Set();
@@ -117,7 +117,7 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
         });
         return this.get('sparql').query(this.eventsQuery(Array.from(eventSet))).then((events) => {
           const eventMap = new Map();
-          events.content.results.bindings.forEach((event) => {
+          events.result.results.bindings.forEach((event) => {
             let from = event.startDate;
             let to = event.endDate;
             let description = event.description;

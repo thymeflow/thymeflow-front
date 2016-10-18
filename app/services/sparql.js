@@ -61,15 +61,19 @@ export default Ember.Service.extend({
           return {};
         }
       }, function(jqXHR){
-        throw new Error(jqXHR.responseText);
+        if(jqXHR.status === 0){
+          throw "Network error";
+        }else{
+          throw jqXHR.responseText;
+        }
       });
       return sparqlResult.create({
         promise: resultPromise
       });
     } catch (err) {
-      return {
-        reason: err.message
-      };
+      return sparqlResult.create({
+        promise: Ember.RSVP.Promise.reject(err.message)
+      });
     }
   }
 });

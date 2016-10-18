@@ -1,0 +1,37 @@
+<div class="app-body-header">
+  <h1><i class="fa fa-users"></i> Contacts > {{model.name}}</h1>
+</div>
+<div class="card card-block">
+  {{#if model.images.firstObject}}
+    <img src={{model.images.firstObject}}/>
+  {{/if}}
+  <h1 class="card-title">{{model.name}}</h1>
+  <div class="card-text row">
+    {{#each model.fields as |field|}}
+      <div class="col-sm-2">
+        {{#if (eq field.property "email")}}<i class="fa fa-envelope"></i>
+        {{else if (or (or (eq field.property "name") (eq field.property "givenName")) (eq field.property "familyName"))}}<i class="fa fa-user"></i>
+        {{else if (eq field.property "telephone")}}<i class="fa fa-phone"></i>
+        {{else if (eq field.property "image")}}<i class="fa fa-image"></i>
+        {{else if (eq field.property "sameAs")}}<i class="fa fa-link"></i>
+        {{/if}}
+      </div>
+      <div class="col-sm-10">
+        {{#each field.values as |value|}}
+          <div>
+            {{#if (eq field.property "image")}}
+              <img src={{value.value}}/>
+            {{else if (eq field.property "sameAs")}}
+              {{#link-to "contacts.item" value.value}}{{value.value}}{{/link-to}}
+            {{else}}
+              {{value.value}}
+            {{/if}}
+            {{#each value.sources as |source|}}
+              {{service-source-tag source=source.type service=source.service account=source.account}}
+            {{/each}}
+          </div>
+        {{/each}}
+      </div>
+    {{/each}}
+  </div>
+</div>
