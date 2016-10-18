@@ -65,3 +65,12 @@
     height: 100%;
   }
 }
+
+.query-editor-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: -15px;
+}
