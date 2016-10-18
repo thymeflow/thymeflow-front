@@ -2,18 +2,18 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  hasRunningTasks: Ember.computed('tasks.@each.progress', function() {
+  hasRunningTasks: Ember.computed('tasks.@each.endDate', function() {
     let tasks = this.get('tasks');
 
     if (!tasks || tasks.get('length') === 0) {
       return false;
     }
 
-    return tasks.any(function(item) {
+    return tasks.any(function(task) {
 
-      let progress = item.get('progress');
+      let endDate = task.get('endDate');
 
-      return !progress || (progress && progress !== 100);
+      return endDate === null;
     });
   }),
 

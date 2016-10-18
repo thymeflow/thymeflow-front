@@ -1,15 +1,29 @@
 <td class="task-icon-cell"><i class="fa {{task.icon}}"></i></td>
+<td class="task-service-cell">{{task.service}}</td>
+<td class="task-account-cell">{{task.account}}</td>
+<td class="task-source-cell">{{task.source}}</td>
 <td class="task-name-cell">{{task.name}}</td>
 <td class="task-start-date-cell">{{moment-format task.startDate 'L - LTS'}}</td>
+<td class="task-end-date-cell">
+  {{#if task.endDate}}
+    {{moment-format task.endDate 'L - LTS'}}
+  {{else}}
+    -
+  {{/if}}
+</td>
 <td class="task-progress-cell">
-  {{#if task.progress}}
+  {{#if isCompleted}}
+    <progress value="100" max="100"></progress>
+  {{else if task.progress}}
     <progress value="{{task.progress}}" max="100"></progress>
   {{else}}
     <progress></progress>
   {{/if}}
 </td>
 <td class="task-progress-value-cell">
-  {{#if task.progress}}
+  {{#if isCompleted}}
+    100%
+  {{else if task.progress}}
     {{task.progress}}%
   {{else}}
     -
