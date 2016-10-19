@@ -12,14 +12,22 @@ export default DS.Model.extend({
   progress: DS.attr('number'),
   status: DS.attr('string'),
   serviceIcon: Ember.computed('service', function() {
-
     switch (`${this.get('service')}`) {
-        case 'Google': return 'fa-google';
-        case 'Microsoft': return 'fa-windows';
-        case 'Facebook': return 'fa-facebook';
-        case 'File': return 'fa-file';
-        case 'Email': return 'fa-envelope';
-        default: return 'fa-tasks';
+      case 'Google': return 'fa-google';
+      case 'Microsoft': return 'fa-windows';
+      case 'Facebook': return 'fa-facebook';
+      case 'File': return 'fa-file';
+      case 'Email': return 'fa-envelope';
+      default: return 'fa-tasks';
+    }
+  }),
+  statusIcon: Ember.computed('status', function() {
+    switch (`${this.get('status')}`) {
+      case 'idle': return 'fa-pause';
+      case 'done': return 'fa-check';
+      case 'error': return 'fa-exclamation-triangle';
+      case 'working': return 'fa-cog';
+      default: return 'fa-cog';
     }
   })
 });
