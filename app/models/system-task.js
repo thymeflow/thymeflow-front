@@ -11,10 +11,14 @@ export default DS.Model.extend({
   type: DS.attr('string'),
   progress: DS.attr('number'),
   status: DS.attr('string'),
-  icon: Ember.computed('type', function() {
+  serviceIcon: Ember.computed('service', function() {
 
-    switch (`${this.get('type')}`) {
-
+    switch (`${this.get('service')}`) {
+        case 'Google': return 'fa-google';
+        case 'Microsoft': return 'fa-windows';
+        case 'Facebook': return 'fa-facebook';
+        case 'File': return 'fa-file';
+        case 'Email': return 'fa-envelope';
         default: return 'fa-tasks';
     }
   })
