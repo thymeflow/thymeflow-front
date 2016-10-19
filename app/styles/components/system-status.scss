@@ -1,0 +1,28 @@
+.system-status {
+  a,
+  a:hover {
+      text-decoration: none;
+  }
+  .panel-header {
+    background-color: #373a3c;
+    color: white;
+    text-align: right;
+    padding-right: 5px;
+    line-height: 24px;
+    font-size: 20px;
+    .tasks-icon,
+    .activity-icon,
+    .no-activity-icon {
+      cursor: pointer;
+    }
+  }
+  .tasks-table {
+    width: 100%;
+    .task-progress-cell progress {
+      display: block;
+    }
+  }
+  .no-tasks-message {
+    text-align: center;
+  }
+}
