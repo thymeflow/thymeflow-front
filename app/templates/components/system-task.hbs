@@ -13,19 +13,19 @@
 <td class="task-progress-cell">
   {{#if isCompleted}}
     <progress value="100" max="100"></progress>
-  {{else if task.progress}}
-    <progress value="{{task.progress}}" max="100"></progress>
-  {{else}}
+  {{else if isProgressIndeterminate}}
     <progress></progress>
+  {{else}}
+    <progress value="{{task.progress}}" max="100"></progress>
   {{/if}}
 </td>
 <td class="task-progress-value-cell">
   {{#if isCompleted}}
     100%
-  {{else if task.progress}}
-    {{task.progress}}%
-  {{else}}
+  {{else if isProgressIndeterminate}}
     -
+  {{else}}
+    {{task.progress}}%
   {{/if}}
 </td>
 <td class="task-status-cell" title="{{task.status}}"><i class="fa {{task.statusIcon}}"></i></td>
