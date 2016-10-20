@@ -21,44 +21,57 @@ export default Ember.Controller.extend({
       return value;
     }
   }),
-  savedQueries: function () {
+  queriesSorting: ['name'],
+  sortedQueries: Ember.computed.sort('filteredQueries', 'queriesSorting'),
+  filteredQueries: Ember.computed.filter('allQueries', query => query.get('id') !== 'new'),
+  allQueries: function () {
     return this.store.findAll('sparql-query');
   }.property(),
+  selectedQuery: Ember.computed('query', function(){
+    const query = this.get('query');
+    if(query.get('id') !== 'new'){
+      return query;
+    }else{
+      return null;
+    }
+  }),
   actions: {
-    save(queryName) {
+    save(){
       const query = this.get('query');
       if (query != null) {
         // save query content
         query.set('content', this.get('queryContent'));
         query.save();
-      } else {
-        if (queryName == null) {
-          queryName = prompt("Query name?");
-        }
-        if (queryName != null && queryName.length > 0) {
-          const id = queryName;
-          const queryContent = this.get('queryContent');
-          this.store.findRecord('sparql-query', id)
-            .catch(() => {
-              // In case a query with the same name does not exist,
-              // we must unload the record created by the find method
-              // This is due to a problem with Ember-Data https://github.com/emberjs/data/issues/4424
-              // and ember-local-storage's behaviour
-              const queryModel = this.store.recordForId('sparql-query', id);
-              queryModel.unloadRecord();
-              return this.store.createRecord('sparql-query', {id: id});
-            }).then((queryModel) => {
+      }
+    },
+    saveByName(queryName, queryContent) {
+      if (queryName != null && queryName.length > 0) {
+        const id = queryName;
+        this.store.findRecord('sparql-query', id)
+          .catch(() => {
+            // In case a query with the same name does not exist,
+            // we must unload the record created by the find method
+            // This is due to a problem with Ember-Data https://github.com/emberjs/data/issues/4424
+            // and ember-local-storage's behaviour
+            const queryModel = this.store.recordForId('sparql-query', id);
+            queryModel.unloadRecord();
+            return this.store.createRecord('sparql-query', {id: id});
+          }).then((queryModel) => {
             queryModel.set('content', queryContent);
             return queryModel.save();
           }).then(queryModel => this.transitionToRoute('query.edit', queryModel));
-        }
       }
     },
     createOnEnter(select, e) {
       if (e.keyCode === 13 && select.isOpen && !select.highlighted && !Ember.isBlank(select.searchText)) {
+        const queryContent = this.get('queryContent');
         this.set('query', null);
-        this.send('save', select.searchText);
+        this.send('saveByName', select.searchText, queryContent);
       }
+    },
+    undo(){
+      const query = this.get('query');
+      this.set('queryContent', query.get('content'));
     },
     delete(){
       const query = this.get('query');
