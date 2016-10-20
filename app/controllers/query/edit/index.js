@@ -35,6 +35,20 @@ export default Ember.Controller.extend({
       return null;
     }
   }),
+  debouncedSave: function(){
+    const query = this.get('query');
+    if(query != null){
+      query.save().then(() => this.observesQueryContentDiff());
+    }
+  },
+  isDirty: false,
+  observesQueryContentDiff: function(){
+    this.set('isDirty', this.get('query.content') !== this.get('queryContent'));
+  }.observes('query', 'query.content'),
+  observesQueryContent: function(){
+    this.set('isDirty', true);
+    Ember.run.debounce(this, this.debouncedSave, 2000);
+  }.observes('queryContent'),
   actions: {
     save(){
       const query = this.get('query');
@@ -45,7 +59,7 @@ export default Ember.Controller.extend({
       }
     },
     saveByName(queryName, queryContent) {
-      if (queryName != null && queryName.length > 0) {
+      if (queryName != null && queryName.length > 0 && queryName !== 'new') {
         const id = queryName;
         this.store.findRecord('sparql-query', id)
           .catch(() => {

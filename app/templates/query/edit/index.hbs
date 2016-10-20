@@ -5,7 +5,7 @@
   {{/power-select}}
   <div class="btn-group">
     {{#link-to "query.new" class="btn btn-secondary"}}{{fa-icon "file-o"}}{{/link-to}}
-    <button class="btn btn-secondary" {{action "save"}} disabled={{or (eq query.id "new") (not query.hasDirtyAttributes)}}>{{fa-icon "save"}}</button>
+    <button class="btn btn-secondary" {{action "save"}} disabled={{or (eq query.id "new") (not isDirty)}}>{{fa-icon "save"}}</button>
     <button class="btn btn-warning" {{action "undo"}} disabled={{eq query.id "new"}}>{{fa-icon "undo"}}</button>
     <button class="btn btn-danger" {{action "delete"}} disabled={{query.isNew}}>{{fa-icon "remove"}}</button>
   </div>
