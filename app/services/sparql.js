@@ -3,6 +3,9 @@ import ENV from "thymeflow-front/config/environment";
 import {ajax} from "thymeflow-front/utilities/jquery";
 /* global sparqljs */
 
+const sparqlResult = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin, {
+});
+
 export default Ember.Service.extend({
   removePrefix: function (parsedQuery) {
     if (parsedQuery != null) {
@@ -21,52 +24,52 @@ export default Ember.Service.extend({
     return (url) => url;
   },
   parseQuery: function (sparqlQuery) {
-    try {
-      const parser = new sparqljs.Parser();
-      return parser.parse(sparqlQuery);
-    }
-    catch (err) {
-      return null;
-    }
+    const parser = new sparqljs.Parser();
+    return parser.parse(sparqlQuery);
   },
   query: function (sparqlQuery) {
-    const parsedQuery = this.parseQuery(sparqlQuery);
-    let requestData = {};
-    if (sparqlQuery.includes('SELECT') || sparqlQuery.includes('CONSTRUCT') || sparqlQuery.includes('DESCRIBE') || sparqlQuery.includes('ASK')) {
-      requestData.query = sparqlQuery;
-    } else {
-      requestData.update = sparqlQuery;
-    }
-    const resultPromise = ajax(`${ENV.APP.API_ENDPOINT}/sparql`, {
-      data: requestData,
-      method: 'POST'
-    }).then(result => {
-      if (result != null) {
-        var queryType = "";
-        if (result.head && result.head.vars) {
-          queryType = "SELECT";
-        } else if (typeof result.boolean === "boolean") {
-          queryType = "ASK";
-        } else if (result === "") {
-          queryType = "UPDATE";
-        } else {
-          queryType = "CONSTRUCT";
-        }
-        return {
-          queryType: queryType,
-          content: result,
-          query: parsedQuery,
-          removePrefix: this.removePrefix(parsedQuery)
-        };
+    try{
+      const parsedQuery = this.parseQuery(sparqlQuery);
+      let requestData = {};
+      if (parsedQuery.queryType === "UPDATE") {
+        requestData.update = sparqlQuery;
       } else {
-        return {};
+        requestData.query = sparqlQuery;
       }
-    }, function(jqXHR){
-      throw new Error(jqXHR.responseText);
-    });
-    return Ember.ObjectProxy.extend(Ember.PromiseProxyMixin, {
-    }).create({
-      promise: resultPromise
-    });
+      const resultPromise = ajax(`${ENV.APP.API_ENDPOINT}/sparql`, {
+        data: requestData,
+        method: 'POST'
+      }).then(result => {
+        if (result != null) {
+          var queryType = "";
+          if (result.head && result.head.vars) {
+            queryType = "SELECT";
+          } else if (typeof result.boolean === "boolean") {
+            queryType = "ASK";
+          } else if (result === "") {
+            queryType = "UPDATE";
+          } else {
+            queryType = "CONSTRUCT";
+          }
+          return {
+            queryType: queryType,
+            result: result,
+            query: parsedQuery,
+            removePrefix: this.removePrefix(parsedQuery)
+          };
+        } else {
+          return {};
+        }
+      }, function(jqXHR){
+        throw new Error(jqXHR.responseText);
+      });
+      return sparqlResult.create({
+        promise: resultPromise
+      });
+    } catch (err) {
+      return {
+        reason: err.message
+      };
+    }
   }
 });

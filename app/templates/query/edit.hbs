@@ -1,0 +1,13 @@
+<div class="query-container container-fluid">
+  <div class="app-body-header">
+    <h1><i class="fa fa-code"></i> Query</h1>
+    <div class="btn-group pull-right">
+      <button class="btn btn-primary" {{action "query"}} disabled={{query.result.isPending}}>{{fa-icon "play"}}</button>
+      {{#link-to "query.edit.index" class="btn btn-secondary"}}{{fa-icon "edit"}}{{/link-to}}
+      {{#link-to "query.edit.result.table" class="btn btn-secondary" disabled=(not (and query.result.isSettled tableCompatible))}}{{fa-icon "table"}}{{/link-to}}
+      {{#link-to "query.edit.result.map" class="btn btn-secondary" disabled=(not (and query.result.isSettled mapCompatible))}}{{fa-icon "map"}}{{/link-to}}
+      {{#link-to "query.edit.result.graph" class="btn btn-secondary" disabled=(not (and query.result.isSettled graphCompatible))}}{{fa-icon "share-alt"}}{{/link-to}}
+    </div>
+  </div>
+  {{outlet}}
+</div>

@@ -1,0 +1,24 @@
+<div class="query-controls">
+  {{#power-select tagName="div" class="query-list" options=savedQueries placeholder="Enter query name" selected=query allowClear=true noMatchesMessage="Hit enter to create new query." onchange=(action "selectQuery")
+  onkeydown=(action "createOnEnter") as |savedQuery|}}
+    {{savedQuery.id}}
+  {{/power-select}}
+  <div class="btn-group">
+    <button class="btn btn-secondary" {{action "save"}} disabled={{and query (not query.hasDirtyAttributes)}}>{{fa-icon "save"}}</button>
+    <button class="btn btn-danger" {{action "delete"}} disabled={{or (not query) query.isNew}}>{{fa-icon "remove"}}</button>
+  </div>
+</div>
+<div class="query-textarea form-group">
+  {{textarea class="form-control" name="query" required=true autofocus=true value=queryContent rows=1}}
+</div>
+{{#if (and query.result.isSettled (not error))}}
+  <div class="alert alert-success" role="alert">OK</div>
+{{/if}}
+{{#if error}}
+  <div class="alert alert-danger" role="alert">
+    {{#each errorLines as |errorLine|}}
+      {{errorLine}}<br>
+    {{/each}}
+  </div>
+{{/if}}
+

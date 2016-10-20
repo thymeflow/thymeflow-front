@@ -1,0 +1,9 @@
+{{#if (eq queryType "SELECT")}}
+  <div class="card-simple-block">
+    {{sparql-result-map result=queryResultContent removePrefix=queryRemovePrefix}}
+  </div>
+{{else if (eq queryType "CONSTRUCT")}}
+  <div class="card-simple-block">
+    {{sparql-result-graph-map result=queryResultContent removePrefix=queryRemovePrefix}}
+  </div>
+{{/if}}

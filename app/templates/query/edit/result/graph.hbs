@@ -1,0 +1,5 @@
+{{#if (eq queryType "CONSTRUCT")}}
+  <div class="card-simple-block">
+    {{graph/rdf-json rdfJson=queryResultContent removePrefix=queryRemovePrefix}}
+  </div>
+{{/if}}

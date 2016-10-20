@@ -2,28 +2,22 @@ import Ember from "ember";
 
 export default Ember.Controller.extend({
   store: Ember.inject.service(),
-  sparql: Ember.inject.service(),
-  showResult: Ember.computed('result.isSettled', function(){
-    return this.get('result.isSettled');
-  }),
   query: Ember.computed.alias('model'),
-  _queryContent: 'CONSTRUCT{ ?s ?p ?o } WHERE { ?s ?p ?o } LIMIT 100',
-  queryContent: Ember.computed('query.content', '_queryContent', {
+  error: Ember.computed.readOnly('query.result.reason'),
+  errorLines: Ember.computed('error', function(){
+    if(this.get('error') != null){
+      return this.get('error').split('\n');
+    }else{
+      return [];
+    }
+  }),
+  queryContent: Ember.computed('query.queryContent', {
     get() {
-      const queryContent = this.get('query.content');
-      if (queryContent != null) {
-        this.set('_queryContent', queryContent);
-        return queryContent;
-      } else {
-        return this.get('_queryContent');
-      }
+      return this.get('query.queryContent');
     },
     set(_, value) {
       const query = this.get('query');
-      if (query != null) {
-        query.set('content', value);
-      }
-      this.set('_queryContent', value);
+      query.set('draft', value);
       return value;
     }
   }),
@@ -31,12 +25,6 @@ export default Ember.Controller.extend({
     return this.store.findAll('sparql-query');
   }.property(),
   actions: {
-    query() {
-      const queryContent = this.get('queryContent');
-      const sparql = this.get('sparql');
-      const result = sparql.query(queryContent);
-      this.set('result', result);
-    },
     save(queryName) {
       const query = this.get('query');
       if (query != null) {
@@ -62,7 +50,7 @@ export default Ember.Controller.extend({
             }).then((queryModel) => {
             queryModel.set('content', queryContent);
             return queryModel.save();
-          }).then(queryModel => this.transitionToRoute('sparql.item', queryModel));
+          }).then(queryModel => this.transitionToRoute('query.edit', queryModel));
         }
       }
     },
@@ -75,10 +63,10 @@ export default Ember.Controller.extend({
     delete(){
       const query = this.get('query');
       query.destroyRecord();
-      this.transitionToRoute('sparql.index');
+      this.transitionToRoute('query.new');
     },
     selectQuery(query) {
-      this.transitionToRoute('sparql.item', query);
+      this.transitionToRoute('query.edit', query);
     }
   }
 });

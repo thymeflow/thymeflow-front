@@ -1,0 +1,25 @@
+<div class="query-result">
+  <div class="card {{if error "card-danger card-inverse"}}">
+    <div class="card-header">
+      <h3 class="{{if hasCsv "pull-left"}}">
+        Result {{#if resultCount}}({{resultCount}}){{/if}}
+      </h3>
+      {{#if hasCsv}}
+        <button class="btn btn-default pull-right" {{action "downloadAsCsv"}}>Download as CSV</button>
+        <div class="clearfix"></div>
+      {{/if}}
+    </div>
+    {{#if error}}
+      <div class="card-block">
+        <p class="card-text">
+          {{#each errorLines as |errorLine|}}
+            {{errorLine}}<br>
+          {{/each}}
+        </p>
+      </div>
+    {{else}}
+      {{outlet}}
+    {{/if}}
+  </div>
+</div>
+
