@@ -12,6 +12,7 @@ Router.map(function() {
 
   this.route('timeline', function(){
   });
+  this.route('services');
 });
 
 export default Router;
