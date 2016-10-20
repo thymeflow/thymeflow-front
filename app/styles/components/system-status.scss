@@ -20,6 +20,12 @@
     .task-progress-cell progress {
       display: block;
     }
+    .task-status-cell {
+      float: right;
+      i {
+        padding-right: 10px;
+      }
+    }
   }
   .no-tasks-message {
     text-align: center;
