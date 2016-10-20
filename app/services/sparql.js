@@ -1,10 +1,10 @@
 import Ember from "ember";
+import DS from 'ember-data';
 import ENV from "thymeflow-front/config/environment";
 import {ajax} from "thymeflow-front/utilities/jquery";
 /* global sparqljs */
 
-const sparqlResult = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin, {
-});
+const sparqlResult = DS.PromiseObject;
 
 export default Ember.Service.extend({
   removePrefix: function (parsedQuery) {

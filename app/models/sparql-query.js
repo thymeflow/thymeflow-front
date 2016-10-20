@@ -18,9 +18,12 @@ export default DS.Model.extend({
     const queryContent = this.get('queryContent');
     if(queryContent != null){
       const sparql = this.get('sparql');
-      this.set('result', sparql.query(queryContent));
+      const result = sparql.query(queryContent);
+      this.set('result', result);
+      return result;
     }else{
       this.set('result', null);
+      return null;
     }
   }
 });
