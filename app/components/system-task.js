@@ -7,5 +7,11 @@ export default Ember.Component.extend({
     let endDate = task.get('endDate');
 
     return endDate !== null;
+  }),
+  isProgressIndeterminate: Ember.computed('task.progress', function(){
+    let task = this.get('task');
+    let progress = task.get('progress');
+
+    return progress == null;
   })
 });
