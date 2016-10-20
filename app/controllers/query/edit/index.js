@@ -65,7 +65,6 @@ export default Ember.Controller.extend({
     createOnEnter(select, e) {
       if (e.keyCode === 13 && select.isOpen && !select.highlighted && !Ember.isBlank(select.searchText)) {
         const queryContent = this.get('queryContent');
-        this.set('query', null);
         this.send('saveByName', select.searchText, queryContent);
       }
     },
