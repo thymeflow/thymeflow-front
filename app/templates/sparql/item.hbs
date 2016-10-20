@@ -1,31 +1,28 @@
-<div class="container">
-  <div class="jumbotron">
-    <h1 class="display-4">SPARQL query</h1>
-    <form>
-      {{#if savedQueries.length}}
-        {{#power-select options=savedQueries placeholder="Saved queries" selected=query allowClear=true noMatchesMessage="Hit enter to create new query." onchange=(action "selectQuery")
-        onkeydown=(action "createOnEnter") as |savedQuery|}}
-          {{savedQuery.id}}
-        {{/power-select}}
-      {{/if}}
-      <div class="form-group">
-        {{textarea class="form-control" name="query" required=true autofocus=true value=queryContent rows=10}}
-      </div>
-      <div class="form-check">
-        <label class="custom-control custom-checkbox">
-          {{input type="checkbox" class="custom-control-input" checked=isMap}}
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">Map</span>
-        </label>
-      </div>
-      <button class="btn btn-primary" {{action "query"}} disabled={{result.isPending}}>{{fa-icon "search"}} Execute</button>
-      <button class="btn btn-secondary" {{action "save"}} disabled={{and query (not query.hasDirtyAttributes)}}>{{fa-icon "save"}} Save</button>
-      {{#if (and query (not query.isNew))}}
-        <button class="btn btn-danger" {{action "delete"}}>{{fa-icon "remove"}} Delete</button>
-      {{/if}}
-    </form>
+<div class="query-container container-fluid">
+  <div class="app-body-header">
+    <h1><i class="fa fa-code"></i> Query</h1>
+    <div class="btn-group pull-right">
+      <button class="btn btn-primary" {{action "query"}} disabled={{result.isPending}}>{{fa-icon "play"}}</button>
+      <button class="btn btn-secondary">{{fa-icon "table"}}</button>
+    </div>
   </div>
-  {{#if result.isSettled}}
-    {{sparql-result queryType=result.queryType result=result.content.content error=result.reason removePrefix=result.removePrefix isMap=isMap}}
+  {{#if showResult}}
+    <div class="query-result">
+      {{sparql-result queryType=result.queryType result=result.content.content error=result.reason removePrefix=result.removePrefix isMap=isMap}}
+    </div>
+  {{else}}
+    <div class="query-controls">
+      {{#power-select tagName="div" class="query-list" options=savedQueries placeholder="Saved queries" selected=query allowClear=true noMatchesMessage="Hit enter to create new query." onchange=(action "selectQuery")
+      onkeydown=(action "createOnEnter") as |savedQuery|}}
+        {{savedQuery.id}}
+      {{/power-select}}
+      <div class="btn-group">
+        <button class="btn btn-secondary" {{action "save"}} disabled={{and query (not query.hasDirtyAttributes)}}>{{fa-icon "save"}}</button>
+        <button class="btn btn-danger" {{action "delete"}} disabled={{or (not query) query.isNew}}>{{fa-icon "remove"}}</button>
+      </div>
+    </div>
+    <div class="query-textarea form-group">
+      {{textarea class="form-control" name="query" required=true autofocus=true value=queryContent rows=1}}
+    </div>
   {{/if}}
 </div>

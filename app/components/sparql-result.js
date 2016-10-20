@@ -2,6 +2,7 @@ import Ember from "ember";
 /* global download */
 
 export default Ember.Component.extend({
+  tagName: "",
   isSelect: function () {
     return this.get('queryType') === "SELECT";
   }.property('queryType'),

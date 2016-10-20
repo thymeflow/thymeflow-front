@@ -3,6 +3,9 @@ import Ember from "ember";
 export default Ember.Controller.extend({
   store: Ember.inject.service(),
   sparql: Ember.inject.service(),
+  showResult: Ember.computed('result.isSettled', function(){
+    return this.get('result.isSettled');
+  }),
   query: Ember.computed.alias('model'),
   _queryContent: 'CONSTRUCT{ ?s ?p ?o } WHERE { ?s ?p ?o } LIMIT 100',
   queryContent: Ember.computed('query.content', '_queryContent', {

@@ -11,7 +11,7 @@
   {{#if error}}
     <div class="card-block"><p class="card-text">{{error}}</p></div>
   {{else if isSelect}}
-    <div>
+    <div class="card-simple-block">
       {{#if isMap}}
         {{sparql-result-map result=result removePrefix=removePrefix}}
       {{else}}
@@ -21,12 +21,12 @@
   {{else if isAsk}}
     <div class="card-block"><p class="card-text">{{#if result.boolean}}true{{else}}false{{/if}}</p></div>
   {{else if isConstruct}}
-    <div>
+    <div class="card-simple-block">
       {{#if isMap}}
         {{sparql-result-graph-map result=result removePrefix=removePrefix}}
       {{else}}
         {{graph/rdf-json rdfJson=result removePrefix=removePrefix}}
-        {{/if}}
+      {{/if}}
     </div>
   {{else if isUpdate}}
     <div class="card-block"><p class="card-text">UPDATE OK</p></div>
