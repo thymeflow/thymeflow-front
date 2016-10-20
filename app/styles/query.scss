@@ -41,6 +41,9 @@
   .sparql-result-table-body {
     height: calc(100% - 47px);
   }
+  .map, .map-container{
+    height: 100%;
+  }
 }
 
 .query-textarea {

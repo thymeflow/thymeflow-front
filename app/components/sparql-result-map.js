@@ -2,6 +2,7 @@ import Ember from "ember";
 import ol from "ol";
 
 export default Ember.Component.extend({
+  tagName: "",
   zoom: 1,
   center: [0, 0],
   mapControls: function () {
