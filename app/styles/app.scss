@@ -11,7 +11,6 @@ $custom-file-text: (
 @import "mixins/scrollbar";
 
 @import "rdf-json";
-@import "responsive-svg";
 @import "sparql-result";
 @import "map";
 @import 'ember-power-select/themes/bootstrap';
@@ -20,6 +19,8 @@ $custom-file-text: (
 @import "loading";
 @import "components/external-services-listing";
 @import "components/system-status";
+
+@import "query";
 
 body, html{
   height: 100%;
@@ -65,5 +66,12 @@ body{
 .navbar-dark {
   .navbar-toggler {
     color: $navbar-dark-active-color;
+  }
+}
+
+.app-body-header{
+  h1{
+    display: inline-block;
+    text-transform: uppercase;
   }
 }

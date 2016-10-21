@@ -1,0 +1,67 @@
+.query-container {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: $gray-lighter;
+  display: flex;
+  flex-direction: column;
+}
+
+.query-result{
+  flex: 1;
+  margin-bottom: 1rem;
+
+  .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-simple-block{
+    flex: 1;
+  }
+
+  .graph-container{
+    height: 100%;
+  }
+
+  .graph-svg-container{
+    height: 100%;
+  }
+
+  svg{
+    height: 100%;
+    width: 100%;
+  }
+
+  .sparql-result-table{
+    height: 100%;
+  }
+
+  .sparql-result-table-body {
+    height: calc(100% - 47px);
+  }
+  .map, .map-container{
+    height: 100%;
+  }
+}
+
+.query-textarea {
+  flex: 1;
+  textarea{
+    resize: none;
+    height: 100%;
+  }
+}
+
+.query-controls{
+  display: flex;
+  flex-direction: row;
+}
+
+.query-list{
+  flex: 1;
+  & > div {
+    height: 100%;
+  }
+}

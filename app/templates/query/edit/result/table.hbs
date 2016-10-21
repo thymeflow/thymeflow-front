@@ -1,0 +1,11 @@
+{{#if (eq queryType "SELECT")}}
+  <div class="card-simple-block">
+    {{sparql-result-table result=queryResultContent removePrefix=queryRemovePrefix}}
+  </div>
+{{else if (eq queryType "ASK")}}
+  <div class="card-block"><p class="card-text">{{#if queryResultContent.boolean}}true{{else}}false{{/if}}</p></div>
+{{else if (eq queryType "CONSTRUCT")}}
+  <div class="card-simple-block"></div>
+{{else if (eq queryType "UPDATE")}}
+  <div class="card-block"><p class="card-text">UPDATE OK</p></div>
+{{/if}}

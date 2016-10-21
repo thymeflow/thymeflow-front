@@ -6,8 +6,15 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('sparql', function () {
-    this.route('item', {path: ':query_name'});
+  this.route('query', function () {
+    this.route('new');
+    this.route('edit', {path: '/q/:query_name'}, function(){
+      this.route('result', function(){
+        this.route('table');
+        this.route('graph');
+        this.route('map');
+      });
+    });
   });
 
   this.route('timeline', function(){

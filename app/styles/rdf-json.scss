@@ -1,3 +1,9 @@
+.graph-svg-container {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
 .graph-node {
   stroke: #000;
   stroke-width: 1.5px;

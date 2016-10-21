@@ -7,7 +7,7 @@ const imageProperty = "http://schema.org/image";
 const longitudeProperty = "http://schema.org/longitude";
 const latitudeProperty = "http://schema.org/latitude";
 const tooltipOffset = {x: 0, y: -10};
-const defaultViewSize = 4000;
+const defaultViewSize = 1000;
 const imageSize = 50;
 
 function getScreenCoordinates(targetElement, svg) {
