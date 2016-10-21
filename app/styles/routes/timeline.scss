@@ -65,6 +65,10 @@ $timeline-panel-switch-width: 600px;
 .timeline-details, .timeline-header{
   background-color: white;
   box-shadow: 0 1px 4px rgba(0,0,0,.06), 0 3px 6px rgba(0,0,0,.26);
+  .app-body-header.jumbotron.title{
+    padding: 0.5rem 2rem;
+    margin-bottom: 0;
+  }
 }
 
 .timeline-details{
