@@ -4,8 +4,15 @@
     {{#link-to "data-services" class="nav-link"}}
     <span>Services</span>
     {{/link-to}}
+    <span> > {{model.name}}</span>
   </div>
 </div>
 <div>
-  {{model.name}}
+  {{#if model.isExternalService}}
+    {{external-service model=model}}
+  {{else if model.isEmailService}}
+    {{email-service model=model}}
+  {{else if model.isFileService}}
+    {{file-service model=model}}
+  {{/if}}
 </div>

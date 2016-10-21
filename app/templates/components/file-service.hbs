@@ -1,0 +1,8 @@
+<form class="card">
+  <div class="card-header">File upload</div>
+  <div class="card-block">
+    <div class="form-group">
+      {{file-upload uploadUrl=(concat apiEndpoint "/upload") uploadParam='file'}}
+    </div>
+  </div>
+</form>
