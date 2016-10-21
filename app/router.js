@@ -12,7 +12,10 @@ Router.map(function() {
 
   this.route('timeline', function(){
   });
-  this.route('data-services');
+
+  this.route('data-services', function () {
+    this.route('data-service', { path: ':dataService_id' });
+  });
 });
 
 export default Router;
