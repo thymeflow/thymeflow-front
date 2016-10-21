@@ -7,14 +7,18 @@
 </div>
 <div class="row">
   <div class="col-md-2"></div>
-  <div class="data-services col-md-8">
-    {{#if model}}
-      {{#each model as |service|}}
-        {{data-service service=service}}
-      {{/each}}
-    {{else}}
-      <div class="no-services-message">There are currently no services available.</div>
-    {{/if}}
+  <div class="col-md-8">
+    <div class="card-deck-wrapper data-services col-md-8">
+      <div class="card-deck">
+        {{#if model}}
+          {{#each model as |service|}}
+            {{data-service service=service}}
+          {{/each}}
+        {{else}}
+          <div class="no-services-message">There are currently no services available.</div>
+        {{/if}}
+      </div>
+    </div>
   </div>
   <div class="col-md-2"></div>
 </div>

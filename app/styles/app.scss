@@ -17,8 +17,10 @@ $custom-file-text: (
 @import 'ember-power-select';
 @import "timeline";
 @import "loading";
+@import "routes/data-services";
 @import "components/external-services-listing";
 @import "components/system-status";
+@import "components/data-service";
 
 @import "query";
 

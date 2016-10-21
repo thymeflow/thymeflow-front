@@ -1,7 +1,9 @@
-{{#link-to "data-services.data-service" service.name class="nav-link"}}
-<div class="data-service">
-  <i class="fa {{service.icon}}" aria-hidden="true"></i>
-  <span>{{service.name}}</span>
-  <div>{{service.accountsCount}}</div>
-</div>
+{{#link-to "data-services.data-service" service.name class="nav-link data-service"}}
+  <div class="data-service-count">
+    {{service.accountsCount}}
+  </div>
+  <div class="card-block">
+    <i class="card-title data-service-icon fa {{service.icon}}" aria-hidden="true"></i>
+    <div class="card-text data-service-text">{{service.name}}</div>
+  </div>
 {{/link-to}}
