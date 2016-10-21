@@ -1,43 +1,21 @@
-<div class="container">
-  <h1>Welcome to Thymeflow</h1>
-  <hr>
-  <div class="card">
-  <div class="card-header">Connect with external services</div>
-    {{external-services-listing}}
+<div class="jumbotron title">
+  <div class="container">
+    <h1><i class="fa fa-th" aria-hidden="true"></i> THYMEFLOW</h1>
   </div>
-
-  <form class="card">
-    <div class="card-header">File upload</div>
-    <div class="card-block">
-      <div class="form-group">
-        {{file-upload uploadUrl=(concat apiEndpoint "/upload") uploadParam='file'}}
-      </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="app-home-link col-md-3 col-sm-4 col-xs-6">
+      <a href="/data-services"><i class="fa fa-plug"></i> SERVICES</a>
     </div>
-  </form>
-
-  <form class="card" action="{{apiEndpoint}}/imap" method="POST" enctype="multipart/form-data">
-    <div class="card-header">IMAP server</div>
-    <div class="card-block">
-      <div class="form-group">
-        <label for="host">Host</label>
-        <input type="text" id="host" name="host" required class="form-control"/>
-      </div>
-      <div class="form-group">
-        <label for="user">User (usually the email address)</label>
-        <input type="text" id="user" name="user" required class="form-control"/>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required class="form-control"/>
-      </div>
-      <div class="form-group">
-        <label class="custom-control custom-checkbox">
-          <input class="custom-control-input" type="checkbox" id="ssl" name="ssl" value="true" checked/>
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">Use SSL</span>
-        </label>
-      </div>
-      <button type="submit" class="btn btn-primary">Retrieve</button>
+    <div class="app-home-link col-md-3 col-sm-4 col-xs-6">
+      <a href="/query"><i class="fa fa-code"></i> QUERY</a>
     </div>
-  </form>
+    <div class="app-home-link col-md-3 col-sm-4 col-xs-6">
+      <a href="/timeline"><i class="fa fa-clock-o"></i> TIMELINE</a>
+    </div>
+    <div class="app-home-link col-md-3 col-sm-4 col-xs-6">
+      <a href="/query"><i class="fa fa-users"></i> CONTACTS</a>
+    </div>
+ </div>
 </div>

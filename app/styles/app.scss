@@ -75,3 +75,26 @@ body{
     text-transform: uppercase;
   }
 }
+.app-body {
+  .jumbotron.title {
+    padding: 1rem 2rem;
+    background-color: $app-color5;
+    color: white;
+    border-radius: 0px;
+  }
+}
+
+.app-home-link {
+  margin-bottom: 2rem;
+  a {
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    font-size: 1.5rem;
+  }
+  
+  i {
+    font-size: 5rem;
+    display: block;
+  }
+}
