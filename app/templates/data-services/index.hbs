@@ -5,15 +5,15 @@
   </div>
 </div>
 <div class="container">
-  <div class="card-deck-wrapper data-services">
-    <div class="card-deck">
-      {{#if model}}
-        {{#each model as |service|}}
+  {{#if model}}
+    <div class="data-services row">
+      {{#each model as |service|}}
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 col-xl-2">
           {{data-service service=service}}
-        {{/each}}
-      {{else}}
-        <div class="no-services-message">There are currently no services available.</div>
-      {{/if}}
+        </div>
+      {{/each}}
     </div>
-  </div>
+  {{else}}
+    <div class="no-services-message">There are currently no services available.</div>
+  {{/if}}
 </div>
