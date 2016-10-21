@@ -18,6 +18,8 @@ $custom-file-text: (
 @import "timeline";
 @import "loading";
 @import "routes/data-services";
+@import "routes/contacts";
+
 @import "components/external-services-listing";
 @import "components/system-status";
 @import "components/data-service";
@@ -86,40 +88,6 @@ body{
   }
 }
 
-.contact-container{
-  display: flex;
-  flex-direction: row;
-}
-
-.contact-description-container{
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.contact-image-container{
-  width: 64px;
-  margin-right: 0.5em;
-  text-align: center;
-}
-
-.contact-no-image{
- width: 58px;
- height: 58px;
- line-height: 75px;
- font-size: 55px;
- border: 1px solid lightgray;
- overflow: hidden;
- color: white;
- vertical-align: middle;
- background-color: lightgray;
-}
-
-.contact-image{
-  width: 60px;
-  height: 60px;
-}
 .app-home-link {
   margin-bottom: 2rem;
   a {
