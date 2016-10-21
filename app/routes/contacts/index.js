@@ -11,7 +11,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 SELECT ?agent 
 (SAMPLE(?image) as ?image)
 (SAMPLE(?email) as ?email) 
-(SAMPLE(?name) as ?name) 
+(SAMPLE(?cleanedName) as ?name) 
 ?accountName 
 ?serviceName
 WHERE {
@@ -29,6 +29,9 @@ WHERE {
  OPTIONAL {
    ?agent schema:email/schema:name ?email .
  }
+ FILTER(?name != '')
+ BIND(REPLACE(?name, "^\\\\s+(.*?)\\\\s*$|^(.*?)\\\\s+$", '$1$2') AS ?cleanedName)
+ 
 } GROUP BY ?agent ?accountName ?serviceName ORDER BY ?name`,
   model(){
     return DS.PromiseObject.create({

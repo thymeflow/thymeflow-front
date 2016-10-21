@@ -3,11 +3,18 @@
 </div>
 <div class="row">
   {{#each model as |contact|}}
-    <div class="col-md-3">
-      <div class="card card-block">
-        <img class="img-thumbnail img-circle" src={{contact.image}}/>
-        <h4 class="card-title">{{#link-to "contacts.item" contact.agent}}{{contact.name}}{{/link-to}}</h4>
-        <p class="card-text">{{contact.email}}</p>
+    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <div class="contact-container card card-block">
+        <div class="contact-image-container">
+          {{#if contact.image}}
+            <img class="img-circle contact-image" src={{contact.image}}/>
+          {{else}}
+            <i class="fa fa-user img-circle contact-no-image" aria-hidden="true"></i>
+          {{/if}}
+        </div>
+        <div class="contact-description-container">
+          {{#link-to "contacts.item" contact.agent title=contact.name}}{{#if contact.name}}{{contact.name}}{{else}}{{contact.email}}{{/if}}{{/link-to}}
+        </div>
       </div>
     </div>
   {{/each}}
