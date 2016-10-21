@@ -29,7 +29,7 @@ export default Ember.Controller.extend({
     } else {
       return null;
     }
-  }.property('result'),
+  }.property('queryResultContent'),
   hasCsv: function () {
     if (this.get('queryType') === 'SELECT') {
       return true;

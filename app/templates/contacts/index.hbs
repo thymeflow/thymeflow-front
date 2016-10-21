@@ -1,0 +1,14 @@
+<div class="app-body-header">
+  <h1><i class="fa fa-users"></i> Contacts</h1>
+</div>
+<div class="row">
+  {{#each model as |contact|}}
+    <div class="col-md-3">
+      <div class="card card-block">
+        <img class="img-thumbnail img-circle" src={{contact.image}}/>
+        <h4 class="card-title">{{#link-to "contacts.item" contact.agent}}{{contact.name}}{{/link-to}}</h4>
+        <p class="card-text">{{contact.email}}</p>
+      </div>
+    </div>
+  {{/each}}
+</div>

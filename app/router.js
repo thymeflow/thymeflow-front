@@ -17,6 +17,12 @@ Router.map(function() {
     });
   });
 
+  this.route('contacts', function(){
+    this.route('item', {path: ':contact_id'}, function(){
+
+    });
+  });
+
   this.route('timeline', function(){
   });
 });
