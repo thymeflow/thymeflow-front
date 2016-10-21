@@ -1,30 +1,23 @@
-$custom-file-text: (
-  placeholder: (
-    en: ""
-  ),
-  button-label: (
-    en: "Browse"
-  )
-);
 @import "navbar";
 @import 'bower_components/bootstrap/scss/bootstrap-flex';
-@import "mixins/scrollbar";
-
-@import "rdf-json";
-@import "sparql-result";
-@import "map";
 @import 'ember-power-select/themes/bootstrap';
 @import 'ember-power-select';
-@import "timeline";
-@import "loading";
-@import "routes/data-services";
-@import "routes/contacts";
 
+@import "mixins/scrollbar";
+
+@import "loading-panel";
+
+@import "components/rdf-json";
+@import "components/sparql-result";
+@import "components/map";
 @import "components/external-services-listing";
 @import "components/system-status";
 @import "components/data-service";
 
-@import "query";
+@import "routes/timeline";
+@import "routes/data-services";
+@import "routes/contacts";
+@import "routes/query";
 
 body, html{
   height: 100%;
