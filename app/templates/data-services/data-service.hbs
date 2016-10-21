@@ -1,2 +1,11 @@
-data-service route
-{{model.name}}
+<div class="row">
+  <div class="col-md-6">
+    <i class="fa fa-database" aria-hidden="true"></i>
+    {{#link-to "data-services" class="nav-link"}}
+    <span>Services</span>
+    {{/link-to}}
+  </div>
+</div>
+<div>
+  {{model.name}}
+</div>
