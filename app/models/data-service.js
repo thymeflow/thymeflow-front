@@ -3,6 +3,9 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
+  routeName: Ember.computed('name', function(){
+    return Ember.String.dasherize(this.get('name'));
+  }),
   icon: Ember.computed('name', function() {
     switch (`${this.get('name')}`) {
       case 'Google': return 'fa-google';

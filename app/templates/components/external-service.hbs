@@ -6,7 +6,7 @@
     </div>
     <div class="card-block">
       <div>
-        <a class="external-connect-link" href="{{apiEndpoint}}/oauth/{{model.name}}/auth">
+        <a class="external-connect-link" href="{{apiEndpoint}}/oauth/{{model.routeName}}/auth">
           <i class="fa fa-plus"></i>
           <span>Add account</span>
         </a>
@@ -27,31 +27,29 @@
       <span>Information</span>
     </div>
     <div class="card-block">
-      <div class="card-deck-wrapper">
-        <div class="card-deck">
-          <div class="card text-xs-center">
-            <div class="card-block">
-              <h4 class="card-title"><i class="fa fa-users" aria-hidden="true"></i></h4>
-              <p class="card-text">{{model.eventsCount}} Events</p>
-            </div>
+      <div class="card-deck">
+        <div class="card text-xs-center">
+          <div class="card-block">
+            <h4 class="card-title"><i class="fa fa-calendar" aria-hidden="true"></i></h4>
+            <p class="card-text">{{model.eventsCount}} Events</p>
           </div>
-          <div class="card text-xs-center">
-            <div class="card-block">
-              <h4 class="card-title"><i class="fa fa-commenting" aria-hidden="true"></i></h4>
-              <p class="card-text">{{model.messagesCount}} Messages</p>
-            </div>
+        </div>
+        <div class="card text-xs-center">
+          <div class="card-block">
+            <h4 class="card-title"><i class="fa fa-commenting" aria-hidden="true"></i></h4>
+            <p class="card-text">{{model.messagesCount}} Messages</p>
           </div>
-          <div class="card text-xs-center">
-            <div class="card-block">
-              <h4 class="card-title"><i class="fa fa-tasks" aria-hidden="true"></i></h4>
-              <p class="card-text">{{model.agentsCount}} Agents</p>
-            </div>
+        </div>
+        <div class="card text-xs-center">
+          <div class="card-block">
+            <h4 class="card-title"><i class="fa fa-users" aria-hidden="true"></i></h4>
+            <p class="card-text">{{model.agentsCount}} Agents</p>
           </div>
-          <div class="card text-xs-center">
-            <div class="card-block">
-              <h4 class="card-title"><i class="fa fa-map-marker" aria-hidden="true"></i></h4>
-              <p class="card-text">{{model.locationsCount}} Locations</p>
-            </div>
+        </div>
+        <div class="card text-xs-center">
+          <div class="card-block">
+            <h4 class="card-title"><i class="fa fa-map-marker" aria-hidden="true"></i></h4>
+            <p class="card-text">{{model.locationsCount}} Locations</p>
           </div>
         </div>
       </div>
