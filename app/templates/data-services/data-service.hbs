@@ -1,13 +1,7 @@
-<div class="row">
-  <div class="col-md-6">
-    <i class="fa fa-plug" aria-hidden="true"></i>
-    {{#link-to "data-services" class="nav-link"}}
-    <span>Services</span>
-    {{/link-to}}
-    <span> > {{model.name}}</span>
-  </div>
+<div class="app-body-header jumbotron title">
+  <h1><i class="fa fa-database" aria-hidden="true"></i> {{#link-to "data-services" class="nav-link"}}Services{{/link-to}} > {{model.name}}</h1>
 </div>
-<div>
+<div class="container">
   {{#if model.isExternalService}}
     {{external-service model=model}}
   {{else if model.isEmailService}}
