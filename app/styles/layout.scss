@@ -1,0 +1,83 @@
+body, html{
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+body{
+  box-sizing: border-box;
+  overflow: hidden
+}
+
+.app{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-header{
+  -webkit-box-flex: 0;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+  z-index: 10;
+  .navbar{
+    border-radius: 0;
+  }
+}
+
+.app-body {
+  overflow: auto;
+  flex: 1;
+}
+
+// Bootstrap v4 fix while we wait for alpha.5 https://github.com/twbs/bootstrap/pull/19890
+.navbar-dark {
+  .navbar-toggler {
+    color: $navbar-dark-active-color;
+  }
+}
+
+.app-body-header{
+  h1{
+    display: inline-block;
+    text-transform: uppercase;
+  }
+}
+.app-body {
+  .jumbotron.title {
+    padding: 1rem 2rem;
+    background-color: $app-color5;
+    color: white;
+    border-radius: 0;
+  }
+}
+
+.app-home-link {
+  margin-bottom: 2rem;
+  a {
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    font-size: 1.25rem;
+  }
+
+  i {
+    font-size: 5rem;
+    display: block;
+  }
+}
+
+.app-body-header-command {
+  display: inline-block;
+  position: absolute;
+  line-height: 3rem;
+  right: 2rem;
+}
