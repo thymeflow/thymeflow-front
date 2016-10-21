@@ -17,6 +17,10 @@ export default DS.Model.extend({
   accountsCount: Ember.computed('accounts', function() {
     return this.get('accounts').length;
   }),
+  eventsCount: DS.attr('number'),
+  messagesCount: DS.attr('number'),
+  locationsCount: DS.attr('number'),
+  agentsCount: DS.attr('number'),
   isExternalService: Ember.computed('name', function() {
     switch (`${this.get('name')}`) {
       case 'Google':
