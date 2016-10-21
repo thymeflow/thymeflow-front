@@ -188,6 +188,16 @@ CONSTRUCT {
                 });
             }
           }
+          const fieldOrder = {
+            email: 1,
+            name: 2,
+            image: 3,
+            givenName: 4,
+            familyName: 5,
+            telephone: 6,
+            sameAs: 7,
+            unknown: 8
+          };
           fields.forEach(function(field){
             let map = new Map();
             function processField(v){
@@ -203,13 +213,14 @@ CONSTRUCT {
                 type: v.source
               });
             }
+            field.order = fieldOrder[field.property] || fieldOrder["unknown"];
             field.values.forEach(processField);
             field.values = Array.from(map.values());
           });
           return {
             name: name,
             images: images,
-            fields: fields
+            fields: fields.sortBy('order')
           };
         })
       });
