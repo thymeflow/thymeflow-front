@@ -11,6 +11,9 @@ export default Ember.Route.extend({
       return model;
     }
 
-    return this.get('store').find('data-service', modelId);
+    // TODO: implement endpoint in thymeflow-back
+    //return this.get('store').find('data-service', modelId);
+
+    this.transitionTo('data-services');
   }
 });
