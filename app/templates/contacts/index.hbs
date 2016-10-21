@@ -1,21 +1,23 @@
-<div class="app-body-header">
+<div class="app-body-header jumbotron title">
   <h1><i class="fa fa-users"></i> Contacts</h1>
 </div>
-<div class="row">
-  {{#each model as |contact|}}
-    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
-      <div class="contact-container card card-block">
-        <div class="contact-image-container">
-          {{#if contact.image}}
-            <img class="img-circle contact-image" src={{contact.image}}/>
-          {{else}}
-            <i class="fa fa-user img-circle contact-no-image" aria-hidden="true"></i>
-          {{/if}}
-        </div>
-        <div class="contact-description-container">
-          {{#link-to "contacts.item" contact.agent title=contact.name}}{{#if contact.name}}{{contact.name}}{{else}}{{contact.email}}{{/if}}{{/link-to}}
+<div class="container-fluid">
+  <div class="row">
+    {{#each model as |contact|}}
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        <div class="contact-container card card-block">
+          <div class="contact-image-container">
+            {{#if contact.image}}
+              <img class="img-circle contact-image" src={{contact.image}}/>
+            {{else}}
+              <i class="fa fa-user img-circle contact-no-image" aria-hidden="true"></i>
+            {{/if}}
+          </div>
+          <div class="contact-description-container">
+            {{#link-to "contacts.item" contact.agent title=contact.name}}{{#if contact.name}}{{contact.name}}{{else}}{{contact.email}}{{/if}}{{/link-to}}
+          </div>
         </div>
       </div>
-    </div>
-  {{/each}}
+    {{/each}}
+  </div>
 </div>
