@@ -20,13 +20,20 @@ PREFIX personal: <http://thymeflow.com/personal#>
 
 SELECT ?agent 
 (SAMPLE(?email) as ?email) 
-(SAMPLE(?cleanedName) as ?name)
+(SAMPLE(?mainEmail) as ?mainEmail)
+(SAMPLE(?name) as ?name)
+(SAMPLE(?mainName) as ?mainName)
 (SAMPLE(?image) as ?image)
 (GROUP_CONCAT(DISTINCT ?source; separator = " ") as ?sourceAccountServices)
 WHERE {
  ?agent a personal:PrimaryFacet .
  ?agent a personal:Agent .
-
+ OPTIONAL{
+    ?agent schema:name ?mainName .
+ }
+ OPTIONAL{
+    ?agent schema:email/schema:name ?mainEmail .
+ }
  ?agent personal:sameAs* ?equivalentAgent .
       
       GRAPH ?document {
@@ -44,7 +51,6 @@ WHERE {
  OPTIONAL {
    ?equivalentAgent  schema:name ?name .
  }
- BIND(REPLACE(?name, "^\\\\s+(.*?)\\\\s*$|^(.*?)\\\\s+$", '$1$2') AS ?cleanedName)
 } GROUP BY ?agent`,
   model(){
     return DS.PromiseObject.create({
@@ -55,7 +61,10 @@ WHERE {
         }).then((contacts) => {
           return contacts.map((contact) => {
             let email = null;
-            if(contact.email != null){
+            if(contact.mainEmail != null){
+              email = contact.mainEmail.value;
+            }
+            if(email == null && contact.email != null){
               email = contact.email.value;
             }
             let image = null;
@@ -63,7 +72,10 @@ WHERE {
               image = contact.image.value;
             }
             let name = null;
-            if(contact.name != null){
+            if(contact.mainName != null){
+              name = contact.mainName.value;
+            }
+            if(name == null && contact.name != null){
               name = contact.name.value;
             }
             const sourceAccountServices = contact.sourceAccountServices.value.split(' ').map(parseSourceUri);
@@ -71,7 +83,7 @@ WHERE {
               agent: contact.agent.value,
               route: encodeURIComponent(contact.agent.value),
               name: name,
-              sortField: (name != null)?name.toLowerCase():((email != null)?email.toLowerCase():""),
+              sortField: (name != null)?name.trim().toLowerCase():((email != null)?email.trim().toLowerCase():""),
               email: email,
               image: image,
               sourceAccountServices: sourceAccountServices,
