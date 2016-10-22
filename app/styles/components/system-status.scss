@@ -4,6 +4,9 @@
   a:hover {
       text-decoration: none;
   }
+  .system-status-body{
+    color: white;
+  }
   .panel-header {
     background-color: #5ABFD7;
     text-align: right;
@@ -19,7 +22,6 @@
   .tasks-table {
     margin: 5px 15px;
     width: calc(100% - 30px);
-    color: white;
     
     .task-progress-cell progress {
       display: block;
