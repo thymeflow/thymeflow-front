@@ -60,7 +60,7 @@ export default Ember.Controller.extend({
     },
     saveByName(queryName, queryContent) {
       if (queryName != null && queryName.length > 0 && queryName !== 'new') {
-        const id = queryName;
+        const id = Ember.String.dasherize(queryName);
         this.store.findRecord('sparql-query', id)
           .catch(() => {
             // In case a query with the same name does not exist,
