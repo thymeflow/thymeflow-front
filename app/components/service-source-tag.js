@@ -6,7 +6,7 @@ export default Ember.Component.extend({
   account: null,
   sourceIcon: Ember.computed("source", function(){
     switch(this.get('source')){
-      case "Facebook": return "facebook";
+      case "Facebook": return "share-alt";
       case "Calendar": return "calendar";
       case "Contacts": return "users";
       case "Emails": return "envelope";
