@@ -1,38 +1,51 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
+const sourceRegex = /^http:\/\/thymeflow\.com\/personal#Service\/([^/]*)\/([^/]*)\/([^/]*)/;
+
+function parseSourceUri(sourceUri){
+  const m = sourceUri.match(sourceRegex);
+  return {
+    service: decodeURIComponent(m[1]),
+    account: decodeURIComponent(m[2]),
+    source: decodeURIComponent(m[3])
+  };
+}
+
 export default Ember.Route.extend({
   sparql: Ember.inject.service(),
   contactsQuery: `
 PREFIX schema: <http://schema.org/>
 PREFIX personal: <http://thymeflow.com/personal#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 SELECT ?agent 
-(SAMPLE(?image) as ?image)
 (SAMPLE(?email) as ?email) 
-(SAMPLE(?cleanedName) as ?name) 
-?accountName 
-?serviceName
+(SAMPLE(?cleanedName) as ?name)
+(SAMPLE(?image) as ?image)
+(GROUP_CONCAT(DISTINCT ?source; separator = " ") as ?sourceAccountServices)
 WHERE {
- ?document personal:documentOf/personal:sourceOf ?account .
- ?account  schema:name ?accountName ;
- personal:accountOf/schema:name ?serviceName.
  ?agent a personal:PrimaryFacet .
- GRAPH ?document {
-   ?agent a personal:Agent ;
-      schema:name ?name ;
+ ?agent a personal:Agent .
+
+ ?agent personal:sameAs* ?equivalentAgent .
+      
+      GRAPH ?document {
+         ?equivalentAgent a personal:Agent .
+      }
+      
+      ?document personal:documentOf ?source .
+    
+ OPTIONAL {
+   ?equivalentAgent  schema:image ?image .
  }
  OPTIONAL {
-   ?agent personal:sameAs*/schema:image ?image .
+   ?equivalentAgent  schema:email/schema:name ?email .
  }
  OPTIONAL {
-   ?agent schema:email/schema:name ?email .
+   ?equivalentAgent  schema:name ?name .
  }
- FILTER(?name != '')
  BIND(REPLACE(?name, "^\\\\s+(.*?)\\\\s*$|^(.*?)\\\\s+$", '$1$2') AS ?cleanedName)
- 
-} GROUP BY ?agent ?accountName ?serviceName ORDER BY ?name`,
+} GROUP BY ?agent`,
   model(){
     return DS.PromiseObject.create({
       promise: this.get('sparql')
@@ -49,13 +62,19 @@ WHERE {
             if(contact.image != null){
               image = contact.image.value;
             }
+            let name = null;
+            if(contact.name != null){
+              name = contact.name.value;
+            }
+            const sourceAccountServices = contact.sourceAccountServices.value.split(' ').map(parseSourceUri);
             return {
               agent: contact.agent.value,
-              name: contact.name.value,
+              route: encodeURIComponent(contact.agent.value),
+              name: name,
+              sortField: (name != null)?name.toLowerCase():((email != null)?email.toLowerCase():""),
               email: email,
               image: image,
-              account: contact.accountName.value,
-              service: contact.serviceName.value
+              sourceAccountServices: sourceAccountServices,
             };
           });
         })

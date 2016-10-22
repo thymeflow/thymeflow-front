@@ -53,8 +53,11 @@ CONSTRUCT {
 }`;
   },
   model(params){
-    const contactId = params.contact_id;
+    let contactId = params.contact_id;
     if(contactId != null){
+      // big hack, to counter a bug with Ember.js ..
+      contactId = contactId.replace("%40", "%2540");
+      contactId = decodeURIComponent(contactId);
       const sparql = this.get('sparql');
       return DS.PromiseObject.create({
         promise: sparql.query(this.contactQuery(contactId)).then(results =>{
@@ -162,6 +165,7 @@ CONSTRUCT {
           function fillFieldSameAs(value){
             return {
               value: value.value,
+              route: encodeURIComponent(value.value),
               account: accountMap.get(value.value),
               service: serviceMap.get(value.value),
               source: sourceMap.get(value.value)

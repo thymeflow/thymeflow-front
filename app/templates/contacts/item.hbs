@@ -23,7 +23,7 @@
               {{#if (eq field.property "image")}}
                 <img src={{value.value}}/>
               {{else if (eq field.property "sameAs")}}
-                {{#link-to "contacts.item" value.value}}{{value.value}}{{/link-to}}
+                {{#link-to "contacts.item" value.route}}{{value.value}}{{/link-to}}
               {{else}}
                 {{value.value}}
               {{/if}}

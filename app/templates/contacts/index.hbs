@@ -2,9 +2,13 @@
   <h1><i class="fa fa-users"></i> Contacts</h1>
 </div>
 <div class="container-fluid">
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-filter" aria-hidden="true"></i></span>
+    {{input class="form-control" value=filterText type='text' placeholder='Filter'}}
+  </div>
   <div class="row">
-    {{#each model as |contact|}}
-      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+    {{#each filteredContacts as |contact|}}
+      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
         <div class="contact-container card card-block">
           <div class="contact-image-container">
             {{#if contact.image}}
@@ -14,7 +18,12 @@
             {{/if}}
           </div>
           <div class="contact-description-container">
-            {{#link-to "contacts.item" contact.agent title=contact.name}}{{#if contact.name}}{{contact.name}}{{else}}{{contact.email}}{{/if}}{{/link-to}}
+            {{#link-to "contacts.item" contact.route title=contact.name}}{{#if contact.name}}{{contact.name}}{{else}}{{contact.email}}{{/if}}{{/link-to}}
+            <div>
+              {{#each contact.sourceAccountServices as |sourceAccountService|}}
+                {{service-source-tag source=sourceAccountService.source account=sourceAccountService.account service=sourceAccountService.service}}
+              {{/each}}
+            </div>
           </div>
         </div>
       </div>
