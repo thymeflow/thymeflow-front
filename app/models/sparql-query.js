@@ -14,16 +14,19 @@ export default DS.Model.extend({
     return queryContent;
   }),
   result: null,
-  execute: function(){
+  executedQuery: null,
+  execute: function(force){
     const queryContent = this.get('queryContent');
     if(queryContent != null){
       const sparql = this.get('sparql');
-      const result = sparql.query(queryContent);
-      this.set('result', result);
-      return result;
+      if(force || this.get('executedQuery') !== queryContent){
+        const result = sparql.query(queryContent);
+        this.set('executedQuery', queryContent);
+        this.set('result', result);
+      }
     }else{
       this.set('result', null);
-      return null;
     }
+    return this.get('result');
   }
 });

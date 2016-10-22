@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
   actions: {
     query() {
       const query = this.get('query');
-      query.execute();
+      query.execute(true);
     }
   }
 });
