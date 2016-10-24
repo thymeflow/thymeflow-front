@@ -20,6 +20,9 @@ export default Ember.Component.extend({
   actions: {
     toggleSystemTasksBody() {
       this.toggleProperty('isShowingSystemTasksBody');
+    },
+    toggleSystemHistoryBody() {
+      this.toggleProperty('isShowingSystemHistoryBody');
     }
   }
 });

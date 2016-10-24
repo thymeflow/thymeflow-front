@@ -13,6 +13,7 @@
     padding-right: 5px;
     line-height: 2rem;
     font-size: 20px;
+    .history-icon,
     .tasks-icon,
     .activity-icon,
     .no-activity-icon {
@@ -22,7 +23,7 @@
   .tasks-table {
     margin: 5px 15px;
     width: calc(100% - 30px);
-    
+
     .task-progress-cell progress {
       display: block;
     }

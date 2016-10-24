@@ -1,5 +1,6 @@
 <div class="system-status">
   <div class="panel-header" title="System status">
+    <i class="fa fa-history history-icon" {{action "toggleSystemHistoryBody"}}></i>
     <i class="fa fa-tasks tasks-icon" {{action "toggleSystemTasksBody"}}></i>
     {{#if hasRunningTasks}}
       <i class="fa fa-cog fa-spin fa-fw activity-icon" {{action "toggleSystemTasksBody"}}></i>
@@ -7,6 +8,12 @@
       <i class="fa fa-check no-activity-icon" {{action "toggleSystemTasksBody"}}></i>
     {{/if}}
   </div>
+
+  {{#liquid-if isShowingSystemHistoryBody class='system-history-body'}}
+    <div>
+      System history placeholder
+    </div>
+  {{/liquid-if}}
 
   {{#liquid-if isShowingSystemTasksBody class='system-status-body'}}
     {{#if tasks}}
