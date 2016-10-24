@@ -1,25 +1,72 @@
-<form class="card" action="{{apiEndpoint}}/imap" method="POST" enctype="multipart/form-data">
-  <div class="card-header">IMAP server</div>
-  <div class="card-block">
-    <div class="form-group">
-      <label for="host">Host</label>
-      <input type="text" id="host" name="host" required class="form-control"/>
+<div class="card-group">
+  <form class="card" action="{{apiEndpoint}}/imap" method="POST" enctype="multipart/form-data">
+    <div class="card-header">
+      <i class="fa fa-cog" aria-hidden="true"></i>
+      <span>IMAP server</span>
     </div>
-    <div class="form-group">
-      <label for="user">User (usually the email address)</label>
-      <input type="text" id="user" name="user" required class="form-control"/>
+    <div class="card-block">
+      <div class="form-group">
+        <label for="host">Host</label>
+        <input type="text" id="host" name="host" required class="form-control"/>
+      </div>
+      <div class="form-group">
+        <label for="user">User (usually the email address)</label>
+        <input type="text" id="user" name="user" required class="form-control"/>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required class="form-control"/>
+      </div>
+      <div class="form-group">
+        <label class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" id="ssl" name="ssl" value="true" checked/>
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Use SSL</span>
+        </label>
+      </div>
+      <button type="submit" class="btn btn-primary">Retrieve</button>
     </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required class="form-control"/>
+  </form>
+  <div class="card">
+    <div class="card-header">
+      <i class="fa fa-info" aria-hidden="true"></i>
+      <span>Information</span>
     </div>
-    <div class="form-group">
-      <label class="custom-control custom-checkbox">
-        <input class="custom-control-input" type="checkbox" id="ssl" name="ssl" value="true" checked/>
-        <span class="custom-control-indicator"></span>
-        <span class="custom-control-description">Use SSL</span>
-      </label>
+    <div class="card-block">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+          <div class="card text-xs-center">
+            <div class="card-block">
+              <h4 class="card-title"><i class="fa fa-calendar" aria-hidden="true"></i></h4>
+              <p class="card-text">{{model.eventsCount}}<br>Events</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+          <div class="card text-xs-center">
+            <div class="card-block">
+              <h4 class="card-title"><i class="fa fa-commenting" aria-hidden="true"></i></h4>
+              <p class="card-text">{{model.messagesCount}}<br>Messages</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+          <div class="card text-xs-center">
+            <div class="card-block">
+              <h4 class="card-title"><i class="fa fa-users" aria-hidden="true"></i></h4>
+              <p class="card-text">{{model.agentsCount}}<br>Agents</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+          <div class="card text-xs-center">
+            <div class="card-block">
+              <h4 class="card-title"><i class="fa fa-map-marker" aria-hidden="true"></i></h4>
+              <p class="card-text">{{model.locationsCount}}<br>Locations</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary">Retrieve</button>
   </div>
-</form>
+</div>
