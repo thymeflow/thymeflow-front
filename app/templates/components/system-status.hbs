@@ -10,9 +10,7 @@
   </div>
 
   {{#liquid-if isShowingSystemHistoryBody class='system-history-body'}}
-    <div>
-      System history placeholder
-    </div>
+    {{sparql-history-grid}}
   {{/liquid-if}}
 
   {{#liquid-if isShowingSystemTasksBody class='system-status-body'}}
