@@ -6,5 +6,10 @@ export default Ember.Route.extend({
     return this.get('store').findAll('data-service').catch(function(error) {
       console.log(error);
     });
+  },
+  actions: {
+    refresh() {
+      this.refresh();
+    }
   }
 });
