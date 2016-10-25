@@ -207,19 +207,26 @@ CONSTRUCT {
             function processField(v){
               let e = map.get(v.value);
               if (e == null){
-                e = {value: v.value,
-                  sources: Ember.A()};
+                e = {
+                  value: v.value,
+                  sources: Ember.A(),
+                  inverseSourcesCount: 0
+                };
                 map.set(v.value, e);
               }
-              e.sources.push({
-                account: v.account,
-                service: v.service,
-                type: v.source
-              });
+              if(!e.sources.any(source => source.account === v.account && source.service === v.service && source.type === v.source)){
+                e.sources.push({
+                  account: v.account,
+                  service: v.service,
+                  type: v.source
+                });
+              }
+              e.inverseSourcesCount -= 1;
+
             }
             field.order = fieldOrder[field.property] || fieldOrder["unknown"];
             field.values.forEach(processField);
-            field.values = Array.from(map.values());
+            field.values = Array.from(map.values()).sortBy('inverseSourcesCount');
           });
           return {
             name: name,

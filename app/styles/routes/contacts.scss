@@ -32,3 +32,16 @@
   width: 60px;
   height: 60px;
 }
+
+.contact-field-item {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.contact-title{
+  img{
+    max-width: 100px;
+    max-height: 100px;
+  }
+}
