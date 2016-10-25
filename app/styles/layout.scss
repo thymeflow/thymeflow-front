@@ -70,7 +70,8 @@ body{
 }
 .app-body {
   .jumbotron.title {
-    padding: 1rem 2rem;
+    padding: 0.25rem 2rem;
+    margin-bottom: 1.5rem;
     background-color: $app-color5;
     color: white;
     border-radius: 0;
