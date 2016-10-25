@@ -7,6 +7,9 @@
   .system-status-body{
     color: white;
   }
+  .system-history-body{
+    color: white;
+  }
   .panel-header {
     background-color: #5ABFD7;
     text-align: right;
@@ -34,7 +37,25 @@
       }
     }
   }
-  .no-tasks-message {
+  .sparql-history-container {
+  }
+  .sparql-history-table {
+    margin: 5px 15px;
+    width: calc(100% - 30px);
+
+    .sparql-history-content-cell {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 70%;
+      max-width: 0;
+    }
+    .sparql-history-time-cell {
+      width: 30%;
+    }
+  }
+
+  .no-tasks-message, .sparql-history-no-queries {
     text-align: center;
   }
 }

@@ -7,6 +7,7 @@ import {ajax} from "thymeflow-front/utilities/jquery";
 const sparqlResult = DS.PromiseObject;
 
 export default Ember.Service.extend({
+  sparqlHistory: Ember.inject.service(),
   removePrefix: function (parsedQuery) {
     if (parsedQuery != null) {
       return function (url) {
@@ -30,6 +31,7 @@ export default Ember.Service.extend({
   query: function (sparqlQuery) {
     try{
       const parsedQuery = this.parseQuery(sparqlQuery);
+      this.get('sparqlHistory').add(sparqlQuery, parsedQuery);
       let requestData = {};
       if (parsedQuery.queryType === "UPDATE") {
         requestData.update = sparqlQuery;

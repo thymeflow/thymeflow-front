@@ -1,1 +1,9 @@
-{{ag-grid gridOptions=gridOptions}}
+{{#if queries.length}}
+  <table class="sparql-history-table">
+    {{#each queries as |query|}}
+      {{sparql-history-grid-item query=query}}
+    {{/each}}
+  </table>
+{{else}}
+  <div class="sparql-history-no-queries">No SPARQL query has been run yet.</div>
+{{/if}}

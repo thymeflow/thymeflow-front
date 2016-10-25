@@ -1,29 +1,25 @@
 import Ember from 'ember';
+import moment from 'moment';
+
+const SparqlHistoryItem = Ember.Object.extend({
+  contentShort: Ember.computed("content", function(){
+    return this.get('content').replace("\n"," ").substring(0,200);
+  })
+});
 
 export default Ember.Service.extend({
   items: null,
 
   init() {
     this._super(...arguments);
-    this.set('items', [
-      {
-        name: 'Chips',
-        units: '223',
-        sales: '$54,335',
-        profit: '$545,454'
-      },
-      {
-        name: 'Towels',
-        units: '965',
-        sales: '$1,900',
-        profit: '$800'
-      }]);
+    this.set('items', Ember.A());
   },
-  add(item) {
-    this.get('items').pushObject(item);
-  },
-  getAll() {
-    return this.get('items');
+  add(sparqlQuery, parsedQuery) {
+    this.get('items').pushObject(SparqlHistoryItem.create({
+      content: sparqlQuery,
+      parsed: parsedQuery,
+      time: moment()
+    }));
   },
   clear: function() {
     this.get('items').clear();
