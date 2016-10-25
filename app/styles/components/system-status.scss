@@ -1,15 +1,17 @@
 .system-status {
   background-color: #434343;
+  @include scrollbar();
   a,
   a:hover {
       text-decoration: none;
   }
-  .system-status-body{
+
+  .system-status-body, .system-history-body{
     color: white;
+    max-height: 10em;
+    overflow-y: auto;
   }
-  .system-history-body{
-    color: white;
-  }
+
   .panel-header {
     background-color: #5ABFD7;
     text-align: right;
