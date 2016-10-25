@@ -3,7 +3,12 @@ import Ember from "ember";
 export default Ember.Controller.extend({
   store: Ember.inject.service(),
   query: Ember.computed.alias('model'),
-  tableCompatible: true,
+  tableCompatible: Ember.computed('query.result.queryType', function(){
+    switch(this.get('query.result.queryType')){
+      case "CONSTRUCT": return false;
+      default: return true;
+    }
+  }),
   mapCompatible: Ember.computed('query.result.queryType', function(){
     switch(this.get('query.result.queryType')){
       case "SELECT": return true;
