@@ -6,9 +6,15 @@
       text-decoration: none;
   }
 
+  .system-status-body{
+    max-height: 20em;
+  }
+  .system-history-body{
+    max-height: 10em;
+  }
+
   .system-status-body, .system-history-body{
     color: white;
-    max-height: 10em;
     overflow-y: auto;
   }
 
