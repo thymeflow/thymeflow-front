@@ -136,6 +136,12 @@ export default Ember.Component.extend({
         })
       })];
     };
-  }).property()
-
+  }).property(),
+  actions: {
+    onLocationsPopulated: function(map, layer){
+      if(this.get('content.length') > 0){
+        map.fitViewToExtent(layer.getExtent());
+      }
+    }
+  }
 });

@@ -1,4 +1,4 @@
 {{#map/openlayers-map zoom=zoom center=center controls=mapControls as |layers|}}
   {{layers.cartodbTile}}
-  {{layers.vector content=content crs="EPSG:4326" style=style clusterDistance=clusterDistance}}
+  {{layers.vector content=content crs="EPSG:4326" style=style clusterDistance=clusterDistance onSourcePopulated=(action "onLocationsPopulated")}}
 {{/map/openlayers-map}}
