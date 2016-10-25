@@ -18,7 +18,7 @@ export default Ember.Service.extend({
     this.get('items').pushObject(SparqlHistoryItem.create({
       content: sparqlQuery,
       parsed: parsedQuery,
-      time: moment()
+      time: moment.utc()
     }));
   },
   clear: function() {

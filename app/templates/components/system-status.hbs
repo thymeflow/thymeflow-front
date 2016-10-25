@@ -10,7 +10,7 @@
   </div>
 
   {{#liquid-if isShowingSystemHistoryBody class='system-history-body'}}
-    {{sparql-history-grid}}
+    {{sparql-history-grid openQuery=(action "openQuery")}}
   {{/liquid-if}}
 
   {{#liquid-if isShowingSystemTasksBody class='system-status-body'}}

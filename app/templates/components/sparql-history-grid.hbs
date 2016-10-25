@@ -1,7 +1,7 @@
 {{#if queries.length}}
   <table class="sparql-history-table">
     {{#each queries as |query|}}
-      {{sparql-history-grid-item query=query}}
+      {{sparql-history-grid-item query=query openQuery=(action "openQuery")}}
     {{/each}}
   </table>
 {{else}}

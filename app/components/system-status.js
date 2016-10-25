@@ -23,6 +23,9 @@ export default Ember.Component.extend({
     },
     toggleSystemHistoryBody() {
       this.toggleProperty('isShowingSystemHistoryBody');
+    },
+    openQuery(query){
+      this.sendAction('openQuery', query);
     }
   }
 });

@@ -47,11 +47,16 @@
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-      width: 70%;
+      width: calc(100% - 11rem);
       max-width: 0;
     }
     .sparql-history-time-cell {
-      width: 30%;
+      width: 13rem;
+      text-align: center
+    }
+    .sparql-history-copy-cell {
+      width: 1.5rem;
+      text-align: center
     }
   }
 

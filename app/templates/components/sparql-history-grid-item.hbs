@@ -1,2 +1,3 @@
-<td class="sparql-history-date-cell">{{moment-format query.endDate 'L - LTS'}}</td>
+<td class="sparql-history-copy-cell"><button class="btn btn-sm btn-secondary" {{action "openQuery"}}><i class="fa fa-clone"></i></button></td>
+<td class="sparql-history-time-cell">{{moment-format query.time 'L - LTS'}}</td>
 <td class="sparql-history-content-cell">{{query.contentShort}}</td>
