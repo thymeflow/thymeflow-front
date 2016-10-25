@@ -2,6 +2,8 @@ import Ember from 'ember';
 import ol from 'ol';
 import moment from 'moment';
 
+const wgs84Sphere = new ol.Sphere(6378137);
+
 export default Ember.Controller.extend({
   queryParams: ["date", "minimumStayDurationMinutes","showLocations","details","showEvents", "showLocationAccuracy", "timeZone"],
   date: null,
@@ -55,7 +57,7 @@ export default Ember.Controller.extend({
       let moveDistance = 0;
       const addMoveCoordinates = (newCoordinates) => {
         if(moveCoordinates.length > 0){
-          moveDistance += ol.sphere.WGS84.haversineDistance(moveCoordinates[moveCoordinates.length - 1], newCoordinates);
+          moveDistance += wgs84Sphere.haversineDistance(moveCoordinates[moveCoordinates.length - 1], newCoordinates);
         }
         moveCoordinates.push(newCoordinates);
       };
@@ -89,6 +91,7 @@ export default Ember.Controller.extend({
             geometry: stay.point,
             events: stay.events
           });
+          moveDistance = 0;
           stayIndex += 1;
           filteredStayMoves.push(stayO);
           filteredStays.push(stayO);
@@ -122,6 +125,18 @@ export default Ember.Controller.extend({
       this.set('filteredMoves', null);
     }
   }.observes('model.stays'),
+  filteredStaysDurationAsMinutes: function(){
+    const filteredStays = this.get('filteredStays');
+    if(filteredStays != null){
+      const durationSeconds = filteredStays.reduce(function(cumulative, stay){
+        return cumulative + stay.get('to').diff(stay.get('from'),'seconds');
+      }, 0);
+      const durationAsMinutes = moment.duration(durationSeconds, 'seconds').asMinutes();
+      return Math.floor(durationAsMinutes * 100)/100;
+    }else{
+      return null;
+    }
+  }.property('filteredStays'),
   observeMinimumStayDurationMinutes: Ember.observer('minimumStayDurationMinutes', function(){
     Ember.run.debounce(this, this.updateFilteredStayMoves, 500);
   }),
