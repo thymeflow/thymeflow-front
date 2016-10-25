@@ -25,10 +25,16 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX schema: <http://schema.org/>
 PREFIX personal: <http://thymeflow.com/personal#>
 
-SELECT (?event AS ?id) ?name ?description ?startDate ?endDate ?location ?stay ?fromStay ?fromStayAndLocation ?fromStay2 ?fromLocation ?fromLocationType WHERE {
+SELECT (?event AS ?id) ?name ?description ?startDate ?endDate
+ ?eventLocation ?stay
+ ?fromStay
+ ?fromStayAndEventLocation
+ ?fromEventLocation
+ ?fromEventLocationUncertain
+WHERE {
   VALUES ?event { ${eventIds.map(x => `<${x}>`).join(" ")} }
   
-    GRAPH ?eventSource{ 
+  GRAPH ?eventSource{ 
     ?event a schema:Event .
     OPTIONAL {
       ?event schema:startDate ?startDate .
@@ -43,11 +49,12 @@ SELECT (?event AS ?id) ?name ?description ?startDate ?endDate ?location ?stay ?f
       ?event schema:description ?description .
     }
     OPTIONAL{
-      ?event schema:location ?locationId .
-      ?locationId a schema:Place .
-      ?locationId schema:name ?location .
+      ?event schema:location ?eventLocationId .
+      ?eventLocationId a schema:Place .
+      ?eventLocationId schema:name ?eventLocation .
     }
   }
+  
   ?event schema:location ?stay .
   ?stay a personal:Stay .
   
@@ -60,24 +67,23 @@ SELECT (?event AS ?id) ?name ?description ?startDate ?endDate ?location ?stay ?f
   
   OPTIONAL {
     GRAPH ?stay {
-      ?locationId personal:sameAs ?fromStayAndLocationId .
+      ?locationId personal:sameAs ?fromStayAndEventLocationId .
     }
-    ?fromStayAndLocationId schema:name ?fromStayAndLocation .
+    ?fromStayAndEventLocationId schema:name ?fromStayAndEventLocation .
   }
   
   OPTIONAL {
-    GRAPH ?stay{
-      ?locationId personal:sameAsTemp ?fromStayId2 .
+    GRAPH personal:PlacesGeocoderEnricher {
+      ?locationId personal:sameAs ?fromEventLocationId  .
     }
-    ?fromStayId2 schema:name ?fromStay2 .
+    ?fromEventLocationId schema:name ?fromEventLocation .
   }
-
+  
   OPTIONAL {
-    GRAPH ?stay{
-      ?locationId ?fromLocationType ?fromLocationId .
+    GRAPH personal:UncertainPlacesGeocoderEnricher {
+      ?locationId personal:sameAs ?fromEventLocationUncertainId  .
     }
-    ?fromLocationId schema:name ?fromLocation .
-    FILTER (?fromLocationType  = personal:sameAsTempSingle || ?fromLocationType  = personal:sameAsTempAmbiguous)
+    ?fromEventLocationUncertainId schema:name ?fromEventLocationUncertain .
   }
 }`;
   },
@@ -126,13 +132,13 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
         const stays = new Set();
         const orderedStays = [];
         const eventSet = new Set();
-        locations.forEach(function(location){
+        locations.forEach(function (location) {
           const stay = location.stay;
-          if(stay != null){
-            if(!stays.has(stay.value)){
+          if (stay != null) {
+            if (!stays.has(stay.value)) {
               stays.add(stay.value);
               let events = [];
-              if(location.events.value != null && location.events.value !== ""){
+              if (location.events.value != null && location.events.value !== "") {
                 events = location.events.value.split('\t');
                 events.forEach(event => eventSet.add(event));
               }
@@ -153,30 +159,17 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
           }
         });
         return this.get('sparql').query(this.eventsQuery(Array.from(eventSet))).then((events) => {
-          const eventMap = new Map();
-          events.result.results.bindings.forEach((event) => {
-            let from = event.startDate;
-            let to = event.endDate;
-            let description = event.description;
-            if(description != null){
-              description = event.description.value;
-            }
-            let name = event.name;
-            if(name != null){
-              name = event.name.value;
-            }
-            let location = event.location;
           const eventStayMap = new Map();
-          events.content.results.bindings.forEach((event) => {
+          events.result.results.bindings.forEach((event) => {
             const getAttribute = (attributeName, transform) => {
               const result = event[attributeName];
-              if( result != null){
-                if(transform != null){
+              if (result != null) {
+                if (transform != null) {
                   return transform(result.value);
-                }else{
+                } else {
                   return result.value;
                 }
-              }else{
+              } else {
                 return result;
               }
             };
@@ -185,39 +178,25 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
             const to = getAttribute("endDate", (x) => moment(x).tz(timeZone));
             const description = getAttribute("description");
             const name = getAttribute("name");
-            const location = getAttribute("location");
+            const location = getAttribute("eventLocation");
             const stay = getAttribute("stay");
-            const fromStayBase = getAttribute("fromStay");
-            const fromStayAndLocation = getAttribute("fromStayAndLocation");
-            const fromStay = (fromStayBase == null) ? getAttribute("fromStay2") : fromStayBase;
-            const fromLocation = getAttribute("fromLocation");
-            const fromLocationType = getAttribute("fromLocationType");
-            const interesting = (location != null);
-            const components = [];
-            if(location != null){
-              components.push({name: "calLocation", value: location});
-            }
-            if(fromStayAndLocation != null){
-              components.push({name: "fromStayAndCalLocation", value: fromStayAndLocation});
-            }
-            if(fromStay != null){
-              components.push({name: "fromStay", value: fromStay});
-            }
-            if(fromLocation != null){
-              const type = (fromLocationType === "http://thymeflow.com/personal#sameAsTempSingle")? "" : "AMBIGUOUS";
-              components.push({name: `fromCalLocation${type}`, value: fromLocation});
-            }
-
-            eventStayMap.set(JSON.stringify([eventId, stay]),{
+            const fromStay = getAttribute("fromStay");
+            const fromStayAndLocation = getAttribute("fromStayAndEventLocation");
+            const fromEventLocation = getAttribute("fromEventLocation");
+            const fromEventLocationUncertain = getAttribute("fromEventLocationUncertain");
+            eventStayMap.set(JSON.stringify([eventId, stay]), {
               from: from,
               to: to,
               description: description,
               name: name,
-              interestingPlace: interesting,
-              placeComponents: components
+              location: location,
+              fromStay: fromStay,
+              fromStayAndLocation: fromStayAndLocation,
+              fromEventLocation: fromEventLocation,
+              fromEventLocationUncertain: fromEventLocationUncertain
             });
           });
-          orderedStays.forEach((stay) =>{
+          orderedStays.forEach((stay) => {
             stay.events = stay.events.map((stayEvent) => {
               const stayEventKey = JSON.stringify([stayEvent, stay.id]);
               return eventStayMap.get(stayEventKey);

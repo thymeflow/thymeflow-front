@@ -1,0 +1,15 @@
+{{#if event.location}}
+  <div><i class="fa fa-calendar"></i> {{event.location}}</div>
+{{/if}}
+{{#if event.fromStay}}
+  <div><i class="fa fa-location-arrow"></i> {{event.fromStay}}</div>
+{{/if}}
+{{#if event.fromStayAndLocation}}
+  <div><i class="fa fa-location-calendar"></i> <i class="fa fa-location-arrow"></i> {{event.fromStayAndLocation}}</div>
+{{/if}}
+{{#if event.fromEventLocation}}
+  <div><i class="fa fa-calendar"></i> <i class="fa fa-map"></i> {{event.fromEventLocation}}</div>
+{{/if}}
+{{#if event.fromEventLocationUncertain}}
+  <div><i class="fa fa-calendar"></i> <i class="fa fa-map-o"></i> {{event.fromEventLocationUncertain}}</div>
+{{/if}}

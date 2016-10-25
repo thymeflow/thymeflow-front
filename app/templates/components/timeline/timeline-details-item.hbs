@@ -12,12 +12,7 @@
                     <td class="timeline-line-column"><i class="fa fa-calendar timeline-stay-icon"></i></td>
                     <td><div>{{timeline/timeline-item-time from=event.from to=event.to relativeTo=date}}</div>
                       <div><strong>{{event.name}}</strong>
-                        <dl>
-                          {{#each event.placeComponents as |placeComponent|}}
-                            <dt>{{placeComponent.name}}</dt>
-                            <dd>{{placeComponent.value}}</dd>
-                          {{/each}}
-                        </dl>
+                        {{timeline/timeline-details-item-location event=event}}
                       </div>
                     </td>
                 </tr>
@@ -38,13 +33,7 @@
                     <td class="timeline-line-column"><i class="fa fa-calendar timeline-stay-icon"></i></td>
                     <td><div>{{timeline/timeline-item-time from=event.from to=event.to relativeTo=date}}</div>
                       <div><strong>{{event.name}}</strong>
-                        {{#if event.interestingPlace}}Interesting !{{/if}}
-                        <dl>
-                          {{#each event.placeComponents as |placeComponent|}}
-                            <dt>{{placeComponent.name}}</dt>
-                            <dd>{{placeComponent.value}}</dd>
-                          {{/each}}
-                        </dl>
+                        {{timeline/timeline-details-item-location event=event}}
                       </div>
                     </td>
                 </tr>
