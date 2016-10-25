@@ -1,5 +1,15 @@
 import Ember from "ember";
 
+const defaultQuery = `PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <http://schema.org/>
+PREFIX personal: <http://thymeflow.com/personal#>
+
+SELECT ?s ?p ?o
+WHERE {
+ ?s ?p ?o 
+} LIMIT 100`;
+
 export default Ember.Route.extend({
   model: function (param) {
     const id = param.query_name;
@@ -14,7 +24,7 @@ export default Ember.Route.extend({
         if(id === "new") {
           return this.store.createRecord('sparql-query', {
             id: id,
-            draft: 'CONSTRUCT{ ?s ?p ?o } WHERE { ?s ?p ?o } LIMIT 100'
+            draft: defaultQuery
           });
         }else{
           return null;
