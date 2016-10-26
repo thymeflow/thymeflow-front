@@ -33,7 +33,7 @@ export default Ember.Service.extend({
       const parsedQuery = this.parseQuery(sparqlQuery);
       this.get('sparqlHistory').add(sparqlQuery, parsedQuery);
       let requestData = {};
-      if (parsedQuery.queryType === "UPDATE") {
+      if (parsedQuery.type === "update") {
         requestData.update = sparqlQuery;
       } else {
         requestData.query = sparqlQuery;
