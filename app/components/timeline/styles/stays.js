@@ -112,7 +112,7 @@ export default Ember.Object.extend({
         return data.get('index');
       });
       if(featureArray.length > 4){
-        text = `${featureArray[0]},...,${featureArray[features.length - 1]}`;
+        text = `${Math.min(...featureArray)},...,${Math.max(...featureArray)}`;
       }else{
         text = featureArray.join(",");
       }
