@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import ol from 'ol';
 
+const wgs84Sphere = new ol.Sphere(6378137);
+
 export default Ember.Object.extend({
   strokeInnerStyle: new ol.style.Style({
     stroke: new ol.style.Stroke({
@@ -65,25 +67,48 @@ export default Ember.Object.extend({
       // clone the styles
       const styles = isSelected ? (hasEvents ? selectedEventStyles.slice() : selectedStyles.slice()): (hasEvents ? eventNormalStyles.slice() : normalStyles.slice());
       const arrowIcon = isSelected ? (hasEvents ? "selected-event-arrow.svg" : "selected-arrow.svg") : (hasEvents ? "event-arrow.svg" : "arrow.svg");
-      if(resolution < 10.0){
-        const coordinates = geometry.getCoordinates();
-        if(coordinates.length >= 2){
-          const index = Math.floor(coordinates.length/2);
+      let d = resolution * 75;
+      const coordinates = geometry.getCoordinates();
+      if(coordinates.length >= 2){
+        let totalMove = 0;
+        for (let i = 1; i < coordinates.length; i++) {
+          const index = i;
           const start = coordinates[index - 1];
           const end = coordinates[index];
-          var dx = end[0] - start[0];
-          var dy = end[1] - start[1];
-          var rotation = Math.atan2(dy, dx);
-          styles.push(new ol.style.Style({
-            geometry: new ol.geom.Point([start[0] + dx/2.0,start[1] + dy/2.0]),
-            image: new ol.style.Icon({
-              src: `assets/images/${arrowIcon}`,
-              anchor: [0.5, 0.5],
-              rotateWithView: false,
-              rotation: - rotation,
-              scale: 1.5
-            })
-          }));
+          totalMove +=  wgs84Sphere.haversineDistance(ol.proj.transform(start, "EPSG:3857", "EPSG:4326"), ol.proj.transform(end, "EPSG:3857", "EPSG:4326"));
+        }
+        if(totalMove > 1){
+          if(totalMove * 0.8 < d && (totalMove * 0.7/resolution) > 25){
+            d = totalMove * 0.7;
+          }
+          let cumulatedMove = 0;
+          for (let i = 1; i < coordinates.length; i++) {
+            const index = i;
+            const start = coordinates[index - 1];
+            const end = coordinates[index];
+            const currentD = wgs84Sphere.haversineDistance(ol.proj.transform(start, "EPSG:3857", "EPSG:4326"), ol.proj.transform(end, "EPSG:3857", "EPSG:4326"));
+            cumulatedMove += currentD;
+            let r = 0.5;
+            while (cumulatedMove >= d ) {
+              cumulatedMove -= d;
+              if (currentD > 0) {
+                r = (currentD - cumulatedMove) / currentD;
+              }
+              const dx = end[0] - start[0];
+              const dy = end[1] - start[1];
+              const rotation = Math.atan2(dy, dx);
+              styles.push(new ol.style.Style({
+                geometry: new ol.geom.Point([start[0] + dx * r, start[1] + dy * r]),
+                image: new ol.style.Icon({
+                  src: `assets/images/${arrowIcon}`,
+                  anchor: [0.5, 0.5],
+                  rotateWithView: false,
+                  rotation: -rotation,
+                  scale: 1.8
+                })
+              }));
+            }
+          }
         }
       }
       return styles;
