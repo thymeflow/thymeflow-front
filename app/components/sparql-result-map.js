@@ -108,6 +108,8 @@ export default Ember.Component.extend({
       });
       if (features.length > 1) {
         text = `${features.length}`;
+      }else{
+        text = '1';
       }
       let imageStyle = styleCache[text.length + "," + isSelected + ","];
       if (!imageStyle) {
