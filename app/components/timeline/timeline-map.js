@@ -19,22 +19,22 @@ export default Ember.Component.extend({
   locationsStyle: function(){
     return new LocationsStyle({
       component: this,
-      filterLocationIntervalBinding: "component.filterLocationInterval",
-      showLocationAccuracyBinding: "component.showLocationAccuracy"
+      filterLocationInterval: Ember.computed.oneWay("component.filterLocationInterval"),
+      showLocationAccuracy: Ember.computed.oneWay("component.showLocationAccuracy")
     });
   }.property(),
   movesStyle: function(){
     return new MovesStyle({
       component: this,
-      selectedStayMoveBinding: "component.selectedStayMove",
-      showEventsBinding: "component.showEvents"
+      selectedStayMove: Ember.computed.oneWay("component.selectedStayMove"),
+      showEvents: Ember.computed.oneWay("component.showEvents")
     });
   }.property(),
   staysStyle: function(){
     return new StaysStyle({
       component: this,
-      selectedStayMoveBinding: "component.selectedStayMove",
-      showEventsBinding: "component.showEvents"
+      selectedStayMove: Ember.computed.oneWay("component.selectedStayMove"),
+      showEvents: Ember.computed.oneWay("component.showEvents")
     });
   }.property(),
   actions: {
