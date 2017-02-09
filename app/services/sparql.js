@@ -64,9 +64,13 @@ export default Ember.Service.extend({
         }
       }, function(jqXHR){
         if(jqXHR.status === 0){
-          throw "Network error";
+          throw "Network error.";
         }else{
-          throw jqXHR.responseText;
+          if (jqXHR.responseText != null){
+            throw jqXHR.responseText;
+          } else {
+            throw "Oops! Something wrong happened.";
+          }
         }
       });
       return sparqlResult.create({
