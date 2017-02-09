@@ -3,10 +3,10 @@ import Ember from "ember";
 export default Ember.Controller.extend({
   store: Ember.inject.service(),
   query: Ember.computed.alias('model'),
-  error: Ember.computed.readOnly('query.result.reason'),
-  errorLines: Ember.computed('error', function(){
-    if(this.get('error') != null){
-      return this.get('error').split('\n');
+  error: Ember.computed.readOnly('query.result.isRejected'),
+  errorLines: Ember.computed('query.result.reason', function(){
+    if(this.get('query.result.reason') != null){
+      return this.get('query.result.reason.message').split('\n');
     }else{
       return [];
     }

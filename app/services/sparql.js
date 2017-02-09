@@ -60,16 +60,16 @@ export default Ember.Service.extend({
             removePrefix: this.removePrefix(parsedQuery)
           };
         } else {
-          return {};
+          throw Error("Oops! Something wrong happened.");
         }
       }, function(jqXHR){
         if(jqXHR.status === 0){
-          throw "Network error.";
+          throw Error("Network error.");
         }else{
           if (jqXHR.responseText != null){
-            throw jqXHR.responseText;
+            throw Error(jqXHR.responseText);
           } else {
-            throw "Oops! Something wrong happened.";
+            throw Error("Oops! Something wrong happened.");
           }
         }
       });
