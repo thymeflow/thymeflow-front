@@ -50,6 +50,16 @@ module.exports = function(defaults) {
   
   // SPARQL parser for javascript
   app.import('bower_components/sparqljs/sparqljs-browser.js');
+
+  // CodeMirror + YASGUI-YASQE
+  app.import({
+      development: `${app.bowerDirectory}/yasgui-yasqe/dist/yasqe.bundled.js`,
+      production: `${app.bowerDirectory}/yasgui-yasqe/dist/yasqe.bundled.min.js`
+    }, {
+    using: [
+      { transformation: 'amd', as: 'yasqe' }
+    ]
+  });
   
   // Download.js is used for downloading files from javascript
   app.import('bower_components/downloadjs/download.js');
