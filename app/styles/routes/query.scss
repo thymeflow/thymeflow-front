@@ -57,9 +57,12 @@
 
 .query-textarea {
   flex: 1;
-  textarea{
-    resize: none;
+  overflow-y: auto;
+  .yasqe, .CodeMirror {
     height: 100%;
+  }
+  .CodeMirror{
+    z-index: 10;
   }
 }
 
