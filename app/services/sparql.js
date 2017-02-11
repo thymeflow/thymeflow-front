@@ -12,7 +12,7 @@ export default Ember.Service.extend({
     if (parsedQuery != null) {
       return function (url) {
         if (url != null) {
-          for (var prefix in parsedQuery.prefixes) {
+          for (let prefix in parsedQuery.prefixes) {
             const prefixUrl = parsedQuery.prefixes[prefix];
             if (url.startsWith(prefixUrl)) {
               return `${prefix}:${url.slice(prefixUrl.length)}`;
@@ -33,31 +33,36 @@ export default Ember.Service.extend({
       const parsedQuery = this.parseQuery(sparqlQuery);
       this.get('sparqlHistory').add(sparqlQuery, parsedQuery);
       let requestData = {};
+      let accept = 'text/plain';
+      let dataType = 'text';
       if (parsedQuery.type === "update") {
         requestData.update = sparqlQuery;
       } else {
+        dataType = 'json';
         requestData.query = sparqlQuery;
+        switch (parsedQuery.queryType){
+          case "SELECT":
+          case "ASK":
+            accept = 'application/sparql-results+json';
+            break;
+          case "CONSTRUCT":
+            accept = 'application/rdf+json';
+            break;
+          default:
+            // will not execute
+        }
       }
       const resultPromise = ajax(`${ENV.APP.API_ENDPOINT}/sparql`, {
         data: requestData,
-        method: 'POST'
+        dataType: dataType,
+        method: 'POST',
+        headers:{
+          'Accept': `${accept}; charset=utf-8`
+        }
       }).then(result => {
         if (result != null) {
-          var queryType = "";
-          if (result.head && result.head.vars) {
-            queryType = "SELECT";
-          } else if (typeof result.boolean === "boolean") {
-            queryType = "ASK";
-          } else if (result === "") {
-            queryType = "UPDATE";
-          } else {
-            queryType = "CONSTRUCT";
-          }
           return {
-            queryType: queryType,
-            result: result,
-            query: parsedQuery,
-            removePrefix: this.removePrefix(parsedQuery)
+            result: result
           };
         } else {
           throw Error("Oops! Something wrong happened.");
@@ -74,11 +79,14 @@ export default Ember.Service.extend({
         }
       });
       return sparqlResult.create({
+        type: parsedQuery.type,
+        queryType: parsedQuery.queryType,
+        removePrefix: this.removePrefix(parsedQuery),
         promise: resultPromise
       });
     } catch (err) {
       return sparqlResult.create({
-        promise: Ember.RSVP.Promise.reject(err.message)
+        promise: Ember.RSVP.Promise.reject(Error(err.message))
       });
     }
   }
