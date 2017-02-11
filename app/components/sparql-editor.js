@@ -6,8 +6,7 @@ export default Ember.Component.extend({
   attributeBindings: ['required', 'autofocus', 'name'],
 
   options: {
-    createShareLink: null,
-    fullScreen: false
+    createShareLink: null
   },
 
   didInsertElement() {
