@@ -56,6 +56,7 @@ module.exports = function(defaults) {
   });
 
   // CodeMirror + YASGUI-YASQE
+  // TODO: Import YASQE without a jquery bundle
   app.import({
       development: `${app.bowerDirectory}/yasgui-yasqe/dist/yasqe.bundled.js`,
       production: `${app.bowerDirectory}/yasgui-yasqe/dist/yasqe.bundled.min.js`
