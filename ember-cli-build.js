@@ -49,7 +49,22 @@ module.exports = function(defaults) {
   app.import(`${app.bowerDirectory}/blueimp-file-upload/js/jquery.fileupload-validate.js`);
   
   // SPARQL parser for javascript
-  app.import('bower_components/sparqljs/sparqljs-browser.js');
+  app.import(`vendor/sparqljs/sparqljs-browser.js`, {
+    using: [
+      { transformation: 'amd', as: 'sparqljs' }
+    ]
+  });
+
+  // CodeMirror + YASGUI-YASQE
+  // TODO: Import YASQE without a jquery bundle
+  app.import({
+      development: `${app.bowerDirectory}/yasgui-yasqe/dist/yasqe.bundled.js`,
+      production: `${app.bowerDirectory}/yasgui-yasqe/dist/yasqe.bundled.min.js`
+    }, {
+    using: [
+      { transformation: 'amd', as: 'yasqe' }
+    ]
+  });
   
   // Download.js is used for downloading files from javascript
   app.import('bower_components/downloadjs/download.js');

@@ -7,7 +7,6 @@ export default Ember.Controller.extend({
     switch(this.get('query.result.queryType')){
       case "SELECT": return true;
       case "ASK": return true;
-      case "UPDATE": return true;
       default: return false;
     }
   }),
