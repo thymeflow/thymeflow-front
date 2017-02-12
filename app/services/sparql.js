@@ -2,7 +2,7 @@ import Ember from "ember";
 import DS from 'ember-data';
 import ENV from "thymeflow-front/config/environment";
 import {ajax} from "thymeflow-front/utilities/jquery";
-/* global sparqljs */
+import sparqljs from 'sparqljs';
 
 const sparqlResult = DS.PromiseObject;
 

@@ -49,7 +49,11 @@ module.exports = function(defaults) {
   app.import(`${app.bowerDirectory}/blueimp-file-upload/js/jquery.fileupload-validate.js`);
   
   // SPARQL parser for javascript
-  app.import('bower_components/sparqljs/sparqljs-browser.js');
+  app.import(`vendor/sparqljs/sparqljs-browser.js`, {
+    using: [
+      { transformation: 'amd', as: 'sparqljs' }
+    ]
+  });
 
   // CodeMirror + YASGUI-YASQE
   app.import({

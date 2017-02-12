@@ -2,7 +2,6 @@
   "name": "thymeflow-front",
   "dependencies": {
     "blob-polyfill": "^1.0.20150320",
-    "sparqljs": "https://github.com/RubenVerborgh/SPARQL.js.git#dist",
     "nouislider": "^8.0.1",
     "downloadjs": "1.4.6",
     "bootstrap": "4.0.0-alpha.3",
