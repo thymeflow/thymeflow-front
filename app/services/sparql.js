@@ -13,9 +13,11 @@ export default Ember.Service.extend({
       return function (url) {
         if (url != null) {
           for (let prefix in parsedQuery.prefixes) {
-            const prefixUrl = parsedQuery.prefixes[prefix];
-            if (url.startsWith(prefixUrl)) {
-              return `${prefix}:${url.slice(prefixUrl.length)}`;
+            if(parsedQuery.prefixes.hasOwnProperty(prefix)){
+              const prefixUrl = parsedQuery.prefixes[prefix];
+              if (url.startsWith(prefixUrl)) {
+                return `${prefix}:${url.slice(prefixUrl.length)}`;
+              }
             }
           }
         }
