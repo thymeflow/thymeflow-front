@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import ol from 'ol';
+import ENV from 'thymeflow-front/config/environment';
 
 const wgs84Sphere = new ol.Sphere(6378137);
 
@@ -100,7 +101,7 @@ export default Ember.Object.extend({
               styles.push(new ol.style.Style({
                 geometry: new ol.geom.Point([start[0] + dx * r, start[1] + dy * r]),
                 image: new ol.style.Icon({
-                  src: `assets/images/${arrowIcon}`,
+                  src: `${ENV.rootURL}assets/images/${arrowIcon}`,
                   anchor: [0.5, 0.5],
                   rotateWithView: false,
                   rotation: -rotation,
