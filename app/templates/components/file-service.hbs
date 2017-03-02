@@ -1,14 +1,12 @@
-<div class="card-group">
-  <form class="card">
-    <div class="card-header">
-      <i class="fa fa-cog" aria-hidden="true"></i>
-      <span>File upload</span>
+<form class="card">
+  <div class="card-header">
+    <i class="fa fa-cog" aria-hidden="true"></i>
+    <span>File upload</span>
+  </div>
+  <div class="card-block">
+    <div class="form-group">
+      {{file-upload uploadUrl=(concat apiEndpoint "/upload") uploadParam='file'}}
     </div>
-    <div class="card-block">
-      <div class="form-group">
-        {{file-upload uploadUrl=(concat apiEndpoint "/upload") uploadParam='file'}}
-      </div>
-    </div>
-  </form>
-  {{data-service-info model=model}}
-</div>
+    {{data-service-accounts model=model}}
+  </div>
+</form>
