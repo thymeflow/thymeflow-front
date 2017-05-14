@@ -25,6 +25,22 @@ export default Ember.Controller.extend({
   filteredMoves: null,
   filteredStayMoves: null,
   selectedStayMove: null,
+  fromTime: function(){
+    if(this.get('locations.length') === 0){
+      return moment();
+    }else{
+      return this.get('locations.firstObject.time');
+    }
+
+  }.property('locations'),
+  toTime: function(){
+    if(this.get('locations.length') === 0){
+      return moment();
+    }else{
+      return this.get('locations.lastObject.time');
+    }
+
+  }.property('locations'),
   noLocations: function() {
     const locations = this.get('model.locations');
     const noStays = this.get('noStays');

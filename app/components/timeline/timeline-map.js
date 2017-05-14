@@ -3,6 +3,28 @@ import LocationsStyle from './styles/locations';
 import MovesStyle from './styles/moves';
 import StaysStyle from './styles/stays';
 
+function shuffle(array) {
+  if(array == null){
+    return null;
+  }else{
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
+}
 
 export default Ember.Component.extend({
   classNameBindings: ['details:details:simple'],
@@ -16,11 +38,17 @@ export default Ember.Component.extend({
   }.on('didUpdate'),
   map: null,
   staysClusterDistance: 20,
+  shuffledLocations: function(){
+
+    return shuffle(this.get('locations'));
+  }.property('locations'),
   locationsStyle: function(){
     return new LocationsStyle({
       component: this,
       filterLocationInterval: Ember.computed.oneWay("component.filterLocationInterval"),
-      showLocationAccuracy: Ember.computed.oneWay("component.showLocationAccuracy")
+      showLocationAccuracy: Ember.computed.oneWay("component.showLocationAccuracy"),
+      fromTime: Ember.computed.oneWay("component.fromTime"),
+      toTime: Ember.computed.oneWay("component.toTime")
     });
   }.property(),
   movesStyle: function(){
