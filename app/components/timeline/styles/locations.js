@@ -2,26 +2,23 @@ import Ember from 'ember';
 import ol from 'ol';
 import d3 from 'd3';
 
-const colorScale2 = d3.scale.linear()
-  .domain([0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0])
-  .range(["#2c7bb6", "#00a6ca","#00ccbc","#90eb9d","#ffff8c","#f9d057","#f29e2e","#e76818","#d7191c"]);
-
 function t(t){
   return function(e,i){
     e=d3.hsl(e);
     i=d3.hsl(i);
-    var r=(e.h+120)*a,h=(i.h+120)*a-r,s=e.s,l=i.s-s,o=e.l,u=i.l-o;
+    let r=(e.h+120)*a,h=(i.h+120)*a-r,s=e.s,l=i.s-s,o=e.l,u=i.l-o;
     return isNaN(l)&&(l=0,s=isNaN(s)?i.s:s),isNaN(h)&&(h=0,r=isNaN(r)?i.h:r),
-      function(a){var e=r+h*a,i=Math.pow(o+u*a,t),c=(s+l*a)*i*(1-i);
+      function(a){let e=r+h*a,i=Math.pow(o+u*a,t),c=(s+l*a)*i*(1-i);
         return"#"+n(i+c*(-0.14861*Math.cos(e)+1.78277*Math.sin(e)))+n(i+c*(-0.29227*Math.cos(e)-0.90649*Math.sin(e)))+n(i+c*1.97294*Math.cos(e));
     };
   };
 }
 function n(t){
-  var n=(t=0>=t?0:t>=1?255:0|255*t).toString(16);
+  let n=(t=0>=t?0:t>=1?255:0|255*t).toString(16);
   return 16>t?"0"+n:n;
 }
-var a=Math.PI/180;
+
+const a=Math.PI/180;
 d3.scale.cubehelix=function(){
   return d3.scale.linear().range([d3.hsl(300,0.5,0),d3.hsl(-240,0.5,1)]).interpolate(d3.interpolateCubehelix);
 };
@@ -39,10 +36,6 @@ const colorScale4 = d3.scale.cubehelix()
 function colorScale(t){
   return colorScale4(t * 260/360 + 100/360);
 }
-
-const colorScale5 = function(t) {
-  return d3.hsl(t * 360, 1, 0.5).toString();
-};
 
 export default Ember.Object.extend({
   normalStyle: new ol.style.Circle({
