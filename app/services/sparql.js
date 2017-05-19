@@ -59,7 +59,7 @@ export default Ember.Service.extend({
         dataType: dataType,
         method: 'POST',
         headers:{
-          'Accept': `${accept}; charset=utf-8`
+          'Accept': `${accept}`
         }
       }).then(result => {
         if (result != null) {
