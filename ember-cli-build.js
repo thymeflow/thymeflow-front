@@ -1,6 +1,5 @@
-/*jshint node:true*/
-/* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+/* eslint-env node */
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
@@ -47,7 +46,7 @@ module.exports = function(defaults) {
   app.import(`${app.bowerDirectory}/blueimp-file-upload/js/jquery.fileupload-process.js`);
   // extends the file processing plugin and adds file validation functionality.
   app.import(`${app.bowerDirectory}/blueimp-file-upload/js/jquery.fileupload-validate.js`);
-  
+
   // SPARQL parser for javascript
   app.import(`vendor/sparqljs/sparqljs-browser.js`, {
     using: [
@@ -65,7 +64,7 @@ module.exports = function(defaults) {
       { transformation: 'amd', as: 'yasqe' }
     ]
   });
-  
+
   // Download.js is used for downloading files from javascript
   app.import('bower_components/downloadjs/download.js');
 
@@ -76,6 +75,6 @@ module.exports = function(defaults) {
   });
   app.import('vendor/ol/ol.css');
   app.import('vendor/shims/ol.js');
-  
+
   return app.toTree();
 };
