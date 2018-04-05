@@ -27,28 +27,26 @@ SELECT ?agent
 WHERE {
  ?agent a personal:PrimaryFacet .
  ?agent a personal:Agent .
- OPTIONAL{
-    ?agent schema:name ?mainName .
- }
- OPTIONAL{
-    ?agent schema:email/schema:name ?mainEmail .
- }
- ?agent personal:sameAs* ?equivalentAgent .
+
+ ?equivalentAgent personal:primaryFacet ?agent .
       
       GRAPH ?document {
          ?equivalentAgent a personal:Agent .
       }
       
-      ?document personal:documentOf ?source .
-    
- OPTIONAL {
-   ?equivalentAgent  schema:image ?image .
- }
- OPTIONAL {
-   ?equivalentAgent  schema:email/schema:name ?email .
- }
- OPTIONAL {
-   ?equivalentAgent  schema:name ?name .
+      ?document personal:documentOf ?source .   
+      
+ {
+   ?agent schema:name ?mainName .
+ } UNION 
+ {
+   ?agent schema:email/schema:name ?mainEmail .
+ } UNION {
+   ?equivalentAgent schema:image ?image .
+ } UNION {
+   ?equivalentAgent schema:email/schema:name ?email .
+ } UNION {
+   ?equivalentAgent schema:name ?name .
  }
 } GROUP BY ?agent`,
   all: Ember.computed(function(){

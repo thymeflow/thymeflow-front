@@ -98,7 +98,7 @@ SELECT ?location ?time ?geo ?stay ?stayStartDate ?stayEndDate ?stayGeo (group_co
             personal:time ?time .
             
   OPTIONAL{
-     ?location schema:item ?stay .
+     ?stay schema:item ?location .
      ?stay a personal:Stay .
      OPTIONAL {
        ?event schema:location ?stay .
