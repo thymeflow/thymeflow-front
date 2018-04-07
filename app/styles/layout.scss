@@ -9,7 +9,7 @@ body{
   overflow: hidden
 }
 
-.app{
+.ember-application > div.ember-view {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

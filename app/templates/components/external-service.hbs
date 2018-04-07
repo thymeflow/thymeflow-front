@@ -1,25 +1,15 @@
-<div class="card-group">
-  <div class="card">
-    <div class="card-header">
-      <i class="fa fa-cog" aria-hidden="true"></i>
-      <span>Accounts</span>
-    </div>
-    <div class="card-block">
-      <div>
-        <a class="external-connect-link" href="{{apiEndpoint}}/oauth/{{model.routeName}}/auth">
-          <i class="fa fa-plus"></i>
-          <span>Add account</span>
-        </a>
-      </div>
-      <table>
-        {{#each model.accounts as |account|}}
-          <tr>
-            <td><i class="fa fa-square" aria-hidden="true"></i></td>
-            <td>{{account.name}}</td>
-          </tr>
-        {{/each}}
-      </table>
-    </div>
+<div class="card">
+  <div class="card-header">
+    <i class="fa fa-cog" aria-hidden="true"></i>
+    <span>Accounts</span>
   </div>
-  {{data-service-info model=model}}
+  <div class="card-block">
+    <div>
+      <a class="external-connect-link" href="{{apiEndpoint}}/oauth/{{model.routeName}}/auth">
+        <i class="fa fa-plus"></i>
+        <span>Add account</span>
+      </a>
+    </div>
+    {{data-service-accounts model=model}}
+  </div>
 </div>

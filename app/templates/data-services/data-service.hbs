@@ -2,11 +2,14 @@
   <h1><i class="fa fa-database" aria-hidden="true"></i> {{#link-to "data-services" class="nav-link"}}Services{{/link-to}} > {{model.name}}</h1>
 </div>
 <div class="container-fluid">
-  {{#if model.isExternalService}}
-    {{external-service model=model}}
-  {{else if model.isEmailService}}
-    {{email-service model=model}}
-  {{else if model.isFileService}}
-    {{file-service model=model}}
-  {{/if}}
+  <div class="card-group">
+    {{#if model.isExternalService}}
+      {{external-service model=model}}
+    {{else if model.isEmailService}}
+      {{email-service model=model}}
+    {{else if model.isFileService}}
+      {{file-service model=model}}
+    {{/if}}
+    {{data-service-info model=model}}
+  </div>
 </div>

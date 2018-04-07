@@ -5,10 +5,10 @@ export default Ember.Controller.extend({
   queryController: Ember.inject.controller('query.edit'),
   queryResult: Ember.computed.readOnly('queryController.query.result'),
   queryType: Ember.computed.readOnly('queryResult.queryType'),
-  error: Ember.computed.readOnly('queryResult.reason'),
-  errorLines: Ember.computed('error', function(){
-    if(this.get('error') != null){
-      return this.get('error').split('\n');
+  error: Ember.computed.readOnly('queryResult.isRejected'),
+  errorLines: Ember.computed('queryResult.reason.message', function(){
+    if(this.get('queryResult.reason.message') != null){
+      return this.get('queryResult.reason.message').split('\n');
     }else{
       return [];
     }
