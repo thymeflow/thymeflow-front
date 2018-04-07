@@ -10,7 +10,7 @@ You will need the following things properly installed on your computer.
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/) (with NPM)
 * [Bower](https://bower.io/) installable with `npm install -g bower`
-* [Ember CLI](http://ember-cli.com/) installable with `npm install -g ember-cli`
+* [Ember CLI](https://ember-cli.com/) installable with `npm install -g ember-cli`
 * [PhantomJS](http://phantomjs.org/)
 
 ## Installation
@@ -45,7 +45,7 @@ Specify what it takes to deploy your app.
 
 ## Further Reading / Useful Links
 
-* [ember.js](http://emberjs.com/)
+* [ember.js](https://emberjs.com/)
 * [ember-cli](https://ember-cli.com/)
 * Development Browser Extensions
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
