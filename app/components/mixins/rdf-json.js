@@ -188,7 +188,7 @@ export default Ember.Mixin.create({
     const removePrefix = this.get('removePrefix');
     const graph = this.rdfJsonToGraph(this.get('rdfJson'));
 
-    const nodeTypeColor = d3.scale.category20();
+    const nodeTypeColor = d3.scale.category10();
     const linkPropertyColor = d3.scale.category20();
 
     svg.on('click', deselectElement);

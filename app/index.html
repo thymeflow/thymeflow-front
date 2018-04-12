@@ -9,17 +9,17 @@
 
     {{content-for "head"}}
 
-    <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/thymeflow-front.css">
-    <link rel="icon" href="/assets/images/favicon.ico">
+    <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/thymeflow-front.css">
+    <link rel="icon" href="{{rootURL}}assets/images/favicon.ico">
 
     {{content-for "head-footer"}}
   </head>
   <body>
     {{content-for "body"}}
 
-    <script src="assets/vendor.js"></script>
-    <script src="assets/thymeflow-front.js"></script>
+    <script src="{{rootURL}}assets/vendor.js"></script>
+    <script src="{{rootURL}}assets/thymeflow-front.js"></script>
 
     {{content-for "body-footer"}}
   </body>

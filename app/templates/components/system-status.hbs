@@ -2,11 +2,7 @@
   <div class="panel-header" title="System status">
     <i class="fa fa-history history-icon" {{action "toggleSystemHistoryBody"}}></i>
     <i class="fa fa-tasks tasks-icon" {{action "toggleSystemTasksBody"}}></i>
-    {{#if hasRunningTasks}}
-      <i class="fa fa-cog fa-spin fa-fw activity-icon" {{action "toggleSystemTasksBody"}}></i>
-    {{else}}
-      <i class="fa fa-check no-activity-icon" {{action "toggleSystemTasksBody"}}></i>
-    {{/if}}
+    <i class="fa {{activityIcon}} activity-icon" {{action "toggleSystemTasksBody"}}></i>
   </div>
 
   {{#liquid-if isShowingSystemHistoryBody class='system-history-body'}}
@@ -21,7 +17,7 @@
           {{/each}}
       </table>
     {{else}}
-      <div class="no-tasks-message">There are currently no tasks running.</div>
+      <div class="no-tasks-message">{{#if (eq serverStatus 'ok')}}There are currently no tasks running.{{else if (eq serverStatus 'connecting')}}Connecting to server...{{else if (eq serverStatus 'unreachable')}}Unreachable server.{{else}}Unknown server status.{{/if}}</div>
     {{/if}}
   {{/liquid-if}}
 </div>

@@ -11,7 +11,7 @@
   </div>
 </div>
 <div class="query-textarea form-group">
-  {{textarea class="form-control" name="query" required=true autofocus=true value=queryContent rows=1}}
+  {{sparql-editor class="form-control" name="query" required=true autofocus=true value=queryContent valueUpdated=(action (mut queryContent))}}
 </div>
 {{#if (and query.result.isSettled (not error))}}
   <div class="alert alert-success" role="alert">OK</div>
