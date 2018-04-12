@@ -1,16 +1,27 @@
-FROM node:6.9.1
-MAINTAINER Thymeflow team
+FROM node:6.10.2-alpine
 
-RUN mkdir -p /app
-WORKDIR /app
+MAINTAINER "David Montoya" <david@montoya.one>
 
-COPY package.json ./package.json
-RUN npm -q install
+# Install PhantomJS
+RUN npm install -g phantomjs-prebuilt
+# Install Bower and Ember CLI
+RUN npm install -g bower@1.8.0 && npm install -g ember-cli@2.12.3
 
-COPY . /app
+RUN apk add --update --no-cache \
+      git
 
-RUN npm -q install -g phantomjs bower ember-cli@2.7.0 ;\
-  bower --allow-root install
+RUN mkdir -p /app/src && chown -R node:node /app
+WORKDIR /app/src
+
+USER node
+
+COPY --chown=node:node package.json ./package.json
+RUN npm install
+
+COPY --chown=node:node bower.json ./bower.json
+RUN bower install
+
+COPY --chown=node:node . .
 
 EXPOSE 4200
 EXPOSE 49152
