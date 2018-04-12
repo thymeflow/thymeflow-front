@@ -1,24 +1,19 @@
 ---
-language: node_js
-node_js:
-  - "6"
+language: generic
 
-sudo: false
+sudo: required
 
-cache:
-  directories:
-    - $HOME/.npm
-    - $HOME/.cache # includes bowers cache
-
-before_install:
-  - npm config set spin false
-  - npm install -g bower phantomjs-prebuilt
-  - bower --version
-  - phantomjs --version
+services:
+  - docker
 
 install:
-  - npm install
-  - bower install
+  - docker build -t thymeflow/front .
 
 script:
-  - npm test
+  - docker run thymeflow/front ember test
+
+deploy:
+  provider: script
+  script: bash docker_push.sh
+  on:
+    branch: master
