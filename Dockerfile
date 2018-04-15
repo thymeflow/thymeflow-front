@@ -1,14 +1,14 @@
-FROM node:6.10.2-alpine
+# Debian is used for development as this is required by PhantomJS
+FROM node:6.10.2
 
 MAINTAINER "David Montoya" <david@montoya.one>
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      git
 # Install PhantomJS
-RUN npm install -g phantomjs-prebuilt
+RUN npm install -g phantomjs-prebuilt@2.1.16
 # Install Bower and Ember CLI
 RUN npm install -g bower@1.8.0 && npm install -g ember-cli@2.12.3
-
-RUN apk add --update --no-cache \
-      git
 
 RUN mkdir -p /app/src && chown -R node:node /app
 WORKDIR /app/src
