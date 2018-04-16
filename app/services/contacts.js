@@ -56,7 +56,7 @@ WHERE {
         .then(function(queryResult){
           return queryResult.result.results.bindings;
         }).then((contacts) => {
-          return contacts.map((contact) => {
+          return contacts.filter(contact => contact.agent != null).map((contact) => {
             let email = null;
             if(contact.mainEmail != null){
               email = contact.mainEmail.value;
@@ -75,7 +75,7 @@ WHERE {
             if(name == null && contact.name != null){
               name = contact.name.value;
             }
-            const sourceAccountServices = contact.sourceAccountServices.value.split(' ').map(parseSourceUri);
+            const sourceAccountServices = contact.sourceAccountServices.value.split(' ').filter(s => s.length != 0).map(parseSourceUri);
             return {
               agent: contact.agent.value,
               route: encodeURIComponent(contact.agent.value),
