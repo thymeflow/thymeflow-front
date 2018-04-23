@@ -1,5 +1,5 @@
 <div class="query-controls">
-  {{#power-select tagName="div" class="query-list" options=sortedQueries placeholder="Enter query name" selected=selectedQuery allowClear=true noMatchesMessage="Hit enter to create new query." onchange=(action "selectQuery")
+  {{#power-select tagName="div" class="query-list" options=sortedQueries placeholder="Enter query name" selected=selectedQuery allowClear=true noMatchesMessage="Hit enter to create new query." onchange=(action "selectQuery") searchField="name"
   onkeydown=(action "createOnEnter") as |savedQuery|}}
     {{savedQuery.id}}
   {{/power-select}}
